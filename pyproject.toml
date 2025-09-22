@@ -1,0 +1,132 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "knowhunt"
+version = "0.1.0"
+description = "Research Intelligence System - Automated monitoring and analysis of academic papers, public documents, corporate landscapes, and project implementations"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "KnowHunt Team"}
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Topic :: Internet :: WWW/HTTP :: Indexing/Search",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "requests>=2.31.0",
+    "feedparser>=6.0.10",
+    "beautifulsoup4>=4.12.0",
+    "lxml>=4.9.0",
+    "pandas>=2.0.0",
+    "sqlalchemy>=2.0.0",
+    "psycopg2-binary>=2.9.0",
+    "redis>=4.5.0",
+    "fastapi>=0.100.0",
+    "uvicorn>=0.22.0",
+    "click>=8.1.0",
+    "pydantic>=2.0.0",
+    "python-dotenv>=1.0.0",
+    "aiohttp>=3.8.0",
+    "asyncio-throttle>=1.0.2",
+    "schedule>=1.2.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "flake8>=6.0.0",
+    "mypy>=1.0.0",
+    "pre-commit>=3.0.0",
+]
+analysis = [
+    "spacy>=3.6.0",
+    "scikit-learn>=1.3.0",
+    "nltk>=3.8.0",
+    "transformers>=4.30.0",
+    "sentence-transformers>=2.2.0",
+    "numpy>=1.24.0",
+    "scipy>=1.10.0",
+]
+vector = [
+    "chromadb>=0.4.0",
+    "qdrant-client>=1.4.0",
+    "faiss-cpu>=1.7.0",
+]
+web = [
+    "streamlit>=1.25.0",
+    "plotly>=5.15.0",
+    "dash>=2.11.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/cordlesssteve/KnowHunt"
+"Bug Reports" = "https://github.com/cordlesssteve/KnowHunt/issues"
+"Source" = "https://github.com/cordlesssteve/KnowHunt"
+
+[project.scripts]
+knowhunt = "knowhunt.cli.main:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["knowhunt*"]
+
+[tool.black]
+line-length = 88
+target-version = ['py39']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"
+asyncio_mode = "auto"

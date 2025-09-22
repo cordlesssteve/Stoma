@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KnowHunt - Research Intelligence Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .metric:last-child {
+            border-bottom: none;
+        }
+        
+        .metric-value {
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .search-form {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: end;
+        }
+        
+        .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #555;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .results-section {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .result-item {
+            border-bottom: 1px solid #eee;
+            padding: 20px 0;
+            transition: background 0.2s;
+        }
+        
+        .result-item:hover {
+            background: #f8f9ff;
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .result-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .result-title a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .result-title a:hover {
+            text-decoration: underline;
+        }
+        
+        .result-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .result-content {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .result-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .tag {
+            background: #e2e8f0;
+            color: #4a5568;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .source-badge {
+            background: #667eea;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+        
+        .empty-state h3 {
+            margin-bottom: 10px;
+            color: #999;
+        }
+        
+        @media (max-width: 768px) {
+            .search-form {
+                flex-direction: column;
+            }
+            
+            .form-group {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 KnowHunt</h1>
+            <p>Research Intelligence Dashboard</p>
+        </div>
+        
+        <div class="dashboard-grid" id="summary-grid">
+            <div class="card">
+                <h3>📊 Data Summary</h3>
+                <div id="summary-content">
+                    <div class="loading">Loading summary...</div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>📈 Source Types</h3>
+                <div id="source-types-content">
+                    <div class="loading">Loading sources...</div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>🏷️ Top Categories</h3>
+                <div id="categories-content">
+                    <div class="loading">Loading categories...</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="search-section">
+            <h2 style="margin-bottom: 20px; color: #333;">🔍 Search Data</h2>
+            <form class="search-form" id="search-form">
+                <div class="form-group">
+                    <label for="query">Search Query</label>
+                    <input type="text" id="query" name="query" placeholder="Enter search terms..." required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="source-types">Source Types</label>
+                    <select id="source-types" name="source-types" multiple>
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="date-from">From Date</label>
+                    <input type="date" id="date-from" name="date-from">
+                </div>
+                
+                <div class="form-group">
+                    <label for="date-to">To Date</label>
+                    <input type="date" id="date-to" name="date-to">
+                </div>
+                
+                <button type="submit" class="search-btn">Search</button>
+            </form>
+        </div>
+        
+        <div class="results-section">
+            <h2 style="margin-bottom: 20px; color: #333;">📋 Search Results</h2>
+            <div id="results-content">
+                <div class="empty-state">
+                    <h3>Ready to search</h3>
+                    <p>Enter a search query above to find relevant research data</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API helper functions
+        async function fetchAPI(endpoint) {
+            try {
+                const response = await fetch(endpoint);
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                return await response.json();
+            } catch (error) {
+                console.error('API Error:', error);
+                throw error;
+            }
+        }
+        
+        // Load dashboard summary
+        async function loadSummary() {
+            try {
+                const summary = await fetchAPI('/api/summary');
+                
+                document.getElementById('summary-content').innerHTML = `
+                    <div class="metric">
+                        <span>Total Items</span>
+                        <span class="metric-value">${summary.total_items}</span>
+                    </div>
+                `;
+                
+                const sourceTypesHTML = Object.entries(summary.source_counts)
+                    .map(([type, count]) => `
+                        <div class="metric">
+                            <span>${type.replace('_', ' ')}</span>
+                            <span class="metric-value">${count}</span>
+                        </div>
+                    `).join('');
+                
+                document.getElementById('source-types-content').innerHTML = sourceTypesHTML || '<p>No data available</p>';
+                
+                const categoriesHTML = summary.top_categories.slice(0, 5)
+                    .map(cat => `
+                        <div class="metric">
+                            <span>${cat.name}</span>
+                            <span class="metric-value">${cat.count}</span>
+                        </div>
+                    `).join('');
+                
+                document.getElementById('categories-content').innerHTML = categoriesHTML || '<p>No categories available</p>';
+                
+            } catch (error) {
+                document.getElementById('summary-content').innerHTML = '<p style="color: red;">Failed to load summary</p>';
+                document.getElementById('source-types-content').innerHTML = '<p style="color: red;">Failed to load source types</p>';
+                document.getElementById('categories-content').innerHTML = '<p style="color: red;">Failed to load categories</p>';
+            }
+        }
+        
+        // Load source types for dropdown
+        async function loadSourceTypes() {
+            try {
+                const sourceTypes = await fetchAPI('/api/source-types');
+                const select = document.getElementById('source-types');
+                
+                sourceTypes.forEach(type => {
+                    const option = document.createElement('option');
+                    option.value = type.value;
+                    option.textContent = type.label;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Failed to load source types:', error);
+            }
+        }
+        
+        // Perform search
+        async function performSearch(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const query = formData.get('query');
+            const sourceTypes = Array.from(document.getElementById('source-types').selectedOptions)
+                .map(option => option.value).join(',');
+            const dateFrom = formData.get('date-from');
+            const dateTo = formData.get('date-to');
+            
+            // Build query string
+            const params = new URLSearchParams();
+            params.append('query', query);
+            if (sourceTypes) params.append('source_types', sourceTypes);
+            if (dateFrom) params.append('date_from', dateFrom);
+            if (dateTo) params.append('date_to', dateTo);
+            params.append('limit', '20');
+            
+            // Show loading
+            document.getElementById('results-content').innerHTML = '<div class="loading">Searching...</div>';
+            
+            try {
+                const results = await fetchAPI(`/api/search?${params.toString()}`);
+                
+                if (results.length === 0) {
+                    document.getElementById('results-content').innerHTML = `
+                        <div class="empty-state">
+                            <h3>No results found</h3>
+                            <p>Try adjusting your search terms or filters</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                const resultsHTML = results.map(item => `
+                    <div class="result-item">
+                        <div class="result-title">
+                            ${item.url ? `<a href="${item.url}" target="_blank">${item.title}</a>` : item.title}
+                        </div>
+                        <div class="result-meta">
+                            <span class="source-badge">${item.source_type.replace('_', ' ')}</span>
+                            ${item.authors.length > 0 ? `<span>👤 ${item.authors.slice(0, 2).join(', ')}</span>` : ''}
+                            ${item.published_date ? `<span>📅 ${new Date(item.published_date).toLocaleDateString()}</span>` : ''}
+                        </div>
+                        <div class="result-content">
+                            ${item.summary || item.content}
+                        </div>
+                        <div class="result-tags">
+                            ${item.categories.slice(0, 5).map(cat => `<span class="tag">${cat}</span>`).join('')}
+                        </div>
+                    </div>
+                `).join('');
+                
+                document.getElementById('results-content').innerHTML = resultsHTML;
+                
+            } catch (error) {
+                document.getElementById('results-content').innerHTML = `
+                    <div style="color: red; text-align: center; padding: 40px;">
+                        <h3>Search failed</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSummary();
+            loadSourceTypes();
+            
+            document.getElementById('search-form').addEventListener('submit', performSearch);
+        });
+    </script>
+</body>
+</html>

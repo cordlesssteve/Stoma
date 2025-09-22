@@ -1,0 +1,52 @@
+# KnowHunt Configuration Example
+# Copy this to config.yaml and modify as needed
+
+collectors:
+  arxiv:
+    rate_limit: 1.0  # requests per second
+    max_results: 50
+    sort_by: submittedDate  # submittedDate, lastUpdatedDate, relevance
+    sort_order: descending  # ascending, descending
+  
+  # Future collectors can be configured here
+  # pubmed:
+  #   api_key: "your_api_key"
+  #   rate_limit: 3.0
+  
+storage:
+  type: postgresql
+  connection_string: "postgresql://user:password@localhost:5432/knowhunt"
+  # Alternative: SQLite for development
+  # type: sqlite
+  # database_path: "data/knowhunt.db"
+
+analysis:
+  enable_nlp: true
+  model_name: "en_core_web_sm"  # spaCy model
+  enable_embeddings: false
+  embedding_model: "sentence-transformers/all-MiniLM-L6-v2"
+
+api:
+  host: "0.0.0.0"
+  port: 8000
+  debug: false
+  cors_origins:
+    - "http://localhost:3000"
+    - "http://localhost:8080"
+
+logging:
+  level: INFO
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/knowhunt.log"
+
+scheduler:
+  enable: false
+  # Collection schedules
+  schedules:
+    arxiv_daily:
+      collector: arxiv
+      query: "machine learning"
+      schedule: "daily"
+      time: "06:00"
+    
+    # Add more scheduled collections here

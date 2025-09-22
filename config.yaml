@@ -1,0 +1,23 @@
+collectors:
+  arxiv:
+    rate_limit: 1.0
+    max_results: 50
+    sort_by: submittedDate
+    sort_order: descending
+
+storage:
+  type: postgresql
+  connection_string: "postgresql://knowhunt:knowhunt123@localhost:5432/knowhunt"
+
+analysis:
+  enable_nlp: false
+  model_name: "en_core_web_sm"
+
+api:
+  host: "0.0.0.0"
+  port: 8000
+  debug: true
+
+logging:
+  level: INFO
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"

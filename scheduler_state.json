@@ -1,0 +1,198 @@
+{
+  "tasks": [
+    {
+      "id": "arxiv_daily_trending",
+      "name": "ArXiv Daily Trending Papers",
+      "collector_type": "arxiv",
+      "config": {
+        "search_query": "cat:cs.AI OR cat:cs.LG OR cat:cs.CV",
+        "max_results": 50,
+        "sort_by": "submittedDate",
+        "sort_order": "descending",
+        "feed_url": "http://export.arxiv.org/api/query"
+      },
+      "schedule_pattern": "daily_at_09:00",
+      "priority": 3,
+      "timeout_seconds": 1800,
+      "retry_count": 3,
+      "enabled": true,
+      "last_run": "2025-09-22T12:05:13.757635",
+      "next_run": "2025-09-23T09:00:00",
+      "status": "completed",
+      "error_message": null
+    },
+    {
+      "id": "arxiv_ml_updates",
+      "name": "ArXiv Machine Learning Updates",
+      "collector_type": "arxiv",
+      "config": {
+        "search_query": "cat:cs.LG OR cat:stat.ML",
+        "max_results": 30,
+        "sort_by": "submittedDate",
+        "sort_order": "descending"
+      },
+      "schedule_pattern": "interval_12h",
+      "priority": 2,
+      "timeout_seconds": 1200,
+      "retry_count": 3,
+      "enabled": true,
+      "last_run": null,
+      "next_run": "2025-09-23T00:05:13.757252",
+      "status": "pending",
+      "error_message": null
+    },
+    {
+      "id": "github_trending_daily",
+      "name": "GitHub Trending Repositories",
+      "collector_type": "github",
+      "config": {
+        "language": "",
+        "since": "daily",
+        "limit": 50
+      },
+      "schedule_pattern": "daily_at_10:00",
+      "priority": 3,
+      "timeout_seconds": 2400,
+      "retry_count": 3,
+      "enabled": true,
+      "last_run": null,
+      "next_run": "2025-09-23T10:00:00",
+      "status": "pending",
+      "error_message": null
+    },
+    {
+      "id": "github_python_trending",
+      "name": "GitHub Python Trending",
+      "collector_type": "github",
+      "config": {
+        "language": "python",
+        "since": "daily",
+        "limit": 30
+      },
+      "schedule_pattern": "daily_at_11:00",
+      "priority": 2,
+      "timeout_seconds": 1800,
+      "retry_count": 3,
+      "enabled": true,
+      "last_run": null,
+      "next_run": "2025-09-23T11:00:00",
+      "status": "pending",
+      "error_message": null
+    },
+    {
+      "id": "github_javascript_trending",
+      "name": "GitHub JavaScript Trending",
+      "collector_type": "github",
+      "config": {
+        "language": "javascript",
+        "since": "daily",
+        "limit": 30
+      },
+      "schedule_pattern": "daily_at_11:30",
+      "priority": 2,
+      "timeout_seconds": 1800,
+      "retry_count": 3,
+      "enabled": true,
+      "last_run": null,
+      "next_run": "2025-09-23T11:30:00",
+      "status": "pending",
+      "error_message": null
+    },
+    {
+      "id": "sec_recent_filings",
+      "name": "SEC Recent Filings",
+      "collector_type": "sec_edgar",
+      "config": {
+        "days_back": 1,
+        "filing_type": null
+      },
+      "schedule_pattern": "interval_2h",
+      "priority": 3,
+      "timeout_seconds": 3600,
+      "retry_count": 3,
+      "enabled": true,
+      "last_run": null,
+      "next_run": "2025-09-22T14:05:13.757278",
+      "status": "pending",
+      "error_message": null
+    },
+    {
+      "id": "sec_urgent_8k",
+      "name": "SEC 8-K Urgent Filings",
+      "collector_type": "sec_edgar",
+      "config": {
+        "days_back": 1,
+        "filing_type": "8-K"
+      },
+      "schedule_pattern": "interval_30m",
+      "priority": 4,
+      "timeout_seconds": 1800,
+      "retry_count": 3,
+      "enabled": true,
+      "last_run": null,
+      "next_run": "2025-09-22T12:35:13.757283",
+      "status": "pending",
+      "error_message": null
+    },
+    {
+      "id": "arxiv_weekly_comprehensive",
+      "name": "ArXiv Weekly Comprehensive Scan",
+      "collector_type": "arxiv",
+      "config": {
+        "search_query": "cat:cs.* OR cat:stat.* OR cat:math.*",
+        "max_results": 200,
+        "sort_by": "submittedDate",
+        "sort_order": "descending"
+      },
+      "schedule_pattern": "weekly",
+      "priority": 1,
+      "timeout_seconds": 7200,
+      "retry_count": 3,
+      "enabled": true,
+      "last_run": null,
+      "next_run": "2025-09-28T00:00:00",
+      "status": "pending",
+      "error_message": null
+    },
+    {
+      "id": "github_weekly_comprehensive",
+      "name": "GitHub Weekly Comprehensive Scan",
+      "collector_type": "github",
+      "config": {
+        "language": "",
+        "since": "weekly",
+        "limit": 100
+      },
+      "schedule_pattern": "weekly",
+      "priority": 1,
+      "timeout_seconds": 7200,
+      "retry_count": 3,
+      "enabled": true,
+      "last_run": null,
+      "next_run": "2025-09-28T00:00:00",
+      "status": "pending",
+      "error_message": null
+    },
+    {
+      "id": "test_arxiv_quick",
+      "name": "Test ArXiv Quick Scan",
+      "collector_type": "arxiv",
+      "config": {
+        "search_query": "machine learning",
+        "max_results": 3,
+        "sort_by": "submittedDate",
+        "sort_order": "descending"
+      },
+      "schedule_pattern": "interval_5m",
+      "priority": 3,
+      "timeout_seconds": 3600,
+      "retry_count": 3,
+      "enabled": true,
+      "last_run": null,
+      "next_run": "2025-09-22T12:10:13.757315",
+      "status": "pending",
+      "error_message": null
+    }
+  ],
+  "last_saved": "2025-09-22T12:06:04.323394"
+}

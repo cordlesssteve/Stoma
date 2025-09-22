@@ -1,0 +1,31 @@
+[Unit]
+Description=KnowHunt Research Intelligence Scheduler
+After=network.target postgresql.service
+Wants=postgresql.service
+
+[Service]
+Type=simple
+User=cordlesssteve
+Group=cordlesssteve
+WorkingDirectory=/home/cordlesssteve/projects/KnowHunt
+Environment=PYTHONPATH=/home/cordlesssteve/projects/KnowHunt
+ExecStart=/usr/bin/python3 -m knowhunt.scheduler.manager
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=knowhunt-scheduler
+
+# Resource limits
+LimitNOFILE=65536
+MemoryLimit=1G
+
+# Security
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/home/cordlesssteve/projects/KnowHunt
+
+[Install]
+WantedBy=multi-user.target

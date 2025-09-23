@@ -20,6 +20,10 @@ from ..normalizers.public_docs import PublicDocsNormalizer
 from ..storage.base import PostgreSQLStorage
 from ..config.settings import load_config
 from ..scheduler.manager import SchedulerManager
+from ..analysis.nlp_service import NLPService
+from ..analysis.batch_processor import BatchProcessor
+from ..analysis.trend_detector import TrendDetector
+from ..analysis.correlation_analyzer import CorrelationAnalyzer
 
 
 console = Console()
@@ -973,6 +977,536 @@ def remove_task(task_id: str):
         console.print(f"[yellow]Task removed: {task.name}[/yellow]")
     
     asyncio.run(_remove())
+
+
+# NLP Analysis Commands
+@main.group()
+def nlp():
+    """Natural Language Processing analysis commands."""
+    pass
+
+
+@nlp.command()
+@click.argument("paper_id", type=int)
+def analyze_paper(paper_id: int):
+    """Analyze a specific paper from the database."""
+    
+    console.print(f"[green]Analyzing paper {paper_id}...[/green]")
+    
+    service = NLPService()
+    result = service.analyze_paper(paper_id)
+    
+    if result:
+        console.print(f"\n[bold cyan]Analysis Results for Paper {paper_id}[/bold cyan]")
+        
+        # Summary
+        console.print(f"\n[bold]Summary:[/bold]")
+        console.print(result.summary[:500] + "..." if len(result.summary) > 500 else result.summary)
+        
+        # Keywords
+        console.print(f"\n[bold]Top Keywords:[/bold]")
+        for keyword, score in result.keywords[:5]:
+            console.print(f"  • {keyword}: {score:.3f}")
+        
+        # Entities
+        console.print(f"\n[bold]Named Entities:[/bold]")
+        for entity_type, entities in list(result.entities.items())[:3]:
+            if entities:
+                console.print(f"  {entity_type}: {', '.join(entities[:3])}")
+        
+        # Sentiment
+        console.print(f"\n[bold]Sentiment Analysis:[/bold]")
+        console.print(f"  Polarity: {result.sentiment.get('polarity', 0):.3f}")
+        console.print(f"  Subjectivity: {result.sentiment.get('subjectivity', 0):.3f}")
+        console.print(f"  Label: {result.sentiment.get('sentiment_label', 'neutral')}")
+        
+        # Statistics
+        console.print(f"\n[bold]Document Statistics:[/bold]")
+        console.print(f"  Word Count: {result.word_count:,}")
+        console.print(f"  Sentences: {result.sentence_count:,}")
+        console.print(f"  Readability Score: {result.readability_score:.1f}/100")
+        
+    else:
+        console.print(f"[red]Failed to analyze paper {paper_id}[/red]")
+
+
+@nlp.command()
+@click.argument("file_path", type=click.Path(exists=True))
+@click.option("--document-id", "-d", help="Optional document identifier")
+def analyze_file(file_path: str, document_id: Optional[str]):
+    """Analyze a document from file."""
+    
+    console.print(f"[green]Analyzing file: {file_path}[/green]")
+    
+    service = NLPService()
+    result = service.analyze_document(file_path, document_id)
+    
+    if result:
+        _display_analysis_results(result)
+    else:
+        console.print(f"[red]Failed to analyze file: {file_path}[/red]")
+
+
+@nlp.command()
+@click.argument("text")
+@click.option("--save/--no-save", default=True, help="Save analysis to database")
+def analyze_text(text: str, save: bool):
+    """Analyze raw text."""
+    
+    console.print("[green]Analyzing text...[/green]")
+    
+    service = NLPService()
+    result = service.analyze_text(text, store_result=save)
+    
+    if result:
+        _display_analysis_results(result)
+    else:
+        console.print("[red]Failed to analyze text[/red]")
+
+
+@nlp.command()
+@click.option("--limit", "-l", default=100, help="Maximum papers to process")
+@click.option("--paper-ids", "-p", multiple=True, type=int, help="Specific paper IDs to analyze")
+def batch_analyze(limit: int, paper_ids: tuple):
+    """Analyze multiple papers in batch."""
+    
+    paper_list = list(paper_ids) if paper_ids else None
+    
+    console.print(f"[green]Starting batch analysis...[/green]")
+    
+    with Progress(
+        SpinnerColumn(),
+        TextColumn("[progress.description]{task.description}"),
+        console=console
+    ) as progress:
+        task = progress.add_task("Processing papers...", total=None)
+        
+        service = NLPService()
+        summary = service.batch_analyze_papers(paper_list, limit)
+        
+        progress.update(task, description="Batch analysis complete")
+    
+    # Display results
+    console.print(f"\n[bold cyan]Batch Analysis Summary[/bold cyan]")
+    console.print(f"Total Processed: {summary['total_processed']}")
+    console.print(f"Successful: [green]{summary['successful']}[/green]")
+    console.print(f"Failed: [red]{summary['failed']}[/red]")
+    console.print(f"Skipped: [yellow]{summary['skipped']}[/yellow]")
+    console.print(f"Processing Time: {summary['processing_time_ms']/1000:.1f} seconds")
+    
+    if summary.get('error'):
+        console.print(f"\n[red]Error: {summary['error']}[/red]")
+
+
+@nlp.command()
+def stats():
+    """Show NLP analysis statistics."""
+    
+    service = NLPService()
+    
+    # Analysis summary
+    summary = service.get_analysis_summary()
+    
+    if summary:
+        console.print("\n[bold cyan]NLP Analysis Statistics[/bold cyan]")
+        
+        table = Table()
+        table.add_column("Metric", style="cyan")
+        table.add_column("Value", style="white")
+        
+        table.add_row("Total Analyses", str(summary.get('total_analyses', 0)))
+        table.add_row("Analyzed Papers", str(summary.get('analyzed_papers', 0)))
+        table.add_row("Avg Word Count", f"{summary.get('avg_word_count', 0):.0f}")
+        table.add_row("Avg Readability", f"{summary.get('avg_readability', 0):.1f}/100")
+        table.add_row("Avg Processing Time", f"{summary.get('avg_processing_time_ms', 0):.0f}ms")
+        
+        if summary.get('first_analysis'):
+            table.add_row("First Analysis", summary['first_analysis'][:10])
+        if summary.get('last_analysis'):
+            table.add_row("Last Analysis", summary['last_analysis'][:10])
+        
+        console.print(table)
+    
+    # Top keywords
+    top_keywords = service.nlp_storage.get_top_keywords(10)
+    
+    if top_keywords:
+        console.print("\n[bold]Top Keywords Across All Documents:[/bold]")
+        
+        table = Table()
+        table.add_column("Keyword", style="cyan")
+        table.add_column("Documents", style="yellow")
+        table.add_column("Avg Score", style="green")
+        
+        for kw in top_keywords:
+            table.add_row(
+                kw['keyword'],
+                str(kw['document_count']),
+                f"{kw['avg_score']:.3f}"
+            )
+        
+        console.print(table)
+    
+    # Top entities
+    top_entities = service.nlp_storage.get_top_entities(limit=10)
+    
+    if top_entities:
+        console.print("\n[bold]Top Entities Across All Documents:[/bold]")
+        
+        table = Table()
+        table.add_column("Entity", style="cyan")
+        table.add_column("Type", style="magenta")
+        table.add_column("Documents", style="yellow")
+        
+        for entity in top_entities:
+            table.add_row(
+                entity['entity_text'][:30],
+                entity['entity_type'],
+                str(entity['document_count'])
+            )
+        
+        console.print(table)
+    
+    # Sentiment distribution
+    sentiment_dist = service.nlp_storage.get_sentiment_distribution()
+    
+    if sentiment_dist and sentiment_dist.get('total'):
+        console.print("\n[bold]Sentiment Distribution:[/bold]")
+        
+        total = sentiment_dist['total']
+        positive = sentiment_dist.get('positive_count', 0)
+        negative = sentiment_dist.get('negative_count', 0)
+        neutral = sentiment_dist.get('neutral_count', 0)
+        
+        console.print(f"  Positive: [green]{positive} ({positive/total*100:.1f}%)[/green]")
+        console.print(f"  Negative: [red]{negative} ({negative/total*100:.1f}%)[/red]")
+        console.print(f"  Neutral: [yellow]{neutral} ({neutral/total*100:.1f}%)[/yellow]")
+        console.print(f"  Avg Polarity: {sentiment_dist.get('avg_polarity', 0):.3f}")
+        console.print(f"  Avg Subjectivity: {sentiment_dist.get('avg_subjectivity', 0):.3f}")
+
+
+@nlp.command()
+@click.option("--keywords", "-k", multiple=True, help="Keywords to search for")
+@click.option("--entity-type", "-e", help="Entity type to search")
+@click.option("--entity-text", "-t", help="Entity text to search")
+@click.option("--limit", "-l", default=10, help="Maximum results")
+def search_analysis(keywords: tuple, entity_type: str, entity_text: str, limit: int):
+    """Search analyzed documents."""
+    
+    service = NLPService()
+    
+    if keywords:
+        console.print(f"[green]Searching by keywords: {', '.join(keywords)}[/green]")
+        results = service.nlp_storage.search_by_keywords(list(keywords), limit)
+        
+        if results:
+            table = Table(title="Search Results by Keywords")
+            table.add_column("Document ID", style="cyan")
+            table.add_column("Paper Title", style="white", max_width=40)
+            table.add_column("Matching Keywords", style="yellow")
+            table.add_column("Avg Score", style="green")
+            
+            for result in results:
+                table.add_row(
+                    result['document_id'],
+                    (result.get('paper_title') or 'N/A')[:40],
+                    str(result.get('matching_keywords', 0)),
+                    f"{result.get('avg_keyword_score', 0):.3f}"
+                )
+            
+            console.print(table)
+        else:
+            console.print("[yellow]No matching documents found[/yellow]")
+    
+    elif entity_type:
+        console.print(f"[green]Searching by entity type: {entity_type}[/green]")
+        results = service.nlp_storage.search_by_entities(entity_type, entity_text, limit)
+        
+        if results:
+            table = Table(title="Search Results by Entity")
+            table.add_column("Document ID", style="cyan")
+            table.add_column("Paper Title", style="white", max_width=40)
+            table.add_column("Entities", style="magenta", max_width=50)
+            
+            for result in results:
+                entities_str = ', '.join(result.get('entities', [])[:3]) if 'entities' in result else result.get('entity_text', '')
+                table.add_row(
+                    result['document_id'],
+                    (result.get('paper_title') or 'N/A')[:40],
+                    entities_str[:50]
+                )
+            
+            console.print(table)
+        else:
+            console.print("[yellow]No matching documents found[/yellow]")
+    
+    else:
+        console.print("[yellow]Please specify keywords (-k) or entity type (-e) to search[/yellow]")
+
+
+def _display_analysis_results(result):
+    """Helper to display analysis results consistently."""
+    console.print(f"\n[bold cyan]Analysis Results[/bold cyan]")
+    
+    # Summary
+    console.print(f"\n[bold]Summary:[/bold]")
+    console.print(result.summary[:500] + "..." if len(result.summary) > 500 else result.summary)
+    
+    # Keywords
+    if result.keywords:
+        console.print(f"\n[bold]Top Keywords:[/bold]")
+        for keyword, score in result.keywords[:5]:
+            console.print(f"  • {keyword}: {score:.3f}")
+    
+    # Entities
+    if result.entities:
+        console.print(f"\n[bold]Named Entities:[/bold]")
+        for entity_type, entities in list(result.entities.items())[:3]:
+            if entities:
+                console.print(f"  {entity_type}: {', '.join(entities[:3])}")
+    
+    # Sentiment
+    if result.sentiment:
+        console.print(f"\n[bold]Sentiment Analysis:[/bold]")
+        console.print(f"  Polarity: {result.sentiment.get('polarity', 0):.3f}")
+        console.print(f"  Subjectivity: {result.sentiment.get('subjectivity', 0):.3f}")
+        console.print(f"  Label: {result.sentiment.get('sentiment_label', 'neutral')}")
+    
+    # Topics
+    if result.topics:
+        console.print(f"\n[bold]Main Topics:[/bold]")
+        for topic in result.topics[:3]:
+            console.print(f"  • {topic}")
+    
+    # Statistics
+    console.print(f"\n[bold]Document Statistics:[/bold]")
+    console.print(f"  Word Count: {result.word_count:,}")
+    console.print(f"  Sentences: {result.sentence_count:,}")
+    console.print(f"  Readability Score: {result.readability_score:.1f}/100")
+
+
+@nlp.command()
+@click.option("--timeframe", "-t", default=30, help="Days to analyze for trends")
+@click.option("--min-frequency", "-f", default=3, help="Minimum keyword frequency")
+def detect_trends(timeframe: int, min_frequency: int):
+    """Detect trending keywords and topics."""
+    
+    console.print(f"[green]Detecting trends over {timeframe} days...[/green]")
+    
+    detector = TrendDetector()
+    trends = detector.detect_keyword_trends(timeframe, min_frequency)
+    
+    if trends:
+        console.print(f"\n[bold cyan]Found {len(trends)} Trending Keywords[/bold cyan]")
+        
+        table = Table()
+        table.add_column("Keyword", style="cyan")
+        table.add_column("Trend Type", style="magenta")
+        table.add_column("Strength", style="yellow")
+        table.add_column("Velocity", style="green")
+        table.add_column("Domains", style="blue")
+        
+        for trend in trends[:10]:
+            domains_str = ", ".join(trend.domains[:2])
+            table.add_row(
+                trend.keyword,
+                trend.trend_type,
+                f"{trend.strength:.3f}",
+                f"{trend.velocity:.3f}",
+                domains_str
+            )
+        
+        console.print(table)
+        
+        # Show emerging topics
+        emerging = detector.detect_emerging_topics(timeframe * 3, 0.5)
+        if emerging:
+            console.print(f"\n[bold]Emerging Topics:[/bold]")
+            for topic in emerging[:5]:
+                console.print(f"  • {topic['topic']}: {topic['emergence_score']:.3f}")
+    else:
+        console.print("[yellow]No significant trends detected[/yellow]")
+
+
+@nlp.command()
+@click.option("--paper-ids", "-p", multiple=True, type=int, help="Specific paper IDs")
+@click.option("--threshold", "-t", default=0.3, help="Correlation threshold")
+@click.option("--max-results", "-m", default=20, help="Maximum correlations to show")
+def find_correlations(paper_ids: tuple, threshold: float, max_results: int):
+    """Find correlations between papers."""
+    
+    paper_list = list(paper_ids) if paper_ids else None
+    
+    console.print("[green]Finding paper correlations...[/green]")
+    
+    analyzer = CorrelationAnalyzer()
+    correlations = analyzer.find_paper_correlations(paper_list, threshold, max_results)
+    
+    if correlations:
+        console.print(f"\n[bold cyan]Found {len(correlations)} Paper Correlations[/bold cyan]")
+        
+        table = Table()
+        table.add_column("Paper 1", style="cyan")
+        table.add_column("Paper 2", style="cyan")
+        table.add_column("Score", style="yellow")
+        table.add_column("Type", style="magenta")
+        table.add_column("Shared Elements", style="green")
+        
+        for corr in correlations:
+            shared_str = ", ".join(corr.shared_elements[:3])
+            table.add_row(
+                str(corr.paper1_id),
+                str(corr.paper2_id),
+                f"{corr.correlation_score:.3f}",
+                corr.correlation_type,
+                shared_str
+            )
+        
+        console.print(table)
+        
+        # Show topic clusters
+        clusters = analyzer.cluster_papers_by_topic(90, 3)
+        if clusters:
+            console.print(f"\n[bold]Topic Clusters Found:[/bold]")
+            for cluster in clusters[:3]:
+                console.print(f"  • {cluster.primary_topic}: {len(cluster.paper_ids)} papers (coherence: {cluster.coherence_score:.3f})")
+    else:
+        console.print("[yellow]No significant correlations found[/yellow]")
+
+
+# Batch Processing Commands
+@main.group()
+def batch():
+    """Batch processing commands for overnight analysis."""
+    pass
+
+
+@batch.command()
+@click.option("--paper-ids", "-p", multiple=True, type=int, help="Specific paper IDs")
+@click.option("--max-papers", "-m", default=100, help="Maximum papers to process")
+@click.option("--priority", default=5, help="Task priority (1-10)")
+def schedule_nlp(paper_ids: tuple, max_papers: int, priority: int):
+    """Schedule batch NLP analysis."""
+    
+    paper_list = list(paper_ids) if paper_ids else None
+    
+    processor = BatchProcessor()
+    task_id = processor.schedule_nlp_analysis_batch(paper_list, priority, max_papers)
+    
+    console.print(f"[green]✓ Scheduled NLP analysis batch: {task_id}[/green]")
+    console.print(f"Papers to process: {max_papers if not paper_list else len(paper_list)}")
+    console.print(f"Priority: {priority}")
+
+
+@batch.command()
+@click.option("--timeframe", "-t", default=30, help="Days to analyze")
+@click.option("--priority", default=6, help="Task priority (1-10)")
+def schedule_trends(timeframe: int, priority: int):
+    """Schedule batch trend analysis."""
+    
+    processor = BatchProcessor()
+    task_id = processor.schedule_trend_analysis_batch(timeframe, priority)
+    
+    console.print(f"[green]✓ Scheduled trend analysis batch: {task_id}[/green]")
+    console.print(f"Timeframe: {timeframe} days")
+    console.print(f"Priority: {priority}")
+
+
+@batch.command()
+@click.option("--paper-ids", "-p", multiple=True, type=int, help="Specific paper IDs")
+@click.option("--priority", default=4, help="Task priority (1-10)")
+def schedule_correlations(paper_ids: tuple, priority: int):
+    """Schedule batch correlation analysis."""
+    
+    paper_list = list(paper_ids) if paper_ids else None
+    
+    processor = BatchProcessor()
+    task_id = processor.schedule_correlation_analysis_batch(paper_list, priority)
+    
+    console.print(f"[green]✓ Scheduled correlation analysis batch: {task_id}[/green]")
+    console.print(f"Papers to analyze: {'All recent' if not paper_list else len(paper_list)}")
+    console.print(f"Priority: {priority}")
+
+
+@batch.command()
+@click.option("--job-id", "-j", help="Optional job identifier")
+@click.option("--max-hours", "-h", default=6, help="Maximum runtime hours")
+def run_job(job_id: str, max_hours: int):
+    """Run batch processing job."""
+    
+    async def _run():
+        processor = BatchProcessor()
+        
+        console.print(f"[green]Starting batch job (max {max_hours}h)...[/green]")
+        
+        with Progress(
+            SpinnerColumn(),
+            TextColumn("[progress.description]{task.description}"),
+            console=console
+        ) as progress:
+            task = progress.add_task("Running batch job...", total=None)
+            
+            result = await processor.run_batch_job(job_id, max_hours)
+            
+            progress.update(task, description="Batch job completed")
+        
+        # Display results
+        console.print(f"\n[bold cyan]Batch Job Results[/bold cyan]")
+        console.print(f"Job ID: {result.job_id}")
+        console.print(f"Duration: {result.total_processing_time:.1f} seconds")
+        console.print(f"Tasks completed: [green]{result.completed_tasks}[/green]")
+        console.print(f"Tasks failed: [red]{result.failed_tasks}[/red]")
+        console.print(f"Tasks skipped: [yellow]{result.skipped_tasks}[/yellow]")
+        
+        # Show summary results
+        summary = result.results_summary
+        
+        if summary.get('nlp_analysis', {}).get('total_papers_processed', 0) > 0:
+            nlp = summary['nlp_analysis']
+            console.print(f"\n[bold]NLP Analysis:[/bold]")
+            console.print(f"  Papers processed: {nlp['total_papers_processed']}")
+            console.print(f"  Successful: {nlp['successful_analyses']}")
+        
+        if summary.get('trend_detection', {}).get('keyword_trends_found', 0) > 0:
+            trends = summary['trend_detection']
+            console.print(f"\n[bold]Trend Detection:[/bold]")
+            console.print(f"  Keyword trends: {trends['keyword_trends_found']}")
+            console.print(f"  Emerging topics: {trends['emerging_topics_found']}")
+            if trends['top_keywords']:
+                console.print(f"  Top keywords: {', '.join(trends['top_keywords'][:5])}")
+        
+        if summary.get('correlation_analysis', {}).get('correlations_found', 0) > 0:
+            corr = summary['correlation_analysis']
+            console.print(f"\n[bold]Correlation Analysis:[/bold]")
+            console.print(f"  Correlations found: {corr['correlations_found']}")
+            console.print(f"  Clusters found: {corr['clusters_found']}")
+    
+    import asyncio
+    asyncio.run(_run())
+
+
+@batch.command()
+def status():
+    """Show batch processing queue status."""
+    
+    processor = BatchProcessor()
+    status = processor.get_queue_status()
+    
+    console.print("[bold cyan]Batch Processing Queue Status[/bold cyan]")
+    
+    table = Table()
+    table.add_column("Metric", style="cyan")
+    table.add_column("Count", style="white")
+    
+    table.add_row("Total Tasks", str(status['total_tasks']))
+    table.add_row("Pending", str(status['pending_tasks']))
+    table.add_row("Running", str(status['running_tasks']))
+    table.add_row("Completed", str(status['completed_tasks']))
+    table.add_row("Failed", str(status['failed_tasks']))
+    
+    console.print(table)
+    
+    console.print(f"\n[bold]Next Batch Window:[/bold] {status['next_batch_window'][:19]}")
 
 
 if __name__ == "__main__":

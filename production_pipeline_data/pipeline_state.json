@@ -1,0 +1,529 @@
+{
+  "pipeline_started": "2025-09-23T16:26:46.741834",
+  "last_collection": "2025-09-23T16:26:52.467836",
+  "last_analysis": "2025-09-23T16:26:52.886143",
+  "collected_items": [
+    {
+      "id": "tech_trends_hn_story_45351737_1758662807",
+      "source_type": "tech_trends",
+      "source_id": "hn_story_45351737",
+      "title": "Privacy Commissioners find TikTok collected sensitive data from children",
+      "content": "Privacy Commissioners find TikTok collected sensitive data from children",
+      "url": "https://www.priv.gc.ca/en/opc-news/news-and-announcements/2025/nr-c_250923/",
+      "author": "Improvement",
+      "published_date": "2025-09-23T14:37:45",
+      "collected_at": "2025-09-23T16:26:47.218146",
+      "metadata": {
+        "source": "hackernews",
+        "content_type": "story",
+        "score": 28,
+        "descendants": 9
+      },
+      "raw_data": {
+        "id": 45351737,
+        "title": "Privacy Commissioners find TikTok collected sensitive data from children",
+        "content": "Privacy Commissioners find TikTok collected sensitive data from children",
+        "text": "",
+        "url": "https://www.priv.gc.ca/en/opc-news/news-and-announcements/2025/nr-c_250923/",
+        "hn_url": "https://news.ycombinator.com/item?id=45351737",
+        "author": "Improvement",
+        "score": 28,
+        "descendants": 9,
+        "time": 1758656265,
+        "created_date": "2025-09-23T14:37:45",
+        "keywords": [
+          "privacy"
+        ],
+        "domain": "www.priv.gc.ca",
+        "story_type": "general"
+      }
+    },
+    {
+      "id": "academic_2509.18095v1_1758662809",
+      "source_type": "academic",
+      "source_id": "2509.18095v1",
+      "title": "pdf",
+      "content": "Universal multimodal embedding models have achieved great success in\ncapturing semantic relevance between queries and candidates. However, current\nmethods either condense queries and candidates into a single vector,\npotentially limiting the expressiveness for fine-grained information, or\nproduce too many vectors that are prohibitively expensive for multi-vector\nretrieval. In this work, we introduce MetaEmbed, a new framework for multimodal\nretrieval that rethinks how multimodal embeddings are constructed and\ninteracted with at scale. During training, a fixed number of learnable Meta\nTokens are appended to the input sequence. At test-time, their last-layer\ncontextualized representations serve as compact yet expressive multi-vector\nembeddings. Through the proposed Matryoshka Multi-Vector Retrieval training,\nMetaEmbed learns to organize information by granularity across multiple\nvectors. As a result, we enable test-time scaling in multimodal retrieval,\nwhere users can balance retrieval quality against efficiency demands by\nselecting the number of tokens used for indexing and retrieval interactions.\nExtensive evaluations on the Massive Multimodal Embedding Benchmark (MMEB) and\nthe Visual Document Retrieval Benchmark (ViDoRe) confirm that MetaEmbed\nachieves state-of-the-art retrieval performance while scaling robustly to\nmodels with 32B parameters.",
+      "url": "http://arxiv.org/abs/2509.18095v1",
+      "author": "['Zilin Xiao', 'Qi Ma', 'Mengting Gu', 'Chun-cheng Jason Chen', 'Xintao Chen', 'Vicente Ordonez', 'Vijai Mohan']",
+      "published_date": "2025-09-22T17:59:42+00:00",
+      "collected_at": "2025-09-23T16:26:49.462069",
+      "metadata": {
+        "source": "arxiv",
+        "api_version": "1.0"
+      },
+      "raw_data": {
+        "id": "2509.18095v1",
+        "title": "pdf",
+        "abstract": "Universal multimodal embedding models have achieved great success in\ncapturing semantic relevance between queries and candidates. However, current\nmethods either condense queries and candidates into a single vector,\npotentially limiting the expressiveness for fine-grained information, or\nproduce too many vectors that are prohibitively expensive for multi-vector\nretrieval. In this work, we introduce MetaEmbed, a new framework for multimodal\nretrieval that rethinks how multimodal embeddings are constructed and\ninteracted with at scale. During training, a fixed number of learnable Meta\nTokens are appended to the input sequence. At test-time, their last-layer\ncontextualized representations serve as compact yet expressive multi-vector\nembeddings. Through the proposed Matryoshka Multi-Vector Retrieval training,\nMetaEmbed learns to organize information by granularity across multiple\nvectors. As a result, we enable test-time scaling in multimodal retrieval,\nwhere users can balance retrieval quality against efficiency demands by\nselecting the number of tokens used for indexing and retrieval interactions.\nExtensive evaluations on the Massive Multimodal Embedding Benchmark (MMEB) and\nthe Visual Document Retrieval Benchmark (ViDoRe) confirm that MetaEmbed\nachieves state-of-the-art retrieval performance while scaling robustly to\nmodels with 32B parameters.",
+        "authors": [
+          "Zilin Xiao",
+          "Qi Ma",
+          "Mengting Gu",
+          "Chun-cheng Jason Chen",
+          "Xintao Chen",
+          "Vicente Ordonez",
+          "Vijai Mohan"
+        ],
+        "published": "2025-09-22T17:59:42Z",
+        "updated": "2025-09-22T17:59:42Z",
+        "categories": [
+          "cs.IR",
+          "cs.CL",
+          "cs.CV"
+        ],
+        "primary_category": "cs.IR",
+        "url": "http://arxiv.org/abs/2509.18095v1",
+        "pdf_url": "http://arxiv.org/pdf/2509.18095v1",
+        "comment": null,
+        "journal_ref": null,
+        "doi": null,
+        "keywords": [
+          "cs.IR",
+          "cs.CL",
+          "cs.CV"
+        ]
+      }
+    },
+    {
+      "id": "academic_2509.18093v1_1758662810",
+      "source_type": "academic",
+      "source_id": "2509.18093v1",
+      "title": "pdf",
+      "content": "Low-Rank Adaptation (LoRA) has become a standard technique for\nparameter-efficient fine-tuning of large language models, enabling large\nlibraries of LoRAs, each for a specific task or domain. Efficiently selecting\nthe correct LoRA adapter for a given input remains a challenge, particularly in\nsecure environments where supervised training of routers may raise privacy\nconcerns. Motivated by previous approaches, we formalize the goal of\nunsupervised LoRA routing in terms of activation norm maximization, providing a\ntheoretical framework for analysis. We demonstrate the discriminative power of\nactivation norms and introduce SEQR, an unsupervised LoRA routing algorithm\ndesigned to maximize efficiency while providing strict routing guarantees. SEQR\nprovably identifies the norm-maximizing adapter with significantly greater\nefficiency, making it a highly scalable and effective solution for dynamic LoRA\ncomposition. We validate our results through experiments that demonstrate\nimproved multi-task performance and efficiency.",
+      "url": "http://arxiv.org/abs/2509.18093v1",
+      "author": "['William Fleshman', 'Benjamin Van Durme']",
+      "published_date": "2025-09-22T17:59:38+00:00",
+      "collected_at": "2025-09-23T16:26:50.463371",
+      "metadata": {
+        "source": "arxiv",
+        "api_version": "1.0"
+      },
+      "raw_data": {
+        "id": "2509.18093v1",
+        "title": "pdf",
+        "abstract": "Low-Rank Adaptation (LoRA) has become a standard technique for\nparameter-efficient fine-tuning of large language models, enabling large\nlibraries of LoRAs, each for a specific task or domain. Efficiently selecting\nthe correct LoRA adapter for a given input remains a challenge, particularly in\nsecure environments where supervised training of routers may raise privacy\nconcerns. Motivated by previous approaches, we formalize the goal of\nunsupervised LoRA routing in terms of activation norm maximization, providing a\ntheoretical framework for analysis. We demonstrate the discriminative power of\nactivation norms and introduce SEQR, an unsupervised LoRA routing algorithm\ndesigned to maximize efficiency while providing strict routing guarantees. SEQR\nprovably identifies the norm-maximizing adapter with significantly greater\nefficiency, making it a highly scalable and effective solution for dynamic LoRA\ncomposition. We validate our results through experiments that demonstrate\nimproved multi-task performance and efficiency.",
+        "authors": [
+          "William Fleshman",
+          "Benjamin Van Durme"
+        ],
+        "published": "2025-09-22T17:59:38Z",
+        "updated": "2025-09-22T17:59:38Z",
+        "categories": [
+          "cs.CL",
+          "cs.AI",
+          "cs.LG"
+        ],
+        "primary_category": "cs.CL",
+        "url": "http://arxiv.org/abs/2509.18093v1",
+        "pdf_url": "http://arxiv.org/pdf/2509.18093v1",
+        "comment": null,
+        "journal_ref": null,
+        "doi": null,
+        "keywords": [
+          "cs.CL",
+          "cs.AI",
+          "cs.LG"
+        ]
+      }
+    },
+    {
+      "id": "academic_2509.18091v1_1758662811",
+      "source_type": "academic",
+      "source_id": "2509.18091v1",
+      "title": "pdf",
+      "content": "Despite the growing interest in replicating the scaled success of large\nlanguage models (LLMs) in industrial search and recommender systems, most\nexisting industrial efforts remain limited to transplanting Transformer\narchitectures, which bring only incremental improvements over strong Deep\nLearning Recommendation Models (DLRMs). From a first principle perspective, the\nbreakthroughs of LLMs stem not only from their architectures but also from two\ncomplementary mechanisms: context engineering, which enriches raw input queries\nwith contextual cues to better elicit model capabilities, and multi-step\nreasoning, which iteratively refines model outputs through intermediate\nreasoning paths. However, these two mechanisms and their potential to unlock\nsubstantial improvements remain largely underexplored in industrial ranking\nsystems.\n  In this paper, we propose OnePiece, a unified framework that seamlessly\nintegrates LLM-style context engineering and reasoning into both retrieval and\nranking models of industrial cascaded pipelines. OnePiece is built on a pure\nTransformer backbone and further introduces three key innovations: (1)\nstructured context engineering, which augments interaction history with\npreference and scenario signals and unifies them into a structured tokenized\ninput sequence for both retrieval and ranking; (2) block-wise latent reasoning,\nwhich equips the model with multi-step refinement of representations and scales\nreasoning bandwidth via block size; (3) progressive multi-task training, which\nleverages user feedback chains to effectively supervise reasoning steps during\ntraining. OnePiece has been deployed in the main personalized search scenario\nof Shopee and achieves consistent online gains across different key business\nmetrics, including over $+2\\%$ GMV/UU and a $+2.90\\%$ increase in advertising\nrevenue.",
+      "url": "http://arxiv.org/abs/2509.18091v1",
+      "author": "['Sunhao Dai', 'Jiakai Tang', 'Jiahua Wu', 'Kun Wang', 'Yuxuan Zhu', 'Bingjun Chen', 'Bangyang Hong', 'Yu Zhao', 'Cong Fu', 'Kangle Wu', 'Yabo Ni', 'Anxiang Zeng', 'Wenjie Wang', 'Xu Chen', 'Jun Xu', 'See-Kiong Ng']",
+      "published_date": "2025-09-22T17:59:07+00:00",
+      "collected_at": "2025-09-23T16:26:51.465072",
+      "metadata": {
+        "source": "arxiv",
+        "api_version": "1.0"
+      },
+      "raw_data": {
+        "id": "2509.18091v1",
+        "title": "pdf",
+        "abstract": "Despite the growing interest in replicating the scaled success of large\nlanguage models (LLMs) in industrial search and recommender systems, most\nexisting industrial efforts remain limited to transplanting Transformer\narchitectures, which bring only incremental improvements over strong Deep\nLearning Recommendation Models (DLRMs). From a first principle perspective, the\nbreakthroughs of LLMs stem not only from their architectures but also from two\ncomplementary mechanisms: context engineering, which enriches raw input queries\nwith contextual cues to better elicit model capabilities, and multi-step\nreasoning, which iteratively refines model outputs through intermediate\nreasoning paths. However, these two mechanisms and their potential to unlock\nsubstantial improvements remain largely underexplored in industrial ranking\nsystems.\n  In this paper, we propose OnePiece, a unified framework that seamlessly\nintegrates LLM-style context engineering and reasoning into both retrieval and\nranking models of industrial cascaded pipelines. OnePiece is built on a pure\nTransformer backbone and further introduces three key innovations: (1)\nstructured context engineering, which augments interaction history with\npreference and scenario signals and unifies them into a structured tokenized\ninput sequence for both retrieval and ranking; (2) block-wise latent reasoning,\nwhich equips the model with multi-step refinement of representations and scales\nreasoning bandwidth via block size; (3) progressive multi-task training, which\nleverages user feedback chains to effectively supervise reasoning steps during\ntraining. OnePiece has been deployed in the main personalized search scenario\nof Shopee and achieves consistent online gains across different key business\nmetrics, including over $+2\\%$ GMV/UU and a $+2.90\\%$ increase in advertising\nrevenue.",
+        "authors": [
+          "Sunhao Dai",
+          "Jiakai Tang",
+          "Jiahua Wu",
+          "Kun Wang",
+          "Yuxuan Zhu",
+          "Bingjun Chen",
+          "Bangyang Hong",
+          "Yu Zhao",
+          "Cong Fu",
+          "Kangle Wu",
+          "Yabo Ni",
+          "Anxiang Zeng",
+          "Wenjie Wang",
+          "Xu Chen",
+          "Jun Xu",
+          "See-Kiong Ng"
+        ],
+        "published": "2025-09-22T17:59:07Z",
+        "updated": "2025-09-22T17:59:07Z",
+        "categories": [
+          "cs.IR",
+          "cs.AI",
+          "cs.CL"
+        ],
+        "primary_category": "cs.IR",
+        "url": "http://arxiv.org/abs/2509.18091v1",
+        "pdf_url": "http://arxiv.org/pdf/2509.18091v1",
+        "comment": "OnePiece Technical Report; Applied in Shopee",
+        "journal_ref": null,
+        "doi": null,
+        "keywords": [
+          "cs.IR",
+          "cs.AI",
+          "cs.CL"
+        ]
+      }
+    }
+  ],
+  "analyzed_items": [
+    {
+      "content_id": "tech_trends_hn_story_45351737_1758662807",
+      "analyzed_at": "2025-09-23T16:26:52.526402",
+      "analysis_metadata": {
+        "source_type": "tech_trends",
+        "title": "Privacy Commissioners find TikTok collected sensitive data from children",
+        "content_length": 72
+      },
+      "keywords": [
+        [
+          "commissioners",
+          0.8
+        ],
+        [
+          "datum",
+          0.8
+        ],
+        [
+          "child",
+          0.8
+        ],
+        [
+          "tiktok",
+          0.617851130197758
+        ],
+        [
+          "sensitive",
+          0.617851130197758
+        ],
+        [
+          "privacy",
+          0.617851130197758
+        ],
+        [
+          "children",
+          0.5
+        ],
+        [
+          "tiktok collected sensitive",
+          0.23570226039551587
+        ],
+        [
+          "tiktok collected",
+          0.23570226039551587
+        ],
+        [
+          "sensitive data children",
+          0.23570226039551587
+        ]
+      ],
+      "word_count": 9,
+      "sentiment": {
+        "polarity": 0.1,
+        "subjectivity": 0.9,
+        "sentiment_label": "neutral",
+        "avg_sentence_polarity": 0.1,
+        "std_sentence_polarity": 0.0,
+        "positive_sentences": 0,
+        "negative_sentences": 0,
+        "neutral_sentences": 1
+      },
+      "entities": {
+        "ORG": [
+          "TikTok"
+        ],
+        "ALGORITHM": [],
+        "DATASET": [],
+        "METRIC": [],
+        "METHOD": []
+      },
+      "summary": "Privacy Commissioners find TikTok collected sensitive data from children"
+    },
+    {
+      "content_id": "academic_2509.18095v1_1758662809",
+      "analyzed_at": "2025-09-23T16:26:52.638320",
+      "analysis_metadata": {
+        "source_type": "academic",
+        "title": "pdf",
+        "content_length": 1365
+      },
+      "keywords": [
+        [
+          "retrieval",
+          0.736524958395633
+        ],
+        [
+          "universal multimodal embedding models",
+          0.5
+        ],
+        [
+          "great success",
+          0.5
+        ],
+        [
+          "semantic relevance",
+          0.5
+        ],
+        [
+          "queries",
+          0.5
+        ],
+        [
+          "candidates",
+          0.5
+        ],
+        [
+          "a single vector",
+          0.5
+        ],
+        [
+          "the expressiveness",
+          0.5
+        ],
+        [
+          "fine-grained information",
+          0.5
+        ],
+        [
+          "too many vectors",
+          0.5
+        ]
+      ],
+      "word_count": 200,
+      "sentiment": {
+        "polarity": 0.1376623376623377,
+        "subjectivity": 0.43681096681096676,
+        "sentiment_label": "positive",
+        "avg_sentence_polarity": 0.1735930735930736,
+        "std_sentence_polarity": 0.2650865721333998,
+        "positive_sentences": 3,
+        "negative_sentences": 0,
+        "neutral_sentences": 5
+      },
+      "entities": {
+        "ORG": [
+          "MetaEmbed",
+          "Matryoshka Multi-Vector Retrieval",
+          "the Massive Multimodal Embedding Benchmark",
+          "MMEB"
+        ],
+        "PERSON": [
+          "Meta\nTokens"
+        ],
+        "LAW": [
+          "the Visual Document Retrieval Benchmark"
+        ],
+        "CARDINAL": [
+          "32B"
+        ],
+        "ALGORITHM": [],
+        "DATASET": [],
+        "METRIC": [],
+        "METHOD": [
+          "MetaEmbed"
+        ]
+      },
+      "summary": "Universal multimodal embedding models have achieved great success in\ncapturing semantic relevance between queries and candidates. In this work, we introduce MetaEmbed, a new framework for multimodal\nretrieval that rethinks how multimodal embeddings are constructed and\ninteracted with at scale. Through the proposed Matryoshka Multi-Vector Retrieval training,\nMetaEmbed learns to organize information by granularity across multiple\nvectors. As a result, we enable test-time scaling in multimodal retrieval,\nwhere users can balance retrieval quality against efficiency demands by\nselecting the number of tokens used for indexing and retrieval interactions. Extensive evaluations on the Massive Multimodal Embedding Benchmark (MMEB) and\nthe Visual Document Retrieval Benchmark (ViDoRe) confirm that MetaEmbed\nachieves state-of-the-art retrieval performance while scaling robustly to\nmodels with 32B parameters."
+    },
+    {
+      "content_id": "academic_2509.18093v1_1758662810",
+      "analyzed_at": "2025-09-23T16:26:52.731941",
+      "analysis_metadata": {
+        "source_type": "academic",
+        "title": "pdf",
+        "content_length": 1029
+      },
+      "keywords": [
+        [
+          "lora",
+          0.6884445903611023
+        ],
+        [
+          "low-rank adaptation",
+          0.5
+        ],
+        [
+          "(lora",
+          0.5
+        ],
+        [
+          "a standard technique",
+          0.5
+        ],
+        [
+          "parameter-efficient fine-tuning",
+          0.5
+        ],
+        [
+          "large language models",
+          0.5
+        ],
+        [
+          "large\nlibraries",
+          0.5
+        ],
+        [
+          "loras",
+          0.5
+        ],
+        [
+          "each",
+          0.5
+        ],
+        [
+          "a specific task",
+          0.5
+        ]
+      ],
+      "word_count": 152,
+      "sentiment": {
+        "polarity": 0.1747186147186147,
+        "subjectivity": 0.3504978354978355,
+        "sentiment_label": "positive",
+        "avg_sentence_polarity": 0.12313492063492064,
+        "std_sentence_polarity": 0.17638772831585625,
+        "positive_sentences": 3,
+        "negative_sentences": 0,
+        "neutral_sentences": 3
+      },
+      "entities": {
+        "ORG": [
+          "LoRA",
+          "LoRAs",
+          "SEQR"
+        ],
+        "PRODUCT": [
+          "LoRA"
+        ],
+        "ALGORITHM": [
+          "designed",
+          "for"
+        ],
+        "DATASET": [],
+        "METRIC": [],
+        "METHOD": [
+          "SEQR"
+        ]
+      },
+      "summary": "Low-Rank Adaptation (LoRA) has become a standard technique for\nparameter-efficient fine-tuning of large language models, enabling large\nlibraries of LoRAs, each for a specific task or domain. Motivated by previous approaches, we formalize the goal of\nunsupervised LoRA routing in terms of activation norm maximization, providing a\ntheoretical framework for analysis. We demonstrate the discriminative power of\nactivation norms and introduce SEQR, an unsupervised LoRA routing algorithm\ndesigned to maximize efficiency while providing strict routing guarantees. SEQR\nprovably identifies the norm-maximizing adapter with significantly greater\nefficiency, making it a highly scalable and effective solution for dynamic LoRA\ncomposition. We validate our results through experiments that demonstrate\nimproved multi-task performance and efficiency."
+    },
+    {
+      "content_id": "academic_2509.18091v1_1758662811",
+      "analyzed_at": "2025-09-23T16:26:52.886134",
+      "analysis_metadata": {
+        "source_type": "academic",
+        "title": "pdf",
+        "content_length": 1847
+      },
+      "keywords": [
+        [
+          "reasoning",
+          0.6832541665344578
+        ],
+        [
+          "model",
+          0.5082937499338956
+        ],
+        [
+          "the growing interest",
+          0.5
+        ],
+        [
+          "the scaled success",
+          0.5
+        ],
+        [
+          "large\nlanguage models",
+          0.5
+        ],
+        [
+          "most\nexisting industrial efforts",
+          0.5
+        ],
+        [
+          "transformer\narchitectures",
+          0.5
+        ],
+        [
+          "which",
+          0.5
+        ],
+        [
+          "only incremental improvements",
+          0.5
+        ],
+        [
+          "dlrms",
+          0.5
+        ]
+      ],
+      "word_count": 284,
+      "sentiment": {
+        "polarity": 0.11698518872431916,
+        "subjectivity": 0.5657190635451506,
+        "sentiment_label": "positive",
+        "avg_sentence_polarity": 0.10842883307169021,
+        "std_sentence_polarity": 0.053937901599911714,
+        "positive_sentences": 4,
+        "negative_sentences": 0,
+        "neutral_sentences": 2
+      },
+      "entities": {
+        "WORK_OF_ART": [
+          "Deep\nLearning Recommendation Models"
+        ],
+        "ORDINAL": [
+          "first"
+        ],
+        "CARDINAL": [
+          "two",
+          "three",
+          "1",
+          "2",
+          "3"
+        ],
+        "ORG": [
+          "OnePiece"
+        ],
+        "MONEY": [
+          "over $+2\\%$ GMV",
+          "$+2.90\\%$"
+        ],
+        "GPE": [
+          "UU"
+        ],
+        "ALGORITHM": [
+          "with",
+          "capabilities",
+          "outputs"
+        ],
+        "DATASET": [],
+        "METRIC": [
+          "business"
+        ],
+        "METHOD": [
+          "OnePiece"
+        ]
+      },
+      "summary": "Despite the growing interest in replicating the scaled success of large\nlanguage models (LLMs) in industrial search and recommender systems, most\nexisting industrial efforts remain limited to transplanting Transformer\narchitectures, which bring only incremental improvements over strong Deep\nLearning Recommendation Models (DLRMs). From a first principle perspective, the\nbreakthroughs of LLMs stem not only from their architectures but also from two\ncomplementary mechanisms: context engineering, which enriches raw input queries\nwith contextual cues to better elicit model capabilities, and multi-step\nreasoning, which iteratively refines model outputs through intermediate\nreasoning paths. However, these two mechanisms and their potential to unlock\nsubstantial improvements remain largely underexplored in industrial ranking\nsystems. In this paper, we propose OnePiece, a unified framework that seamlessly\nintegrates LLM-style context engineering and reasoning into both retrieval and\nranking models of industrial cascaded pipelines. OnePiece is built on a pure\nTransformer backbone and further introduces three key innovations: (1)\nstructured context engineering, which augments interaction history with\npreference and scenario signals and unifies them into a structured tokenized\ninput sequence for both retrieval and ranking; (2) block-wise latent reasoning,\nwhich equips the model with multi-step refinement of representations and scales\nreasoning bandwidth via block size; (3) progressive multi-task training, which\nleverages user feedback chains to effectively supervise reasoning steps during\ntraining."
+    }
+  ]
+}

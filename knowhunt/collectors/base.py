@@ -14,6 +14,8 @@ class SourceType(Enum):
     CORPORATE = "corporate"
     CODE_PROJECTS = "code_projects"
     SOCIAL_PROBLEMS = "social_problems"
+    SOCIAL_DISCUSSIONS = "social_discussions"
+    TECH_TRENDS = "tech_trends"
 
 
 @dataclass

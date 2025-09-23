@@ -24,28 +24,39 @@ KnowHunt aims to become a comprehensive automated research intelligence platform
 - ✅ Basic web dashboard
 - ✅ CLI interface
 - ✅ Automated scheduling system
+- ✅ **Apache Tika PDF processing** (added from Phase 3.2)
+- ✅ **Full-text content extraction and search**
+- ✅ **Local development environment setup**
 
 ### 🚧 Phase 2: Analysis & Intelligence (Current - January-February 2025)
 
 **Status**: IN PROGRESS
 **Target**: February 15, 2025
 
-#### Milestone 2.1: NLP Analysis Pipeline
-- [ ] Text summarization (extractive & abstractive)
-- [ ] Keyword extraction and tagging
-- [ ] Named entity recognition
-- [ ] Sentiment analysis
-- [ ] Topic modeling and clustering
-- [ ] Trend detection algorithms
-- [ ] Cross-document correlation
+#### Milestone 2.1: LLM-Enhanced NLP Analysis Pipeline
+- [ ] **LLM-based text summarization** (local + cloud models)
+- [ ] **Intelligent keyword extraction and tagging** 
+- [ ] **Research-specific named entity recognition**
+- [ ] **Research sentiment analysis** (novelty, rigor, significance)
+- [ ] **LLM-assisted topic modeling and clustering**
+- [ ] **Cross-domain trend detection algorithms**
+- [ ] **Multi-paper correlation analysis**
+- [ ] **Overnight batch processing system**
 
-#### Milestone 2.2: Report Generation
-- [ ] Template system for reports
-- [ ] Industry-specific report types
-- [ ] Automated insights generation
-- [ ] Data visualization integration
-- [ ] Export formats (PDF, HTML, Markdown)
-- [ ] Scheduled report delivery
+#### Milestone 2.2: LLM-Powered Report Generation
+- [ ] **Research landscape report templates**
+- [ ] **Technology impact assessment reports**
+- [ ] **Competitive intelligence automation**
+- [ ] **LLM-generated insights and recommendations**
+- [ ] **Multi-format export** (PDF, HTML, Markdown)
+- [ ] **Scheduled overnight report generation**
+
+#### Milestone 2.3: Local LLM Infrastructure
+- [ ] **Local model integration** (Llama, DeepSeek, Qwen)
+- [ ] **Intelligent model routing** (task-specific optimization)
+- [ ] **Overnight processing scheduler**
+- [ ] **Cost-aware LLM usage** (local vs cloud)
+- [ ] **Multi-model consensus system**
 
 ### 📅 Phase 3: Enhanced Collection (February-March 2025)
 
@@ -63,7 +74,7 @@ KnowHunt aims to become a comprehensive automated research intelligence platform
 
 #### Milestone 3.2: Advanced Crawling
 - [ ] Dynamic website scraping
-- [ ] PDF content extraction
+- ✅ **PDF content extraction** (completed early - Apache Tika)
 - [ ] Table and chart data extraction
 - [ ] Multi-language support
 - [ ] Distributed crawling system

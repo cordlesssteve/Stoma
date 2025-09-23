@@ -34,18 +34,20 @@
 - **Fix Applied**: Now properly raises FileNotFoundError
 - **Status**: Resolved and tested
 
-## 🔄 In Progress Features
+## 🔄 Next Phase Features
 
-### 1. **Metabase Analytics Dashboard**
-- **Status**: Container started, initialization in progress
+### 1. **Phase 2: LLM-Enhanced Analysis Pipeline**
+- **Strategy**: LLM-heavy approach with local models + overnight processing
+- **Target**: February 15, 2025
+- **Key Features**: Text summarization, research sentiment analysis, trend detection
+- **Infrastructure**: Local Llama/DeepSeek models + Claude for urgent tasks
+- **Documentation**: See `docs/PHASE2_LLM_STRATEGY.md`
+
+### 2. **Metabase Analytics Dashboard**
+- **Status**: Container started, initialization in progress  
 - **Docker**: Running on port 3001
 - **Database**: Connected to PostgreSQL (verified config)
-- **Next**: Await startup completion and verify web interface
-
-### 2. **API Service Cleanup**
-- **Issue**: Multiple conflicting background processes
-- **Status**: Being addressed
-- **Next**: Proper process management
+- **Next**: Verify web interface when startup complete
 
 ## 📊 Verified Metrics
 

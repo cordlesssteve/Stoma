@@ -6,6 +6,7 @@ from .nlp_storage import NLPStorage
 from .trend_detector import TrendDetector, TrendSignal, CrossDomainTrend
 from .correlation_analyzer import CorrelationAnalyzer, PaperCorrelation, TopicCluster
 from .batch_processor import BatchProcessor, BatchTask, BatchJobResult
+from .llm_analyzer import LLMAnalyzer, LLMAnalysisResult, LLMAnalysisService
 
 __all__ = [
     'NLPAnalyzer',
@@ -20,5 +21,8 @@ __all__ = [
     'TopicCluster',
     'BatchProcessor',
     'BatchTask',
-    'BatchJobResult'
+    'BatchJobResult',
+    'LLMAnalyzer',
+    'LLMAnalysisResult',
+    'LLMAnalysisService'
 ]

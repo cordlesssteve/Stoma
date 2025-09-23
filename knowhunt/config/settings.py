@@ -40,9 +40,16 @@ def load_config(config_path: str = None) -> Dict[str, Any]:
     if config_path:
         config_file = Path(config_path)
         if config_file.exists():
-            with open(config_file, 'r') as f:
-                file_config = yaml.safe_load(f)
-                config = merge_configs(config, file_config)
+            try:
+                with open(config_file, 'r') as f:
+                    file_config = yaml.safe_load(f)
+                    if file_config is None:
+                        raise ValueError(f"Config file {config_path} is empty or invalid")
+                    config = merge_configs(config, file_config)
+            except yaml.YAMLError as e:
+                raise ValueError(f"Invalid YAML in config file {config_path}: {e}")
+        else:
+            raise FileNotFoundError(f"Configuration file not found: {config_path}")
     
     return config
 

@@ -58,13 +58,51 @@ class PostgreSQLStorage(BaseStorage):
     
     def __init__(self, config: Dict[str, Any]):
         super().__init__(config)
-        self.connection_string = config["connection_string"]
+        
+        # Handle both connection_string format and individual fields
+        if "connection_string" in config:
+            self.connection_string = config["connection_string"]
+        else:
+            # Build connection string from individual fields
+            database = config.get("database", "knowhunt")
+            user = config.get("user", "postgres")
+            host = config.get("host")
+            port = config.get("port", 5432)
+            password = config.get("password")
+            
+            if host:
+                # TCP connection
+                if password:
+                    self.connection_string = f"postgresql://{user}:{password}@{host}:{port}/{database}"
+                else:
+                    self.connection_string = f"postgresql://{user}@{host}:{port}/{database}"
+            else:
+                # Unix socket connection (peer authentication)
+                self.connection_string = f"postgresql://{user}@/{database}"
+        
         self.pool = None
     
     async def connect(self) -> None:
         """Connect to PostgreSQL."""
         import asyncpg
-        self.pool = await asyncpg.create_pool(self.connection_string)
+        
+        # For Unix socket connections, use explicit parameters instead of connection string
+        if "host" not in self.config:
+            # Use Unix socket connection with explicit parameters
+            self.pool = await asyncpg.create_pool(
+                database=self.config.get("database", "knowhunt"),
+                user=self.config.get("user", "postgres"),
+                port=self.config.get("port", 5432)
+                # No host parameter = Unix socket
+            )
+        else:
+            # Use connection string for TCP connections
+            self.pool = await asyncpg.create_pool(self.connection_string)
+            
+        await self._create_tables()
+    
+    async def ensure_tables(self) -> None:
+        """Ensure database tables exist (for setup scripts)."""
         await self._create_tables()
     
     async def disconnect(self) -> None:

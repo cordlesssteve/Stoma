@@ -1,0 +1,46 @@
+# Local Development Configuration for KnowHunt
+# Simple, personal project setup
+
+storage:
+  type: "postgresql"
+  # Using peer authentication via Unix socket (no host/password needed)
+  database: "knowhunt"
+  user: "cordlesssteve"
+  port: 5433
+
+collectors:
+  arxiv:
+    rate_limit: 1.0  # Be nice to ArXiv
+    max_results: 50
+    
+  github:
+    rate_limit: 2.0
+    # Add your GitHub token if you have one (optional for basic use)
+    # token: "your_github_token_here"
+    
+  sec_edgar:
+    rate_limit: 5.0
+    user_agent: "KnowHunt Personal Research Tool (personal use)"
+
+scheduler:
+  enabled: true
+  check_interval_seconds: 300  # 5 minutes for local dev
+  max_concurrent_tasks: 2  # Keep it light
+  default_preset: "research"  # Focus on academic papers initially
+
+analysis:
+  # Simple local NLP settings
+  enable_summarization: true
+  enable_keyword_extraction: true
+  
+api:
+  host: "localhost"
+  port: 8000
+  debug: true
+
+# Local file storage paths
+file_storage:
+  base_path: "/home/cordlesssteve/projects/KnowHunt/data"
+  pdfs: "/home/cordlesssteve/projects/KnowHunt/data/pdfs"
+  cache: "/home/cordlesssteve/projects/KnowHunt/data/cache"
+  exports: "/home/cordlesssteve/projects/KnowHunt/data/exports"

@@ -12,6 +12,24 @@ storage:
 analysis:
   enable_nlp: false
   model_name: "en_core_web_sm"
+  
+  # LLM Analysis Configuration
+  enable_llm: true
+  llm:
+    # Lightweight model configuration for memory efficiency
+    provider: "ollama"  # ollama, openai, anthropic
+    model: "phi3.5"     # Recommended: phi3.5, qwen2.5:3b, gemma2:2b
+    max_tokens: 800     # Reduced for faster responses
+    temperature: 0.1    # Low for consistent analysis
+    
+    # Fallback configuration
+    fallback_to_cloud: true
+    fallback_provider: "openai"
+    fallback_model: "gpt-3.5-turbo"
+    
+    # Performance settings
+    memory_limit_gb: 4.0
+    analysis_mode: "balanced"  # fast, balanced, quality
 
 api:
   host: "0.0.0.0"

@@ -1,0 +1,50 @@
+{
+  "timestamp": "2025-09-24T15:32:03.859701",
+  "input_text": "Machine learning models for protein folding prediction using deep neural networks have achieved remarkable accuracy improvements over traditional methods.",
+  "provider": "ollama",
+  "model": "gemma2:2b",
+  "analysis": {
+    "research_quality_score": 0.3,
+    "novel_contributions": [
+      "[",
+      "\"**Novel Contribution 1:** This paper introduces a novel framework for text analysis specifically tailored for protein structure prediction using deep neural networks.\",",
+      "\"This is significant because it addresses the need for specialized text analysis techniques in this field, which often involves complex biological data and requires specific knowledge of protein structures. Existing work may not be as effective or efficient at handling these nuances"
+    ],
+    "technical_innovations": [
+      "[",
+      "{",
+      "\"type\": \"New algorithms or methods\",",
+      "\"description\": \"The research paper focuses on using machine learning models, specifically deep neural networks, for protein folding prediction.\"",
+      "},",
+      "{",
+      "\"type\": \"Novel architectures or designs\",",
+      "\"description\": \"While not explicitly stated, the use of deep neural networks implies"
+    ],
+    "business_implications": [
+      "[",
+      "{",
+      "\"implication\": \"Develop AI-powered protein folding prediction tools for drug discovery and development.\",",
+      "\"description\": \"Pharmaceutical companies can leverage this technology to accelerate the process of designing new drugs by predicting protein structures with high accuracy. This could lead to faster drug development cycles, reduced costs, and potentially more effective treatments.\"",
+      "},"
+    ],
+    "research_significance": {},
+    "methodology_assessment": {},
+    "impact_prediction": {},
+    "research_gaps_identified": [],
+    "related_work_connections": [],
+    "concept_keywords": [],
+    "document_id": "cli_analysis_20250924_152955",
+    "metadata": {
+      "analyzed_at": "2025-09-24T15:32:03.782401",
+      "llm_provider": "ollama",
+      "llm_model": "gemma2:2b",
+      "analysis_version": "2.0_cloud_llm"
+    }
+  },
+  "usage_statistics": {
+    "total_requests": 7,
+    "total_tokens": 1567,
+    "failed_requests": 0,
+    "success_rate": 1.0
+  }
+}

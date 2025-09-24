@@ -441,28 +441,43 @@ class LLMAnalyzer:
     def _parse_list_response(self, response: str) -> List[str]:
         """Parse LLM response as list."""
         try:
+            # Remove markdown code fences if present
+            clean_response = response
+            if "```json" in response:
+                clean_response = response.split("```json")[1].split("```")[0].strip()
+            elif "```" in response:
+                clean_response = response.split("```")[1].split("```")[0].strip()
+            
             # Try to extract JSON from response
-            if "[" in response and "]" in response:
-                start = response.find("[")
-                end = response.rfind("]") + 1
-                json_str = response[start:end]
+            if "[" in clean_response and "]" in clean_response:
+                start = clean_response.find("[")
+                end = clean_response.rfind("]") + 1
+                json_str = clean_response[start:end]
                 return json.loads(json_str)
             else:
                 # Fallback: split by newlines and clean
-                lines = [line.strip() for line in response.split("\n") if line.strip()]
+                lines = [line.strip() for line in clean_response.split("\n") if line.strip()]
                 return [line.lstrip("- ").lstrip("* ").lstrip("1234567890. ") for line in lines if line]
         except Exception as e:
             logger.warning(f"Failed to parse list response: {e}")
+            # Return empty list on parsing failure
             return []
     
     def _parse_json_response(self, response: str) -> Dict[str, Any]:
         """Parse LLM response as JSON."""
         try:
+            # Remove markdown code fences if present
+            clean_response = response
+            if "```json" in response:
+                clean_response = response.split("```json")[1].split("```")[0].strip()
+            elif "```" in response:
+                clean_response = response.split("```")[1].split("```")[0].strip()
+            
             # Try to extract JSON from response
-            if "{" in response and "}" in response:
-                start = response.find("{")
-                end = response.rfind("}") + 1
-                json_str = response[start:end]
+            if "{" in clean_response and "}" in clean_response:
+                start = clean_response.find("{")
+                end = clean_response.rfind("}") + 1
+                json_str = clean_response[start:end]
                 return json.loads(json_str)
             else:
                 return {}

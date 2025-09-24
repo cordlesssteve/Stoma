@@ -64,7 +64,7 @@ async def check_ollama_status():
     
     try:
         # Create a test analyzer to check Ollama connectivity
-        analyzer = LLMAnalyzer(provider="ollama", model="test")
+        analyzer = LLMAnalyzer(provider="ollama", model="phi3.5")
         
         # Check what models are available
         available = await analyzer._check_ollama_model_availability()

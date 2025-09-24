@@ -24,6 +24,7 @@ from ..analysis.nlp_service import NLPService
 from ..analysis.batch_processor import BatchProcessor
 from ..analysis.trend_detector import TrendDetector
 from ..analysis.correlation_analyzer import CorrelationAnalyzer
+from ..analysis.llm_analyzer import LLMAnalyzer
 
 
 console = Console()
@@ -76,7 +77,8 @@ def collect_arxiv(query: str, category: Optional[str], max_results: int, output:
                         "published_date": normalized.published_date.isoformat() if normalized.published_date else None,
                         "url": normalized.url,
                         "categories": normalized.categories,
-                        "summary": normalized.content[:200] + "..." if len(normalized.content) > 200 else normalized.content
+                        "summary": normalized.content[:200] + "..." if len(normalized.content) > 200 else normalized.content,
+                        "full_content": normalized.content  # Keep full content for LLM analysis
                     })
                     
                     progress.update(task, description=f"Collected {len(results)} papers...")
@@ -986,6 +988,13 @@ def nlp():
     pass
 
 
+# LLM Analysis Commands
+@main.group()
+def llm():
+    """Large Language Model analysis commands."""
+    pass
+
+
 @nlp.command()
 @click.argument("paper_id", type=int)
 def analyze_paper(paper_id: int):
@@ -1507,6 +1516,278 @@ def status():
     console.print(table)
     
     console.print(f"\n[bold]Next Batch Window:[/bold] {status['next_batch_window'][:19]}")
+
+
+@llm.command()
+@click.argument("text")
+@click.option("--provider", "-p", default="ollama", type=click.Choice(["openai", "anthropic", "ollama"]), help="LLM provider")
+@click.option("--model", "-m", default="gemma2:2b", help="Model name")
+@click.option("--max-tokens", default=1500, help="Maximum tokens in response")
+@click.option("--temperature", "-t", default=0.1, help="Temperature for generation")
+@click.option("--output", "-o", help="Output file to save the analysis report (JSON format)")
+def analyze_text(text: str, provider: str, model: str, max_tokens: int, temperature: float, output: Optional[str]):
+    """Analyze text using LLM for research intelligence."""
+    
+    async def _analyze():
+        console.print(f"[green]Analyzing text with {provider} ({model})...[/green]")
+        
+        try:
+            analyzer = LLMAnalyzer(
+                provider=provider,
+                model=model,
+                max_tokens=max_tokens,
+                temperature=temperature
+            )
+            
+            with Progress(
+                SpinnerColumn(),
+                TextColumn("[progress.description]{task.description}"),
+                console=console
+            ) as progress:
+                task = progress.add_task("Running LLM analysis...", total=None)
+                
+                result = await analyzer.analyze_research_paper(
+                    text=text,
+                    title="CLI Text Analysis",
+                    document_id=f"cli_analysis_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+                )
+                
+                progress.update(task, description="Analysis complete")
+            
+            # Display results
+            console.print(f"\n[bold cyan]LLM Analysis Results[/bold cyan]")
+            
+            console.print(f"\n[bold]Research Quality Score:[/bold] {result.research_quality_score:.2f}/10")
+            
+            if result.novel_contributions:
+                console.print(f"\n[bold]Novel Contributions:[/bold]")
+                for i, contribution in enumerate(result.novel_contributions[:3], 1):
+                    console.print(f"  {i}. {contribution}")
+            
+            if result.technical_innovations:
+                console.print(f"\n[bold]Technical Innovations:[/bold]")
+                for innovation in result.technical_innovations[:3]:
+                    console.print(f"  • {innovation}")
+            
+            if result.business_implications:
+                console.print(f"\n[bold]Business Implications:[/bold]")
+                for implication in result.business_implications[:3]:
+                    console.print(f"  • {implication}")
+            
+            # Usage statistics
+            stats = analyzer.get_usage_statistics()
+            console.print(f"\n[bold]Analysis Statistics:[/bold]")
+            console.print(f"  Tokens Used: {stats['total_tokens']}")
+            console.print(f"  Success Rate: {stats['success_rate']:.1%}")
+            console.print(f"  Provider: {provider}")
+            
+            # Save to file if requested
+            if output:
+                import json
+                from pathlib import Path
+                
+                report_data = {
+                    "timestamp": datetime.now().isoformat(),
+                    "input_text": text,
+                    "provider": provider,
+                    "model": model,
+                    "analysis": {
+                        "research_quality_score": result.research_quality_score,
+                        "novel_contributions": result.novel_contributions,
+                        "technical_innovations": result.technical_innovations,
+                        "business_implications": result.business_implications,
+                        "research_significance": result.research_significance,
+                        "methodology_assessment": result.methodology_assessment,
+                        "impact_prediction": result.impact_prediction,
+                        "research_gaps_identified": result.research_gaps_identified,
+                        "related_work_connections": result.related_work_connections,
+                        "concept_keywords": result.concept_keywords,
+                        "document_id": result.document_id,
+                        "metadata": result.metadata
+                    },
+                    "usage_statistics": stats
+                }
+                
+                output_path = Path(output)
+                output_path.parent.mkdir(parents=True, exist_ok=True)
+                
+                with open(output_path, 'w') as f:
+                    json.dump(report_data, f, indent=2, default=str)
+                
+                console.print(f"\n[blue]📄 Analysis report saved to: {output_path}[/blue]")
+            
+        except Exception as e:
+            console.print(f"[red]Analysis failed: {e}[/red]")
+            if "not available" in str(e).lower():
+                console.print(f"\n[yellow]💡 To use {provider}:[/yellow]")
+                if provider == "ollama":
+                    console.print(f"   1. Make sure Ollama is running: ollama serve")
+                    console.print(f"   2. Pull the model: ollama pull {model}")
+                elif provider == "openai":
+                    console.print(f"   1. Set API key: export OPENAI_API_KEY='your-key'")
+                elif provider == "anthropic":
+                    console.print(f"   1. Set API key: export ANTHROPIC_API_KEY='your-key'")
+    
+    asyncio.run(_analyze())
+
+
+@llm.command()
+@click.option("--query", "-q", default="machine learning", help="Search query")
+@click.option("--max-results", "-n", default=3, help="Maximum number of papers")
+@click.option("--provider", "-p", default="ollama", type=click.Choice(["openai", "anthropic", "ollama"]), help="LLM provider")
+@click.option("--model", "-m", default="gemma2:2b", help="Model name")
+def collect_and_analyze_arxiv(query: str, max_results: int, provider: str, model: str):
+    """Collect ArXiv papers and immediately analyze with LLM."""
+    
+    async def _collect_and_analyze():
+        console.print(f"[green]Collecting {max_results} papers for: {query}[/green]")
+        
+        # Collection phase
+        config = {"max_results": max_results, "rate_limit": 1.0}
+        collector = ArXivCollector(config)
+        normalizer = AcademicNormalizer({})
+        results = []
+        
+        with Progress(
+            SpinnerColumn(),
+            TextColumn("[progress.description]{task.description}"),
+            console=console
+        ) as progress:
+            collect_task = progress.add_task("Collecting papers...", total=None)
+            
+            async for result in collector.collect(search_query=query, start=0):
+                if result.success and len(results) < max_results:
+                    normalized = await normalizer.normalize(result)
+                    results.append({
+                        "title": normalized.title,
+                        "content": normalized.content,
+                        "id": normalized.id
+                    })
+                    
+                    progress.update(collect_task, description=f"Collected {len(results)} papers...")
+                
+                if len(results) >= max_results:
+                    break
+        
+        if not results:
+            console.print("[yellow]No papers collected[/yellow]")
+            return
+        
+        console.print(f"[green]Successfully collected {len(results)} papers[/green]")
+        
+        # Analysis phase
+        try:
+            analyzer = LLMAnalyzer(provider=provider, model=model, max_tokens=1500, temperature=0.1)
+            console.print(f"[blue]Analyzing with {provider} ({model})...[/blue]")
+            
+            with Progress(
+                SpinnerColumn(),
+                TextColumn("[progress.description]{task.description}"),
+                console=console
+            ) as progress:
+                analyze_task = progress.add_task("Running LLM analysis...", total=len(results))
+                
+                analyzed_papers = []
+                for i, paper in enumerate(results):
+                    try:
+                        result = await analyzer.analyze_research_paper(
+                            text=paper["content"],
+                            title=paper["title"],
+                            document_id=paper["id"]
+                        )
+                        analyzed_papers.append((paper, result))
+                        progress.advance(analyze_task)
+                        
+                    except Exception as e:
+                        console.print(f"[red]Failed to analyze paper {i+1}: {e}[/red]")
+                        progress.advance(analyze_task)
+            
+            # Display results
+            console.print(f"\n[bold cyan]LLM Analysis Results for {len(analyzed_papers)} Papers[/bold cyan]")
+            
+            for i, (paper, analysis) in enumerate(analyzed_papers, 1):
+                console.print(f"\n[bold]Paper {i}: {paper['title'][:60]}...[/bold]")
+                console.print(f"Research Quality: {analysis.research_quality_score:.1f}/10")
+                
+                if analysis.novel_contributions:
+                    console.print(f"Novel Contributions: {len(analysis.novel_contributions)}")
+                    console.print(f"  • {analysis.novel_contributions[0][:100]}...")
+                
+                if analysis.business_implications:
+                    console.print(f"Business Value: {analysis.business_implications[0][:80]}...")
+            
+            # Summary statistics
+            stats = analyzer.get_usage_statistics()
+            console.print(f"\n[bold]Analysis Summary:[/bold]")
+            console.print(f"Papers Analyzed: {len(analyzed_papers)}")
+            console.print(f"Total Tokens: {stats['total_tokens']}")
+            console.print(f"Provider: {provider}")
+            
+        except Exception as e:
+            console.print(f"[red]LLM analysis failed: {e}[/red]")
+    
+    asyncio.run(_collect_and_analyze())
+
+
+@llm.command()
+def test_providers():
+    """Test availability of all LLM providers."""
+    
+    async def _test():
+        console.print("[bold cyan]Testing LLM Provider Availability[/bold cyan]\n")
+        
+        # Test text
+        test_text = "Machine learning models improve pattern recognition through training on large datasets."
+        
+        providers = [
+            ("openai", "gpt-3.5-turbo"),
+            ("anthropic", "claude-3-haiku-20240307"),
+            ("ollama", "gemma2:2b")
+        ]
+        
+        for provider, model in providers:
+            console.print(f"[yellow]Testing {provider} with {model}...[/yellow]")
+            
+            try:
+                analyzer = LLMAnalyzer(
+                    provider=provider,
+                    model=model,
+                    max_tokens=100,
+                    temperature=0.1
+                )
+                
+                with Progress(
+                    SpinnerColumn(),
+                    TextColumn("[progress.description]{task.description}"),
+                    console=console
+                ) as progress:
+                    task = progress.add_task(f"Testing {provider}...", total=None)
+                    
+                    result = await analyzer.analyze_research_paper(
+                        text=test_text,
+                        title="Test Paper",
+                        document_id="test_provider"
+                    )
+                    
+                    progress.update(task, description=f"{provider} test complete")
+                
+                console.print(f"[green]✓ {provider} ({model}): Working[/green]")
+                console.print(f"   Quality Score: {result.research_quality_score:.1f}")
+                
+            except Exception as e:
+                console.print(f"[red]✗ {provider} ({model}): {str(e)[:60]}...[/red]")
+                
+                # Provide helpful tips
+                if provider == "ollama" and ("not available" in str(e) or "connection" in str(e).lower()):
+                    console.print(f"   [dim]💡 Try: ollama serve && ollama pull {model}[/dim]")
+                elif provider == "openai" and "api_key" in str(e).lower():
+                    console.print(f"   [dim]💡 Try: export OPENAI_API_KEY='your-key'[/dim]")
+                elif provider == "anthropic" and "api_key" in str(e).lower():
+                    console.print(f"   [dim]💡 Try: export ANTHROPIC_API_KEY='your-key'[/dim]")
+            
+            console.print("")
+    
+    asyncio.run(_test())
 
 
 if __name__ == "__main__":

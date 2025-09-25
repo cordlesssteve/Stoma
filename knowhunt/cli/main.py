@@ -25,6 +25,7 @@ from ..analysis.batch_processor import BatchProcessor
 from ..analysis.trend_detector import TrendDetector
 from ..analysis.correlation_analyzer import CorrelationAnalyzer
 from ..analysis.llm_analyzer import LLMAnalyzer
+from ..storage.report_manager import ReportStorageManager
 
 
 console = Console()
@@ -1581,40 +1582,52 @@ def analyze_text(text: str, provider: str, model: str, max_tokens: int, temperat
             console.print(f"  Success Rate: {stats['success_rate']:.1%}")
             console.print(f"  Provider: {provider}")
             
-            # Save to file if requested
+            # Save report with automatic organization or custom path
+            import json
+            from pathlib import Path
+
+            report_data = {
+                "timestamp": datetime.now().isoformat(),
+                "input_text": text,
+                "provider": provider,
+                "model": model,
+                "analysis": {
+                    "research_quality_score": result.research_quality_score,
+                    "novel_contributions": result.novel_contributions,
+                    "technical_innovations": result.technical_innovations,
+                    "business_implications": result.business_implications,
+                    "research_significance": result.research_significance,
+                    "methodology_assessment": result.methodology_assessment,
+                    "impact_prediction": result.impact_prediction,
+                    "research_gaps_identified": result.research_gaps_identified,
+                    "related_work_connections": result.related_work_connections,
+                    "concept_keywords": result.concept_keywords,
+                    "document_id": result.document_id,
+                    "metadata": result.metadata
+                },
+                "usage_statistics": stats
+            }
+
+            # Use ReportStorageManager for organized storage
+            report_manager = ReportStorageManager()
+
             if output:
-                import json
-                from pathlib import Path
-                
-                report_data = {
-                    "timestamp": datetime.now().isoformat(),
-                    "input_text": text,
-                    "provider": provider,
-                    "model": model,
-                    "analysis": {
-                        "research_quality_score": result.research_quality_score,
-                        "novel_contributions": result.novel_contributions,
-                        "technical_innovations": result.technical_innovations,
-                        "business_implications": result.business_implications,
-                        "research_significance": result.research_significance,
-                        "methodology_assessment": result.methodology_assessment,
-                        "impact_prediction": result.impact_prediction,
-                        "research_gaps_identified": result.research_gaps_identified,
-                        "related_work_connections": result.related_work_connections,
-                        "concept_keywords": result.concept_keywords,
-                        "document_id": result.document_id,
-                        "metadata": result.metadata
-                    },
-                    "usage_statistics": stats
-                }
-                
+                # Save to custom path but also index in system
                 output_path = Path(output)
                 output_path.parent.mkdir(parents=True, exist_ok=True)
-                
+
                 with open(output_path, 'w') as f:
                     json.dump(report_data, f, indent=2, default=str)
-                
+
+                # Also index in organized system
+                organized_path = report_manager.save_analysis_report(report_data, auto_path=True)
+
                 console.print(f"\n[blue]📄 Analysis report saved to: {output_path}[/blue]")
+                console.print(f"[dim]📁 Also indexed in organized storage: {organized_path.name}[/dim]")
+            else:
+                # Auto-generate organized path
+                organized_path = report_manager.save_analysis_report(report_data, auto_path=True)
+                console.print(f"\n[blue]📄 Analysis report saved to: {organized_path}[/blue]")
             
         except Exception as e:
             console.print(f"[red]Analysis failed: {e}[/red]")
@@ -1788,6 +1801,182 @@ def test_providers():
             console.print("")
     
     asyncio.run(_test())
+
+
+@llm.command()
+@click.option("--query", "-q", help="Search query for document IDs or keywords")
+@click.option("--provider", "-p", help="Filter by provider (openai, anthropic, ollama)")
+@click.option("--min-quality", "-m", type=float, help="Minimum quality score (0-10)")
+@click.option("--limit", "-l", default=20, help="Maximum number of results")
+def search_reports(query: Optional[str], provider: Optional[str], min_quality: Optional[float], limit: int):
+    """Search saved LLM analysis reports."""
+
+    console.print("[green]Searching analysis reports...[/green]")
+
+    try:
+        report_manager = ReportStorageManager()
+        results = report_manager.search_reports(
+            query=query,
+            provider=provider,
+            min_quality_score=min_quality,
+            limit=limit
+        )
+
+        if results:
+            console.print(f"\n[bold cyan]Found {len(results)} reports[/bold cyan]")
+
+            table = Table(title="LLM Analysis Reports")
+            table.add_column("Document ID", style="cyan", max_width=30)
+            table.add_column("Provider", style="magenta")
+            table.add_column("Model", style="yellow", max_width=15)
+            table.add_column("Quality", style="green")
+            table.add_column("Contributions", style="blue")
+            table.add_column("Date", style="white")
+
+            for report in results:
+                quality_color = "red" if report["research_quality_score"] < 3 else "yellow" if report["research_quality_score"] < 7 else "green"
+
+                table.add_row(
+                    report["document_id"][:30],
+                    report["provider"],
+                    report["model"][:15] if report["model"] else "N/A",
+                    f"[{quality_color}]{report['research_quality_score']:.1f}[/{quality_color}]",
+                    str(report["novel_contributions_count"]),
+                    report["timestamp"][:10]
+                )
+
+            console.print(table)
+
+            # Show some statistics
+            avg_quality = sum(r["research_quality_score"] for r in results) / len(results)
+            total_contributions = sum(r["novel_contributions_count"] for r in results)
+
+            console.print(f"\n[bold]Summary:[/bold]")
+            console.print(f"  Average Quality Score: {avg_quality:.2f}/10")
+            console.print(f"  Total Novel Contributions: {total_contributions}")
+
+        else:
+            console.print("[yellow]No reports found matching the criteria[/yellow]")
+
+    except Exception as e:
+        console.print(f"[red]Search failed: {e}[/red]")
+
+
+@llm.command()
+@click.argument("document_id")
+def view_report(document_id: str):
+    """View detailed information about a specific analysis report."""
+
+    try:
+        report_manager = ReportStorageManager()
+        report = report_manager.get_report_by_id(document_id)
+
+        if report:
+            console.print(f"\n[bold cyan]Analysis Report: {document_id}[/bold cyan]")
+
+            # Basic info
+            console.print(f"[bold]Provider:[/bold] {report.get('provider', 'N/A')}")
+            console.print(f"[bold]Model:[/bold] {report.get('model', 'N/A')}")
+            console.print(f"[bold]Timestamp:[/bold] {report.get('timestamp', 'N/A')[:19]}")
+
+            analysis = report.get("analysis", {})
+            console.print(f"[bold]Quality Score:[/bold] {analysis.get('research_quality_score', 0):.2f}/10")
+
+            # Novel contributions
+            contributions = analysis.get("novel_contributions", [])
+            if contributions:
+                console.print(f"\n[bold]Novel Contributions ({len(contributions)}):[/bold]")
+                for i, contribution in enumerate(contributions[:3], 1):
+                    console.print(f"  {i}. {contribution[:100]}..." if len(contribution) > 100 else f"  {i}. {contribution}")
+                if len(contributions) > 3:
+                    console.print(f"  ... and {len(contributions) - 3} more")
+
+            # Technical innovations
+            innovations = analysis.get("technical_innovations", [])
+            if innovations:
+                console.print(f"\n[bold]Technical Innovations ({len(innovations)}):[/bold]")
+                for innovation in innovations[:3]:
+                    if isinstance(innovation, dict):
+                        console.print(f"  • {innovation.get('description', str(innovation))[:80]}...")
+                    else:
+                        console.print(f"  • {str(innovation)[:80]}...")
+
+            # Business implications
+            implications = analysis.get("business_implications", [])
+            if implications:
+                console.print(f"\n[bold]Business Implications ({len(implications)}):[/bold]")
+                for implication in implications[:3]:
+                    console.print(f"  • {implication[:80]}..." if len(implication) > 80 else f"  • {implication}")
+
+            # Keywords
+            keywords = analysis.get("concept_keywords", [])
+            if keywords:
+                console.print(f"\n[bold]Key Concepts:[/bold] {', '.join(keywords[:10])}")
+                if len(keywords) > 10:
+                    console.print(f"... and {len(keywords) - 10} more")
+
+            # Usage stats
+            stats = report.get("usage_statistics", {})
+            if stats:
+                console.print(f"\n[bold]Usage Statistics:[/bold]")
+                console.print(f"  Tokens Used: {stats.get('total_tokens', 'N/A')}")
+                console.print(f"  Success Rate: {stats.get('success_rate', 'N/A'):.1%}" if isinstance(stats.get('success_rate'), (int, float)) else f"  Success Rate: {stats.get('success_rate', 'N/A')}")
+
+            # File location
+            index_metadata = report.get("_index_metadata", {})
+            if index_metadata:
+                console.print(f"\n[dim]File: {index_metadata.get('file_path', 'N/A')}[/dim]")
+
+        else:
+            console.print(f"[yellow]Report not found: {document_id}[/yellow]")
+
+    except Exception as e:
+        console.print(f"[red]Failed to view report: {e}[/red]")
+
+
+@llm.command()
+def storage_stats():
+    """Show statistics about stored analysis reports."""
+
+    try:
+        report_manager = ReportStorageManager()
+        stats = report_manager.get_storage_statistics()
+
+        console.print(f"\n[bold cyan]Analysis Report Storage Statistics[/bold cyan]")
+
+        # Basic stats
+        console.print(f"[bold]Total Reports:[/bold] {stats['total_reports']}")
+        console.print(f"[bold]Recent Reports (30 days):[/bold] {stats['recent_activity']}")
+        console.print(f"[bold]Disk Usage:[/bold] {stats['disk_usage_mb']} MB")
+
+        # Quality distribution
+        quality_dist = stats["quality_distribution"]
+        console.print(f"\n[bold]Quality Distribution:[/bold]")
+        console.print(f"  High Quality (≥8): [green]{quality_dist['high_quality']}[/green]")
+        console.print(f"  Medium Quality (5-8): [yellow]{quality_dist['medium_quality']}[/yellow]")
+        console.print(f"  Low Quality (<5): [red]{quality_dist['low_quality']}[/red]")
+        console.print(f"  Average Score: {quality_dist['avg_quality_score']:.2f}/10")
+
+        # By provider
+        if stats["by_provider"]:
+            console.print(f"\n[bold]By Provider:[/bold]")
+
+            table = Table()
+            table.add_column("Provider", style="cyan")
+            table.add_column("Reports", style="yellow")
+            table.add_column("Avg Quality", style="green")
+
+            for provider_stat in stats["by_provider"]:
+                table.add_row(
+                    provider_stat["provider"],
+                    str(provider_stat["count"]),
+                    f"{provider_stat['avg_score']:.2f}" if provider_stat["avg_score"] else "N/A"
+                )
+
+            console.print(table)
+
+    except Exception as e:
+        console.print(f"[red]Failed to get storage statistics: {e}[/red]")
 
 
 if __name__ == "__main__":

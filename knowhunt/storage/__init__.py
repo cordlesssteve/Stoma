@@ -1,1 +1,5 @@
-"""Database and storage interfaces."""
+"""Storage management for KnowHunt."""
+
+from .report_manager import ReportStorageManager
+
+__all__ = ["ReportStorageManager"]

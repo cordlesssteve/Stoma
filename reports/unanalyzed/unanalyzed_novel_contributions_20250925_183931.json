@@ -1,0 +1,8 @@
+{
+  "timestamp": "2025-09-25T18:39:31.239741",
+  "title": "EmbeddingGemma Test",
+  "failure_type": "novel_contributions",
+  "model_used": "codellama:13b-instruct",
+  "content_preview": "\n        We introduce EmbeddingGemma, a new lightweight, open text embedding model\n        based on the Gemma 3 language model family. Our innovative training recipe\n        strategically captures knowledge from larger models via encoder-decoder\n        initialization and geometric embedding distillation. EmbeddingGemma (300M)\n        achieves state-of-the-art results and outperforms prior top models with\n        fewer than 500M parameters.\n        ",
+  "status": "pending_reanalysis"
+}

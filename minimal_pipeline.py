@@ -356,18 +356,40 @@ class MinimalLLMAnalyzer:
         """Analyze text using Ollama."""
 
         prompt = f"""
-Analyze this research content and provide structured insights:
+You are an expert research analyst. Analyze these research papers and extract SPECIFIC, ACTIONABLE insights.
 
-{text[:3000]}
+{text[:4000]}
 
-Please provide:
-1. Novel Contributions (list key innovations)
-2. Technical Innovations (specific methods/algorithms)
-3. Business Implications (commercial opportunities)
-4. Research Quality Score (0-10)
+Provide detailed analysis in JSON format. For each category, give SPECIFIC insights, NOT just paper titles:
 
-Format your response as JSON with keys: novel_contributions, technical_innovations, business_implications, research_quality_score
-"""
+1. NOVEL CONTRIBUTIONS - What are the actual new ideas, methods, or discoveries? Be specific about what makes them novel.
+2. TECHNICAL INNOVATIONS - What specific algorithms, architectures, or technical approaches are introduced? Include performance improvements.
+3. BUSINESS IMPLICATIONS - What commercial opportunities, cost savings, or market impacts do these enable? Be concrete about business value.
+4. RESEARCH QUALITY SCORE - Rate overall quality 0-10 based on novelty, methodology, and impact.
+
+CRITICAL: Do NOT just list paper titles. Extract the actual insights and innovations from within the papers.
+
+Example good response:
+{{
+  "novel_contributions": [
+    "New attention mechanism reduces computational complexity by 40% while maintaining accuracy",
+    "First successful application of quantum error correction to practical NLP tasks",
+    "Novel training approach that works with 10x less labeled data"
+  ],
+  "technical_innovations": [
+    "Sparse attention patterns that scale O(n log n) instead of O(n²)",
+    "Hybrid quantum-classical architecture achieving 95% gate fidelity",
+    "Self-supervised pre-training with contrastive learning on unlabeled text"
+  ],
+  "business_implications": [
+    "40% reduction in training costs for enterprise language models",
+    "Enables quantum NLP on today's NISQ hardware, opening new market",
+    "Reduces annotation costs by 90%, making AI accessible to smaller companies"
+  ],
+  "research_quality_score": 8
+}}
+
+Now analyze the provided research and return actual insights, not paper titles:"""
 
         try:
             async with aiohttp.ClientSession() as session:

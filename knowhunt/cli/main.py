@@ -26,6 +26,17 @@ from ..analysis.trend_detector import TrendDetector
 from ..analysis.correlation_analyzer import CorrelationAnalyzer
 from ..analysis.llm_analyzer import LLMAnalyzer
 from ..storage.report_manager import ReportStorageManager
+from ..integrations.deep_research_bridge import (
+    DeepResearchBridge,
+    DeepResearchConfig,
+    analyze_papers_with_deep_research,
+    create_default_deep_research_config
+)
+from ..config.deep_research import (
+    build_deep_research_config_from_settings,
+    is_deep_research_enabled,
+    validate_deep_research_config
+)
 
 
 console = Console()
@@ -1977,6 +1988,328 @@ def storage_stats():
 
     except Exception as e:
         console.print(f"[red]Failed to get storage statistics: {e}[/red]")
+
+
+# Deep Research Commands Group
+@main.group()
+def deep_research():
+    """Advanced deep research analysis using OpenDeepResearch integration."""
+    pass
+
+
+@deep_research.command()
+@click.option("--query", "-q", default="machine learning", help="Search query")
+@click.option("--category", "-c", help="ArXiv category (e.g., cs.AI)")
+@click.option("--max-results", "-n", default=5, help="Maximum number of papers")
+@click.option("--research-question", "-r", help="Custom research question")
+@click.option("--model", "-m", default="openai:gpt-4.1", help="Research model to use")
+@click.option("--output", "-o", help="Output directory for reports")
+def analyze_papers(query: str, category: Optional[str], max_results: int,
+                  research_question: Optional[str], model: str, output: Optional[str]):
+    """Collect ArXiv papers and perform deep research analysis."""
+
+    async def _analyze():
+        # Load configuration
+        config = load_config()
+
+        if not is_deep_research_enabled(config):
+            console.print("[red]Deep research is disabled in configuration[/red]")
+            console.print("[yellow]Set ENABLE_DEEP_RESEARCH=true to enable[/yellow]")
+            return
+
+        # Step 1: Collect papers
+        console.print(f"[bold cyan]Step 1: Collecting papers for '{query}'[/bold cyan]")
+
+        arxiv_config = {
+            "max_results": max_results,
+            "rate_limit": 1.0
+        }
+
+        collector = ArXivCollector(arxiv_config)
+        normalizer = AcademicNormalizer({})
+
+        papers = []
+
+        with Progress(
+            SpinnerColumn(),
+            TextColumn("[progress.description]{task.description}"),
+            console=console
+        ) as progress:
+            task = progress.add_task(f"Collecting papers...", total=None)
+
+            async for result in collector.collect(
+                search_query=query,
+                category=category,
+                start=0
+            ):
+                if result.success:
+                    normalized = await normalizer.normalize(result)
+                    papers.append(normalized)
+                    progress.update(task, description=f"Collected {len(papers)} papers...")
+                else:
+                    console.print(f"[red]Collection error: {result.error_message}[/red]")
+
+        if not papers:
+            console.print("[yellow]No papers collected[/yellow]")
+            return
+
+        console.print(f"[green]✓ Collected {len(papers)} papers[/green]")
+
+        # Step 2: Deep research analysis
+        console.print(f"\n[bold cyan]Step 2: Performing deep research analysis[/bold cyan]")
+
+        # Build configuration
+        dr_config = build_deep_research_config_from_settings(config)
+        dr_config.research_model = model  # Override with CLI option
+
+        # Validate configuration
+        validation_errors = validate_deep_research_config(dr_config)
+        if validation_errors:
+            console.print("[red]Configuration validation errors:[/red]")
+            for field, error in validation_errors.items():
+                console.print(f"  {field}: {error}")
+            return
+
+        # Setup storage manager
+        storage_manager = ReportStorageManager()
+
+        # Create bridge
+        bridge = DeepResearchBridge(config=dr_config, storage_manager=storage_manager)
+
+        # Perform analysis
+        results = []
+        with Progress(
+            SpinnerColumn(),
+            TextColumn("[progress.description]{task.description}"),
+            console=console
+        ) as progress:
+            task = progress.add_task("Analyzing papers...", total=len(papers))
+
+            for i, paper in enumerate(papers):
+                try:
+                    progress.update(task, description=f"Analyzing paper {i+1}/{len(papers)}: {paper.title[:50]}...")
+
+                    result = await bridge.analyze_document(
+                        document=paper,
+                        research_question=research_question
+                    )
+                    results.append(result)
+
+                    progress.update(task, advance=1)
+
+                except Exception as e:
+                    console.print(f"[red]Analysis failed for '{paper.title}': {e}[/red]")
+                    continue
+
+        console.print(f"[green]✓ Analyzed {len(results)} papers[/green]")
+
+        # Step 3: Display results
+        console.print(f"\n[bold cyan]Step 3: Analysis Results[/bold cyan]")
+
+        for i, result in enumerate(results, 1):
+            console.print(f"\n[bold yellow]Paper {i}: {result.metadata.get('document_title', 'Unknown')}[/bold yellow]")
+            console.print(f"[bold]Research Question:[/bold] {result.research_question}")
+            console.print(f"[bold]Analysis Summary:[/bold]")
+
+            # Show first 500 chars of final report
+            summary = result.final_report[:500]
+            if len(result.final_report) > 500:
+                summary += "..."
+            console.print(summary)
+
+            # Show key findings
+            if result.research_findings:
+                console.print(f"\n[bold]Key Findings:[/bold]")
+                for finding in result.research_findings[:3]:  # Top 3 findings
+                    console.print(f"• {finding[:200]}...")
+
+        # Step 4: Save results if requested
+        if output:
+            output_path = Path(output)
+            output_path.mkdir(parents=True, exist_ok=True)
+
+            # Save detailed results
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            results_file = output_path / f"deep_research_results_{timestamp}.json"
+
+            # Convert results to JSON-serializable format
+            json_results = []
+            for result in results:
+                json_results.append({
+                    "document_id": result.document_id,
+                    "research_question": result.research_question,
+                    "final_report": result.final_report,
+                    "research_findings": result.research_findings,
+                    "metadata": result.metadata,
+                    "timestamp": result.timestamp.isoformat(),
+                    "model_used": result.model_used
+                })
+
+            with open(results_file, 'w') as f:
+                json.dump(json_results, f, indent=2)
+
+            console.print(f"\n[blue]Detailed results saved to: {results_file}[/blue]")
+
+        # Show usage statistics
+        stats = bridge.get_usage_statistics()
+        console.print(f"\n[bold cyan]Analysis Statistics:[/bold cyan]")
+        console.print(f"Success Rate: {stats['success_rate']:.2%}")
+        console.print(f"Total Analyses: {stats['total_analyses']}")
+
+    # Run the async analysis
+    asyncio.run(_analyze())
+
+
+@deep_research.command()
+@click.argument("topic", required=True)
+@click.option("--model", "-m", default="openai:gpt-4.1", help="Research model to use")
+@click.option("--iterations", "-i", default=4, help="Max research iterations")
+@click.option("--concurrent", "-c", default=3, help="Max concurrent research units")
+@click.option("--search-api", "-s", default="tavily", help="Search API (tavily, openai, anthropic)")
+@click.option("--output", "-o", help="Output file for report")
+def comprehensive_analysis(topic: str, model: str, iterations: int, concurrent: int,
+                          search_api: str, output: Optional[str]):
+    """Perform comprehensive deep research analysis on any topic."""
+
+    async def _analyze():
+        # Load configuration
+        config = load_config()
+
+        if not is_deep_research_enabled(config):
+            console.print("[red]Deep research is disabled in configuration[/red]")
+            return
+
+        console.print(f"[bold cyan]Starting comprehensive analysis: '{topic}'[/bold cyan]")
+
+        # Build custom configuration
+        dr_config = DeepResearchConfig(
+            research_model=model,
+            final_report_model=model,
+            max_researcher_iterations=iterations,
+            max_concurrent_research_units=concurrent,
+            search_api=search_api,
+            allow_clarification=False  # Disable for automated analysis
+        )
+
+        # Validate configuration
+        validation_errors = validate_deep_research_config(dr_config)
+        if validation_errors:
+            console.print("[red]Configuration validation errors:[/red]")
+            for field, error in validation_errors.items():
+                console.print(f"  {field}: {error}")
+            return
+
+        # Create bridge with storage
+        storage_manager = ReportStorageManager()
+        bridge = DeepResearchBridge(config=dr_config, storage_manager=storage_manager)
+
+        # Create a mock document for the topic
+        from ..pipeline.data_types import NormalizedDocument
+        from datetime import datetime
+
+        mock_document = NormalizedDocument(
+            id=f"comprehensive_{topic.replace(' ', '_')}",
+            title=f"Comprehensive Analysis: {topic}",
+            content=f"Research topic: {topic}",
+            authors=[],
+            published_date=datetime.now(),
+            url="",
+            categories=[],
+            metadata={"analysis_type": "comprehensive"}
+        )
+
+        # Perform analysis
+        with console.status(f"[bold green]Analyzing '{topic}'..."):
+            result = await bridge.analyze_document(
+                document=mock_document,
+                research_question=f"Provide a comprehensive analysis of {topic}, including current state, key developments, challenges, and future outlook."
+            )
+
+        # Display results
+        console.print(f"\n[bold green]✓ Analysis Complete[/bold green]")
+        console.print(f"[bold]Topic:[/bold] {topic}")
+        console.print(f"[bold]Model:[/bold] {result.model_used}")
+        console.print(f"[bold]Analysis Date:[/bold] {result.timestamp.strftime('%Y-%m-%d %H:%M:%S')}")
+
+        console.print(f"\n[bold cyan]Research Report:[/bold cyan]")
+        console.print(result.final_report)
+
+        # Save if requested
+        if output:
+            output_path = Path(output)
+            output_path.parent.mkdir(parents=True, exist_ok=True)
+
+            report_data = {
+                "topic": topic,
+                "research_question": result.research_question,
+                "final_report": result.final_report,
+                "research_findings": result.research_findings,
+                "metadata": result.metadata,
+                "timestamp": result.timestamp.isoformat(),
+                "model_used": result.model_used,
+                "configuration": {
+                    "model": model,
+                    "iterations": iterations,
+                    "concurrent": concurrent,
+                    "search_api": search_api
+                }
+            }
+
+            with open(output_path, 'w') as f:
+                json.dump(report_data, f, indent=2)
+
+            console.print(f"\n[blue]Report saved to: {output_path}[/blue]")
+
+    # Run the analysis
+    asyncio.run(_analyze())
+
+
+@deep_research.command()
+def test_integration():
+    """Test the OpenDeepResearch integration."""
+
+    try:
+        # Test imports
+        console.print("[bold cyan]Testing OpenDeepResearch Integration[/bold cyan]")
+        console.print("✓ Testing imports...")
+
+        # Test configuration
+        console.print("✓ Testing configuration...")
+        config = load_config()
+
+        if not is_deep_research_enabled(config):
+            console.print("[yellow]Deep research is disabled in configuration[/yellow]")
+        else:
+            console.print("✓ Deep research is enabled")
+
+        dr_config = build_deep_research_config_from_settings(config)
+        validation_errors = validate_deep_research_config(dr_config)
+
+        if validation_errors:
+            console.print("[red]Configuration validation errors:[/red]")
+            for field, error in validation_errors.items():
+                console.print(f"  {field}: {error}")
+        else:
+            console.print("✓ Configuration is valid")
+
+        # Test bridge creation
+        console.print("✓ Testing bridge creation...")
+        bridge = DeepResearchBridge(config=dr_config)
+        console.print("✓ Bridge created successfully")
+
+        # Show configuration details
+        console.print(f"\n[bold cyan]Current Configuration:[/bold cyan]")
+        console.print(f"Research Model: {dr_config.research_model}")
+        console.print(f"Search API: {dr_config.search_api}")
+        console.print(f"Max Iterations: {dr_config.max_researcher_iterations}")
+        console.print(f"Max Concurrent Units: {dr_config.max_concurrent_research_units}")
+
+        console.print(f"\n[green]✓ Integration test successful![/green]")
+
+    except Exception as e:
+        console.print(f"[red]Integration test failed: {e}[/red]")
+        import traceback
+        console.print(f"[red]{traceback.format_exc()}[/red]")
 
 
 if __name__ == "__main__":

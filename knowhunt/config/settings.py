@@ -27,7 +27,23 @@ def load_config(config_path: str = None) -> Dict[str, Any]:
         },
         "analysis": {
             "enable_nlp": os.getenv("ENABLE_NLP", "false").lower() == "true",
-            "model_name": os.getenv("NLP_MODEL", "en_core_web_sm")
+            "model_name": os.getenv("NLP_MODEL", "en_core_web_sm"),
+
+            # Deep Research Integration
+            "enable_deep_research": os.getenv("ENABLE_DEEP_RESEARCH", "true").lower() == "true",
+            "deep_research": {
+                "summarization_model": os.getenv("DR_SUMMARIZATION_MODEL", "openai:gpt-4.1-mini"),
+                "research_model": os.getenv("DR_RESEARCH_MODEL", "openai:gpt-4.1"),
+                "compression_model": os.getenv("DR_COMPRESSION_MODEL", "openai:gpt-4.1-mini"),
+                "final_report_model": os.getenv("DR_FINAL_REPORT_MODEL", "openai:gpt-4.1"),
+                "max_researcher_iterations": int(os.getenv("DR_MAX_ITERATIONS", "4")),
+                "max_concurrent_research_units": int(os.getenv("DR_MAX_CONCURRENT", "3")),
+                "max_react_tool_calls": int(os.getenv("DR_MAX_TOOL_CALLS", "10")),
+                "allow_clarification": os.getenv("DR_ALLOW_CLARIFICATION", "false").lower() == "true",
+                "search_api": os.getenv("DR_SEARCH_API", "tavily"),
+                "max_tokens": int(os.getenv("DR_MAX_TOKENS", "8192")),
+                "temperature": float(os.getenv("DR_TEMPERATURE", "0.1"))
+            }
         },
         "api": {
             "host": os.getenv("API_HOST", "0.0.0.0"),

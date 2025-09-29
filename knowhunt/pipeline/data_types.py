@@ -10,6 +10,19 @@ from dataclasses import dataclass, field
 
 
 @dataclass
+class NormalizedDocument:
+    """Normalized document structure for consistent processing."""
+    id: str
+    title: str
+    content: str
+    authors: List[str]
+    published_date: Optional[datetime]
+    url: str
+    categories: List[str] = field(default_factory=list)
+    metadata: Dict[str, Any] = field(default_factory=dict)
+
+
+@dataclass
 class StoredContent:
     """Represents collected content stored in the pipeline."""
     id: str

@@ -1,4 +1,4 @@
-# KnowHunt Development Roadmap
+# Stoma Development Roadmap
 
 **Version**: 1.0
 **Created**: January 22, 2025
@@ -6,7 +6,7 @@
 
 ## 🎯 Vision
 
-KnowHunt aims to become a comprehensive automated research intelligence platform that monitors, analyzes, and reports on developments across academic, corporate, and open-source domains.
+Stoma aims to become a comprehensive automated research intelligence platform that monitors, analyzes, and reports on developments across academic, corporate, and open-source domains.
 
 ## 📊 Development Phases
 
@@ -234,12 +234,12 @@ KnowHunt aims to become a comprehensive automated research intelligence platform
 ## 📝 Future Considerations
 
 ### Long-term Vision (Beyond v1.0)
-- **KnowHunt Cloud**: SaaS offering
-- **KnowHunt Enterprise**: On-premise solution
-- **KnowHunt Mobile**: iOS/Android apps
-- **KnowHunt API**: Public API marketplace
-- **KnowHunt Marketplace**: Plugin ecosystem
-- **KnowHunt Academy**: Training and certification
+- **Stoma Cloud**: SaaS offering
+- **Stoma Enterprise**: On-premise solution
+- **Stoma Mobile**: iOS/Android apps
+- **Stoma API**: Public API marketplace
+- **Stoma Marketplace**: Plugin ecosystem
+- **Stoma Academy**: Training and certification
 
 ### Potential Expansions
 - Blockchain/Web3 monitoring

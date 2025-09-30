@@ -1,0 +1,8 @@
+{
+  "success": false,
+  "implementation": "working_legacy_multi_agent",
+  "topic": "reinforcement learning architectures",
+  "error": "AsyncClient.chat() got an unexpected keyword argument 'parallel_tool_calls'",
+  "error_type": "TypeError",
+  "timestamp": "2025-09-29T12:39:55.211655"
+}

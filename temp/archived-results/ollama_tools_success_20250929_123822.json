@@ -1,0 +1,22 @@
+{
+  "success": true,
+  "test": "ollama_tool_calling",
+  "model": "llama3.1:latest",
+  "tool_calls": [
+    {
+      "name": "create_section",
+      "args": {
+        "content": "A comprehensive overview of what reinforcement learning is, its key concepts, and basic principles.",
+        "name": "Introduction to Reinforcement Learning"
+      },
+      "id": "983601f2-c8e4-454d-b402-6ba76bd3999b",
+      "type": "tool_call"
+    }
+  ],
+  "section_created": {
+    "name": "Introduction to Reinforcement Learning",
+    "content": "A comprehensive overview of what reinforcement learning is, its key concepts, and basic principles."
+  },
+  "duration_seconds": 11.891303,
+  "timestamp": "2025-09-29T12:38:22.980511"
+}

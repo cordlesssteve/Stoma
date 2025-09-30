@@ -8,7 +8,7 @@
 - **Layered Memory**: Different memory scopes (personal, project, domain)
 - **Semantic Relationships**: Understanding connections between concepts
 
-### KnowHunt Current System
+### Stoma Current System
 - **Research Collection**: ArXiv, Reddit, HackerNews, SEC filings
 - **LLM Analysis**: Novel contributions, technical innovations, business implications
 - **Report Generation**: PDF reports with structured insights
@@ -25,7 +25,7 @@ async def analyze_with_memory_context(papers, query):
     # Query memory for related concepts
     memory_context = await memory_mcp.query_knowledge_graph({
         "concepts": extract_key_concepts(papers),
-        "projects": ["KnowHunt", "current_research_focus"],
+        "projects": ["Stoma", "current_research_focus"],
         "timeframe": "recent_6_months"
     })
 
@@ -44,11 +44,11 @@ async def analyze_with_memory_context(papers, query):
 ```
 Personal Layer:
 ├── Research Interests (AI, quantum computing, biotech)
-├── Current Projects (KnowHunt, other tools)
+├── Current Projects (Stoma, other tools)
 ├── Reading History (papers read, insights gained)
 └── Learning Gaps (topics to explore)
 
-Project Layer (KnowHunt):
+Project Layer (Stoma):
 ├── Architecture Knowledge (pipeline components, LLM configs)
 ├── Previous Insights (recurring themes, breakthrough papers)
 ├── Tool Evolution (feature additions, performance improvements)
@@ -95,7 +95,7 @@ Update Memory Graph:
 ├── New Concepts → Add nodes
 ├── Research Trends → Update relationships
 ├── Personal Relevance → Weight user interests
-└── Project Connections → Link to KnowHunt goals
+└── Project Connections → Link to Stoma goals
          ↓
 Enhanced Future Analysis
 ```
@@ -118,7 +118,7 @@ Enhanced Future Analysis
 - Predict research interests from behavior patterns
 
 ### Phase 4: Project Memory Integration
-- Store KnowHunt system knowledge in memory
+- Store Stoma system knowledge in memory
 - Enable self-improving pipeline based on performance
 - Cross-reference insights across research sessions
 
@@ -161,7 +161,7 @@ class MemoryEnhancedReportGenerator:
         context = await self.memory_client.get_research_context(
             query=query,
             user_profile="research_analyst",
-            project="KnowHunt"
+            project="Stoma"
         )
 
         # 2. Run enhanced analysis
@@ -180,7 +180,7 @@ class MemoryEnhancedReportGenerator:
 
 ## Conclusion
 
-The memory MCP integration would transform KnowHunt from a **stateless research tool** into a **learning research assistant** that:
+The memory MCP integration would transform Stoma from a **stateless research tool** into a **learning research assistant** that:
 
 1. **Remembers** your research interests and projects
 2. **Connects** new findings to your existing knowledge

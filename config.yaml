@@ -7,7 +7,7 @@ collectors:
 
 storage:
   type: postgresql
-  connection_string: "postgresql://knowhunt:knowhunt123@localhost:5432/knowhunt"
+  connection_string: "postgresql://stoma:stoma123@localhost:5432/stoma"
 
 analysis:
   enable_nlp: false

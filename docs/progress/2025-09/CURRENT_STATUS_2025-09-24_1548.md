@@ -1,4 +1,4 @@
-# KnowHunt Personal Project - Current Status
+# Stoma Personal Project - Current Status
 
 **Version Reference**: Previous status archived as `docs/progress/2025-09/CURRENT_STATUS_2025-09-23_1822.md`
 
@@ -12,7 +12,7 @@
 
 ### 1. **LLM Analysis Engine** - NEW ✨
 - **Status**: Production-ready with multi-provider support
-- **Location**: `knowhunt/analysis/llm_analyzer.py`
+- **Location**: `stoma/analysis/llm_analyzer.py`
 - **Capabilities**:
   - Novel contribution detection and assessment
   - Research significance scoring across multiple dimensions
@@ -33,7 +33,7 @@
 
 ### 3. **Intelligent Report Generation** - NEW ✨
 - **Status**: Advanced LLM-powered reporting system
-- **Location**: `knowhunt/reports/llm_report_generator.py`
+- **Location**: `stoma/reports/llm_report_generator.py`
 - **Transformation**: Reports now generate genuine research intelligence instead of meaningless keyword fragments
 - **Features**:
   - Executive summaries with real insights

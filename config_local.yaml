@@ -1,10 +1,10 @@
-# Local Development Configuration for KnowHunt
+# Local Development Configuration for Stoma
 # Simple, personal project setup
 
 storage:
   type: "postgresql"
   # Using peer authentication via Unix socket (no host/password needed)
-  database: "knowhunt"
+  database: "stoma"
   user: "cordlesssteve"
   port: 5433
 
@@ -20,7 +20,7 @@ collectors:
     
   sec_edgar:
     rate_limit: 5.0
-    user_agent: "KnowHunt Personal Research Tool (personal use)"
+    user_agent: "Stoma Personal Research Tool (personal use)"
 
 scheduler:
   enabled: true
@@ -40,7 +40,7 @@ api:
 
 # Local file storage paths
 file_storage:
-  base_path: "/home/cordlesssteve/projects/KnowHunt/data"
-  pdfs: "/home/cordlesssteve/projects/KnowHunt/data/pdfs"
-  cache: "/home/cordlesssteve/projects/KnowHunt/data/cache"
-  exports: "/home/cordlesssteve/projects/KnowHunt/data/exports"
+  base_path: "/home/cordlesssteve/projects/Stoma/data"
+  pdfs: "/home/cordlesssteve/projects/Stoma/data/pdfs"
+  cache: "/home/cordlesssteve/projects/Stoma/data/cache"
+  exports: "/home/cordlesssteve/projects/Stoma/data/exports"

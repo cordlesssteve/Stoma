@@ -1,0 +1,17 @@
+{
+  "topic": "reinforcement learning architectures",
+  "research_question": "Provide a comprehensive analysis of reinforcement learning architectures, including current state, key developments, challenges, and future outlook.",
+  "final_report": "Deep research analysis failed: Unable to import langchain_ollama. Please install with `pip install -U langchain-ollama`",
+  "research_findings": [],
+  "metadata": {
+    "error": "Unable to import langchain_ollama. Please install with `pip install -U langchain-ollama`"
+  },
+  "timestamp": "2025-09-29T11:29:35.343814",
+  "model_used": "ollama:llama3.1:latest",
+  "configuration": {
+    "model": "ollama:llama3.1:latest",
+    "iterations": 4,
+    "concurrent": 2,
+    "search_api": "tavily"
+  }
+}

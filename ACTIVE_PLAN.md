@@ -1,60 +1,86 @@
-# KnowHunt Active Development Plan
+# Stoma Active Development Plan
 
-**Version Reference**: Previous plan archived as `docs/progress/2025-09/ACTIVE_PLAN_2025-09-24_1548.md`
+**Status**: ACTIVE
+**Version Reference**: Previous plan archived as `docs/progress/2025-09/ACTIVE_PLAN_2025-09-25_2331.md`
 
-**Created**: 2025-01-22  
-**Last Updated**: 2025-09-24  
-**Status**: ACTIVE - Ollama Integration Complete, Report Storage Next
+**Created**: 2025-01-22
+**Last Updated**: 2025-09-29
+**Current Focus**: OpenDeepResearch Integration Complete, Documentation Restructuring Next
 
-## 🎯 Current Objective: Report Storage & Management System
+## 🎯 Current Objective: Documentation Restructuring & Project Organization
 
-**Focus**: Organize report storage system and enhance database integration
+**Focus**: Restructure documentation to match CORE standards and clean up project organization
 
 ### 📋 Immediate Priorities (Next Session)
 
-#### 📁 **Report Storage System** (Priority: CRITICAL)
-- [ ] Complete standardized directory structure for LLM reports (`reports/llm_analysis/`)
-- [ ] Update CLI to use organized storage paths with automatic naming
-- [ ] Add report indexing and search capabilities
-- [ ] Create report management utilities (list, search, archive)
-- [ ] Implement database storage for LLM analysis results
+#### 📚 **Documentation Restructuring** (Priority: CRITICAL)
+- [ ] Organize technical documentation into reference structure (01-10 categories)
+- [ ] Move existing docs to appropriate reference categories
+- [ ] Create architecture documentation for OpenDeepResearch integration
+- [ ] Document API endpoints and CLI command structure
+- [ ] Clean up root directory temporary files and test artifacts
 
-#### ⚙️ **Local Model Optimization** (Priority: HIGH)  
-- [ ] Set up Ollama with recommended models (llama3.1:8b, deepseek-coder:33b)
-- [ ] Implement overnight batch processing workflows
-- [ ] Configure model selection based on paper types (technical vs. general)
-- [ ] Optimize performance for large-scale analysis
-- [ ] Add model performance monitoring and metrics
+#### 🔍 **CodeLlama Investigation** (Priority: HIGH)
+- [ ] Examine codellama:13b-instruct specific response format that's still failing parsing
+- [ ] Identify if additional preprocessing needed beyond comment cleanup
+- [ ] Test if simplified parser works with other large models (phi3.5:latest)
+- [ ] Document model-specific quirks and parsing requirements
+- [ ] Establish model selection guidelines based on parsing reliability
 
-#### 📊 **Enhanced Reporting** (Priority: HIGH)
-- [ ] Deploy intelligent report generator in production
-- [ ] Create automated weekly research intelligence reports
-- [ ] Implement cross-paper synthesis for trend detection
-- [ ] Add business intelligence dashboard views
-- [ ] Configure report scheduling and delivery
+#### ⚙️ **Model Performance Optimization** (Priority: HIGH)
+- [ ] Create model selection matrix based on reliability vs. quality trade-offs
+- [ ] Implement intelligent model fallback system (start with best, fallback to reliable)
+- [ ] Add model performance tracking (success rate, response time, quality scores)
+- [ ] Configure automatic model selection based on content type and success history
+- [ ] Establish production model recommendations with parsing validation
 
-## ✅ Ollama Integration Complete (September 24, 2025)
+#### 📊 **Production Integration** (Priority: HIGH)
+- [ ] Integrate simplified parser into main pipeline system
+- [ ] Enable model quality comparison workflows in production
+- [ ] Implement automated model validation testing
+- [ ] Create production-ready model selection strategies
+- [ ] Deploy enhanced parsing to existing report generation systems
 
-### 🔗 **Production CLI Integration** - COMPLETED Sept 24
-- ✅ Built complete CLI command suite for Ollama analysis
-- ✅ Implemented real-time analysis with progress indicators
-- ✅ Fixed JSON parsing issues with markdown code fences
-- ✅ Added structured report saving with `--output` flag
-- ✅ Verified end-to-end functionality with gemma2:2b model
-- ✅ Generated actual LLM reports with 1500+ tokens processed
+## ✅ OpenDeepResearch Integration Complete (September 29, 2025)
 
-### 🎯 **Critical Problem Resolution** - COMPLETED Sept 23
-- ✅ Transformed reports from "essentially useless" to genuinely valuable
-- ✅ Replaced meaningless keyword fragments with intelligent analysis
-- ✅ Implemented sophisticated research understanding capabilities
-- ✅ Added cross-paper synthesis and trend detection
-- ✅ Created production-ready analysis infrastructure
+### 🔗 **Multi-Agent Research Architecture** - COMPLETED Sept 29
+- ✅ Successfully integrated OpenDeepResearch as git submodule with working Ollama support
+- ✅ Implemented bridge pattern integration enabling Stoma → OpenDeepResearch workflows
+- ✅ Created working multi-agent supervisor-researcher architecture
+- ✅ Fixed tool calling with Ollama models using ChatOllama from langchain-ollama
+- ✅ Added 3 new CLI commands for seamless deep research workflows
+- ✅ Implemented automatic report storage through Stoma's ReportStorageManager
+
+### 🎯 **Integration Architecture Delivered** - COMPLETED Sept 29
+- ✅ Git submodule setup at `/external/open_deep_research/` with dependencies
+- ✅ `OllamaDeepResearchBridge` class providing seamless integration
+- ✅ Legacy multi-agent implementation works reliably with proper ChatOllama configuration
+- ✅ Tool calling with ArXiv search, web search, and document analysis
+- ✅ Multi-agent coordination producing structured research reports
+- ✅ Proper error handling and graceful degradation
+
+## ✅ JSON Parsing Breakthrough Complete (September 25, 2025)
+
+### 🔗 **Simplified JSON Parser Implementation** - COMPLETED Sept 25
+- ✅ Successfully implemented user feedback: removed keyword extraction entirely
+- ✅ Created minimal preprocessing approach handling only essential formatting
+- ✅ Fixed mistral:7b-instruct parsing with regex comment cleanup
+- ✅ Validated that "LLM response already come in a clean format" as user stated
+- ✅ Confirmed larger models provide better analysis quality when parsing works
+- ✅ Generated successful analysis reports from previously failing models
+
+### 🎯 **User Feedback Integration** - COMPLETED Sept 25
+- ✅ Implemented exact user requirements: "remove keyword extraction entirely"
+- ✅ Validated user insight: "does the LLM response not already come in a clean format?"
+- ✅ Simplified architecture following user's architectural guidance
+- ✅ Proved that parsing complexity was masking model quality improvements
+- ✅ Successfully enabled larger models with minimal preprocessing changes
 
 ## 🏗️ Technical Architecture Status
 
 ### **Infrastructure Components**
-- ✅ **LLM Analysis Engine**: `knowhunt/analysis/llm_analyzer.py` (Complete)
-- ✅ **Intelligent Reports**: `knowhunt/reports/llm_report_generator.py` (Complete)  
+- ✅ **LLM Analysis Engine**: `stoma/analysis/llm_analyzer.py` (Complete)
+- ✅ **Intelligent Reports**: `stoma/reports/llm_report_generator.py` (Complete)  
 - ✅ **Local Model Support**: Ollama integration with error handling (Complete)
 - ✅ **Multi-Provider System**: Easy model swapping architecture (Complete)
 - ✅ **Documentation**: Complete setup guides and testing scripts (Complete)
@@ -149,7 +175,7 @@
 
 ## 🎯 Strategic Vision: Phase 2B → Full Intelligence
 
-**Objective**: Transform KnowHunt into a next-generation research intelligence platform
+**Objective**: Transform Stoma into a next-generation research intelligence platform
 
 **Key Results**:
 1. **Production LLM Analysis**: Every collected paper analyzed for genuine insights
@@ -159,6 +185,6 @@
 
 ---
 
-**Status**: Phase 2A Complete - Ready for Production Integration  
-**Next Focus**: Deploy LLM analysis in production pipeline  
-**Timeline**: Phase 2B implementation over next 6 weeks
+**Status**: JSON Parsing Breakthrough Complete - Model Quality Validated
+**Next Focus**: Complete model investigation and optimize production selection strategies
+**Timeline**: Model optimization and production deployment over next 2-3 sessions

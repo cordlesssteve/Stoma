@@ -1,0 +1,11 @@
+{
+  "report_id": "deep_research_analysis_of_provided_documents_focusing_on:_how_have_attention_mechanisms_evolved_in_transformer_architectures?_20250929_134937",
+  "duration_seconds": 402.14754,
+  "success": true,
+  "topic": "Analysis of provided documents focusing on: How have attention mechanisms evolved in transformer architectures?",
+  "implementation": "ollama_deep_research_bridge",
+  "model": "llama3.1:latest",
+  "timestamp": "2025-09-29T13:49:37.821901",
+  "sections_count": 0,
+  "content_length": 3898
+}

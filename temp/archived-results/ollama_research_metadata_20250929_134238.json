@@ -1,0 +1,11 @@
+{
+  "report_id": "deep_research_neural_network_optimization_techniques_20250929_134238",
+  "duration_seconds": 403.263246,
+  "success": true,
+  "topic": "neural network optimization techniques",
+  "implementation": "ollama_deep_research_bridge",
+  "model": "llama3.1:latest",
+  "timestamp": "2025-09-29T13:42:38.126827",
+  "sections_count": 0,
+  "content_length": 3872
+}

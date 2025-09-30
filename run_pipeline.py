@@ -10,12 +10,12 @@ from datetime import datetime
 from pathlib import Path
 
 # Add the project to Python path
-sys.path.insert(0, '/home/cordlesssteve/projects/Utility/KnowHunt')
+sys.path.insert(0, '/home/cordlesssteve/projects/Utility/RESEARCH/Stoma')
 
 try:
-    from knowhunt.collectors.arxiv import ArXivCollector
-    from knowhunt.analysis.llm_analyzer import LLMAnalyzer
-    from knowhunt.storage.report_manager import ReportStorageManager
+    from stoma.collectors.arxiv import ArXivCollector
+    from stoma.analysis.llm_analyzer import LLMAnalyzer
+    from stoma.storage.report_manager import ReportStorageManager
 except ImportError as e:
     print(f"Import error: {e}")
     print("Some components may not be available")

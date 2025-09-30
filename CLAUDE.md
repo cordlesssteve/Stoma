@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-KnowHunt is a Research Intelligence System that automates collection, analysis, and reporting of information from academic papers, public documents, corporate intelligence, and software projects. The system features a complete content enrichment pipeline that transforms basic metadata collection into comprehensive intelligence analysis.
+Stoma is a Research Intelligence System that automates collection, analysis, and reporting of information from academic papers, public documents, corporate intelligence, and software projects. The system features a complete content enrichment pipeline that transforms basic metadata collection into comprehensive intelligence analysis.
 
 ## Development Commands
 
@@ -29,24 +29,24 @@ python3 test_nlp_pipeline.py
 ### CLI Usage
 ```bash
 # Main CLI entry point
-knowhunt --help
+stoma --help
 
 # Collect and analyze ArXiv papers
-knowhunt collect-arxiv -q "machine learning" -n 5 -o results.json
+stoma collect-arxiv -q "machine learning" -n 5 -o results.json
 
 # LLM analysis commands
-knowhunt llm analyze-text "research text here" -o analysis.json
-knowhunt llm collect-and-analyze-arxiv -q "protein folding" -n 3
-knowhunt llm test-providers
+stoma llm analyze-text "research text here" -o analysis.json
+stoma llm collect-and-analyze-arxiv -q "protein folding" -n 3
+stoma llm test-providers
 
 # Report management commands (NEW)
-knowhunt llm search-reports --query "protein folding" --min-quality 5
-knowhunt llm view-report cli_analysis_20250924_152955
-knowhunt llm storage-stats
+stoma llm search-reports --query "protein folding" --min-quality 5
+stoma llm view-report cli_analysis_20250924_152955
+stoma llm storage-stats
 
 # NLP analysis commands
-knowhunt nlp batch-analyze --limit 100
-knowhunt nlp detect-trends --timeframe 30
+stoma nlp batch-analyze --limit 100
+stoma nlp detect-trends --timeframe 30
 ```
 
 ### Setup & Installation
@@ -76,35 +76,35 @@ The system's core strength is its **48.5x content enhancement** capability:
 
 ### Key Components
 
-#### 1. Enhanced Data Pipeline (`knowhunt/pipeline/`)
+#### 1. Enhanced Data Pipeline (`stoma/pipeline/`)
 - `data_pipeline.py` - Complete collection→enrichment→analysis→reporting flow
 - `data_types.py` - Structured data types for pipeline operations
 - **Critical**: Always use enrichment cycles for meaningful analysis
 
-#### 2. Content Enrichment System (`knowhunt/enrichment/`)
+#### 2. Content Enrichment System (`stoma/enrichment/`)
 - `web_scraper.py` - Respectful web scraping with robots.txt compliance
 - `pdf_extractor.py` - Multi-method PDF extraction (PyMuPDF, pdfplumber, Tika)
 - `content_enricher.py` - Orchestrates enhancement strategies
 - **Achievement**: Transforms 72-character headlines into full articles
 
-#### 3. LLM Analysis Engine (`knowhunt/analysis/llm_analyzer.py`)
+#### 3. LLM Analysis Engine (`stoma/analysis/llm_analyzer.py`)
 - **NEW**: Production-ready intelligent analysis system
 - **Providers**: OpenAI, Anthropic, Ollama (local models)
 - **Capabilities**: Novel contribution detection, research significance scoring, business intelligence
 - **Models**: Supports cloud (GPT-4, Claude) and local (Llama, Gemma) models
 
-#### 4. Traditional NLP Pipeline (`knowhunt/analysis/`)
+#### 4. Traditional NLP Pipeline (`stoma/analysis/`)
 - `nlp_analyzer.py` - SpaCy + NLTK + TextBlob processing
 - `trend_detector.py` - Keyword trends and emerging topics
 - `correlation_analyzer.py` - Cross-paper relationship analysis
 - **Note**: Maintained alongside LLM analysis, not replaced by it
 
-#### 5. Data-Driven Reports (`knowhunt/reports/`)
+#### 5. Data-Driven Reports (`stoma/reports/`)
 - `data_driven_generator.py` - Real intelligence reports (not templates)
 - **Critical**: Reports now contain actionable insights vs. metadata summaries
 - **Success**: Resolved "essentially useless" user feedback
 
-#### 6. Report Storage & Management (`knowhunt/storage/`)
+#### 6. Report Storage & Management (`stoma/storage/`)
 - **NEW**: `report_manager.py` - Organized storage with automatic indexing
 - **NEW**: `database.py` - PostgreSQL integration with graceful SQLite fallback
 - **Features**: Dual storage (PostgreSQL + SQLite), automatic organization by provider/date
@@ -187,9 +187,9 @@ The system's core strength is its **48.5x content enhancement** capability:
 ## Emergency Recovery
 
 ### If Pipeline Fails
-1. Check database connectivity with `python3 -c "from knowhunt.pipeline import DataPipeline; print(DataPipeline().get_pipeline_statistics())"`
+1. Check database connectivity with `python3 -c "from stoma.pipeline import DataPipeline; print(DataPipeline().get_pipeline_statistics())"`
 2. Test enrichment components with `python3 test_enhanced_pipeline.py`
-3. Verify LLM providers with `knowhunt llm test-providers`
+3. Verify LLM providers with `stoma llm test-providers`
 
 ### If Reports Empty
 1. Ensure content enrichment is running (check character count improvements)

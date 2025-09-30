@@ -1,51 +1,108 @@
-# KnowHunt Personal Project - Current Status
+# Stoma Personal Project - Current Status
 
-**Version Reference**: Previous status archived as `docs/progress/2025-09/CURRENT_STATUS_2025-09-25_1340.md`
+**Version Reference**: Previous status archived as `docs/progress/2025-09/CURRENT_STATUS_2025-09-25_2331.md`
 
-## ✅ COMPLETE: Report Storage & Management System (September 25, 2025)
+## ✅ COMPLETE: OpenDeepResearch Integration & Multi-Agent Analysis (September 29, 2025)
 
-### 🎯 **Advanced Report Storage & Auto-Repair Pipeline Delivered**
-- **Status**: **COMPLETE** - Comprehensive report management with automated system health checks
-- **Achievement**: Full report storage organization with PostgreSQL/SQLite dual storage and automatic pipeline repair
-- **New Features**: Global CLI commands, auto-repair health checks, organized file storage with search capabilities
-- **Architecture**: Dual storage backend, intelligent health monitoring, automatic service startup and model installation
+### 🎯 **OpenDeepResearch Submodule Integration Delivered**
+- **Status**: **COMPLETE** - Successfully integrated OpenDeepResearch as git submodule with working Ollama support
+- **Achievement**: Multi-agent supervisor-researcher architecture with tool calling and LangGraph workflows
+- **Key Insight**: Legacy multi-agent implementation works reliably with ChatOllama when main LangGraph workflow times out
+- **Architecture**: Bridge pattern integration enabling seamless Stoma → OpenDeepResearch analysis workflows
 
-### 1. **Advanced Report Storage & Management System** - NEW ✨
-- **Status**: Production-ready with dual storage architecture
-- **Location**: `knowhunt/storage/report_manager.py`, `knowhunt/storage/database.py`
+### 📊 **Integration Architecture Results**
+- **Git Submodule**: OpenDeepResearch added at `/external/open_deep_research/` with dependencies
+- **Bridge Implementation**: `OllamaDeepResearchBridge` class providing seamless integration
+- **CLI Integration**: 3 new commands added to Stoma CLI for deep research workflows
+- **Tool Calling**: Working tool calling with Ollama models through ChatOllama integration
+- **Report Generation**: Multi-agent reports with proper introduction, sections, and conclusions
+
+### 1. **OpenDeepResearch Submodule Setup** - NEW ✨
+- **Status**: Production-ready git submodule with complete dependency installation
+- **Location**: `/external/open_deep_research/` (submodule)
 - **Features**:
-  - Organized file storage by provider (`reports/llm_analysis/by_provider/`)
-  - Date-based organization (`reports/llm_analysis/by_date/`)
-  - PostgreSQL integration with graceful SQLite fallback
-  - Full-text search across document IDs, keywords, and contributions
-  - Automatic report indexing and metadata extraction
+  - Complete OpenDeepResearch codebase as submodule
+  - Dependencies installed and configured for local use
+  - Integration bridge enabling Stoma to leverage OpenDeepResearch capabilities
+  - Proper git submodule management with recursive cloning support
 
-### 2. **Auto-Repair Health Check System** - NEW ✨
-- **Status**: Fully automated with intelligent repair capabilities
-- **Location**: `minimal_pipeline.py` (MinimalHealthChecker class)
-- **Auto-Repair Capabilities**:
-  - Automatically starts Ollama service if not running (`ollama serve`)
-  - Auto-installs default model (gemma2:2b) if none available
-  - Downloads models with progress tracking and timeout handling
-  - Provides clear feedback on repair attempts and fallback instructions
+### 2. **Multi-Agent Research Architecture** - NEW ✨
+- **Status**: Working implementation using legacy multi-agent system from OpenDeepResearch
+- **Location**: `stoma/integrations/ollama_deep_research_bridge.py`
+- **Key Discoveries**:
+  - Main LangGraph workflow times out indefinitely with Ollama models
+  - Legacy multi-agent implementation works reliably with proper ChatOllama configuration
+  - Tool calling requires ChatOllama from `langchain-ollama` (not `init_chat_model("ollama:...")`)
+  - Multi-agent coordination produces structured research reports with proper sections
 
-### 3. **Global Command System** - NEW ✨
-- **Status**: System-wide access through bash aliases
-- **Location**: `~/.bash_aliases` integration
+### 3. **Bridge Pattern Integration** - NEW ✨
+- **Status**: Complete integration enabling Stoma to use OpenDeepResearch analysis
+- **User Feedback Integration**: "Go ahead and integrate it properly so when we call deep research requests through stoma, it leverages the opendeepresearch capabilities and infra"
+- **Implementation**:
+  - `OllamaDeepResearchBridge` class with supervisor-researcher coordination
+  - Automatic report storage through Stoma's ReportStorageManager
+  - Tool calling with ArXiv search, web search, and document analysis
+  - Proper error handling and graceful degradation
+
+### 4. **CLI Integration & Workflow Enhancement** - NEW ✨
+- **Status**: 3 new CLI commands added for seamless deep research workflows
 - **Commands**:
-  - `kh-pipeline "query" [count] [model]` - Parameterized pipeline execution
-  - `kh-health` - Comprehensive health check with auto-repair
-  - `kh-search`, `kh-view`, `kh-stats` - Report management commands
-- **Benefits**: Global access from any directory with intelligent parameter handling
+  - `stoma deep-research ollama-research` - Direct topic research with OpenDeepResearch
+  - `stoma deep-research analyze-papers` - Multi-paper analysis workflow
+  - `stoma deep-research citation-research` - Research with citation collection
+- **Features**: Real-time progress indicators, structured report generation, automatic storage
+- **Integration**: Seamless handoff between Stoma collection and OpenDeepResearch analysis
 
-### 4. **Minimal Dependency Pipeline** - NEW ✨
-- **Status**: Standalone pipeline bypassing problematic dependencies
-- **Location**: `minimal_pipeline.py` (23KB self-contained script)
+## ✅ COMPLETE: JSON Parsing Breakthrough & Model Quality Validation (September 25, 2025)
+
+### 🎯 **Simplified JSON Parser & Model Quality Validation Delivered**
+- **Status**: **COMPLETE** - Successfully resolved JSON parsing issues and validated model quality improvements
+- **Achievement**: Simplified parser enables larger models (mistral:7b-instruct) to work properly, confirming quality improvements
+- **Key Insight**: User feedback was correct - LLM responses already come in clean format, complex parsing was unnecessary
+- **Architecture**: Minimal preprocessing approach with regex cleanup, removed keyword extraction fallbacks entirely
+
+### 📊 **Model Quality Validation Results**
+- **qwen2.5-coder:3b**: Quality 9/10 (consistently excellent)
+- **mistral:7b-instruct**: Quality [7]/10 (now working with simplified parser)
+- **Parsing Success**: Eliminated "JSON parsing failed" errors with minimal preprocessing
+- **Technical Breakthrough**: Larger models DO provide better analysis quality when parsing works correctly
+
+### 1. **Simplified JSON Parser Implementation** - NEW ✨
+- **Status**: Production-ready with minimal preprocessing approach
+- **Location**: `minimal_pipeline.py` (lines 430-479)
 - **Features**:
-  - Direct ArXiv API integration without textblob dependencies
-  - Native Ollama API communication
-  - Built-in health checking and auto-repair
-  - Structured JSON report generation and storage
+  - Handles markdown code blocks (```json format)
+  - Removes comments from JSON values ("8 (Paper 1)" → "8")
+  - Eliminates complex keyword extraction fallbacks entirely
+  - Regex-based cleanup: `re.sub(r'(\d+(?:\.\d+)?)\s*\([^)]+\)', r'\1', json_str)`
+  - Graceful error handling with detailed debugging information
+
+### 2. **Model Quality Analysis & Comparison** - NEW ✨
+- **Status**: Comprehensive analysis demonstrating parsing vs. quality relationship
+- **Location**: `json_parsing_analysis.py`, `model_comparison.py`, `simplified_parser.py`
+- **Key Discoveries**:
+  - Larger models produce better content but had parsing challenges
+  - Mistral 7B: 31.7s response time, more detailed analysis than 3B models
+  - User insight confirmed: "LLM response already come in a clean format"
+  - Parsing complexity was masking actual quality improvements
+
+### 3. **Parsing Architecture Simplification** - NEW ✨
+- **Status**: Completed removal of overcomplicated parsing strategies
+- **User Feedback Integration**: "we shouldn't have any keyword extraction going on - remove this entirely"
+- **Implementation**:
+  - Removed multi-tier parsing system with fallbacks
+  - Eliminated keyword extraction entirely as requested
+  - Minimal preprocessing approach with targeted fixes
+  - Maintained backward compatibility with existing successful models
+
+### 4. **Validated Model Performance Results** - NEW ✨
+- **Status**: Successfully tested larger models with improved parser
+- **Evidence**: Real analysis reports generated and saved
+- **Model Results**:
+  - mistral:7b-instruct: 3 novel contributions, 3 technical innovations, 3 business implications
+  - qwen2.5-coder:3b: Consistent 9/10 quality scores with faster response times
+  - codellama:13b-instruct: Still under investigation for remaining parsing issues
+- **Report Storage**: JSON files with complete analysis results and metadata
 
 ## ✅ COMPLETE: Ollama Small Model Integration (September 24, 2025)
 
@@ -58,7 +115,7 @@
 
 ### 1. **LLM Analysis Engine** - NEW ✨
 - **Status**: Production-ready with multi-provider support
-- **Location**: `knowhunt/analysis/llm_analyzer.py`
+- **Location**: `stoma/analysis/llm_analyzer.py`
 - **Capabilities**:
   - Novel contribution detection and assessment
   - Research significance scoring across multiple dimensions
@@ -80,9 +137,9 @@
 ### 3. **Production CLI Integration** - NEW ✨
 - **Status**: Fully functional CLI commands for Ollama analysis
 - **Commands Added**:
-  - `knowhunt llm analyze-text` - Direct text analysis with report saving
-  - `knowhunt llm collect-and-analyze-arxiv` - End-to-end paper analysis
-  - `knowhunt llm test-providers` - Provider availability testing
+  - `stoma llm analyze-text` - Direct text analysis with report saving
+  - `stoma llm collect-and-analyze-arxiv` - End-to-end paper analysis
+  - `stoma llm test-providers` - Provider availability testing
 - **Features**:
   - Real-time analysis with progress indicators
   - Structured JSON report output
@@ -219,6 +276,6 @@ analyzer = LLMAnalyzer(provider="ollama", model="llama3.1:70b") # Local
 
 ---
 
-**Status**: LLM Intelligence Integration Complete - Research Analysis Transformed  
-**Last Updated**: September 23, 2025  
-**Session**: Breakthrough LLM Integration Implementation
+**Status**: JSON Parsing Breakthrough Complete - Model Quality Validated
+**Last Updated**: September 25, 2025
+**Session**: Simplified Parser Implementation & Model Quality Validation

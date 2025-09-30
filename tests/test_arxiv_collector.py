@@ -4,8 +4,8 @@ import pytest
 from datetime import datetime
 from unittest.mock import AsyncMock, patch
 
-from knowhunt.collectors.arxiv import ArXivCollector
-from knowhunt.collectors.base import SourceType
+from stoma.collectors.arxiv import ArXivCollector
+from stoma.collectors.base import SourceType
 
 
 @pytest.fixture

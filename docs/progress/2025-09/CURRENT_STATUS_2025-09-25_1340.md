@@ -1,4 +1,4 @@
-# KnowHunt Personal Project - Current Status
+# Stoma Personal Project - Current Status
 
 **Version Reference**: Previous status archived as `docs/progress/2025-09/CURRENT_STATUS_2025-09-24_1548.md`
 
@@ -13,7 +13,7 @@
 
 ### 1. **LLM Analysis Engine** - NEW ✨
 - **Status**: Production-ready with multi-provider support
-- **Location**: `knowhunt/analysis/llm_analyzer.py`
+- **Location**: `stoma/analysis/llm_analyzer.py`
 - **Capabilities**:
   - Novel contribution detection and assessment
   - Research significance scoring across multiple dimensions
@@ -35,9 +35,9 @@
 ### 3. **Production CLI Integration** - NEW ✨
 - **Status**: Fully functional CLI commands for Ollama analysis
 - **Commands Added**:
-  - `knowhunt llm analyze-text` - Direct text analysis with report saving
-  - `knowhunt llm collect-and-analyze-arxiv` - End-to-end paper analysis
-  - `knowhunt llm test-providers` - Provider availability testing
+  - `stoma llm analyze-text` - Direct text analysis with report saving
+  - `stoma llm collect-and-analyze-arxiv` - End-to-end paper analysis
+  - `stoma llm test-providers` - Provider availability testing
 - **Features**:
   - Real-time analysis with progress indicators
   - Structured JSON report output

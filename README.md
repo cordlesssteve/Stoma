@@ -1,4 +1,4 @@
-# KnowHunt
+# Stoma
 
 Research Intelligence System - Automated monitoring and analysis of academic papers, public documents, corporate landscapes, and project implementations.
 
@@ -108,7 +108,7 @@ Research Intelligence System - Automated monitoring and analysis of academic pap
 
 ## Overview
 
-KnowHunt is a comprehensive research intelligence platform designed to automate the collection, analysis, and reporting of information from diverse sources including academic publications, public documents, corporate intelligence, and software projects.
+Stoma is a comprehensive research intelligence platform designed to automate the collection, analysis, and reporting of information from diverse sources including academic publications, public documents, corporate intelligence, and software projects.
 
 ### Key Features
 

@@ -1,4 +1,4 @@
-# KnowHunt Personal Project - Current Status
+# Stoma Personal Project - Current Status
 
 ## ✅ Recently Completed Features (September 23, 2025)
 
@@ -39,7 +39,7 @@
 - **Status**: Fully functional with content enrichment
 - **Evidence**: Successfully collecting and enriching papers via CLI
 - **Enhancement**: Now extracts full PDF content (vs. abstracts only)
-- **Testing**: `python3 -m knowhunt.cli.main collect-arxiv -q 'quantum computing' -n 3`
+- **Testing**: `python3 -m stoma.cli.main collect-arxiv -q 'quantum computing' -n 3`
 
 ### 3. **Traditional NLP Analysis Pipeline**
 - **Status**: Fully functional

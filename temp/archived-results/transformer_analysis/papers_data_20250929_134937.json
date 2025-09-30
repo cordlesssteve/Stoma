@@ -1,0 +1,49 @@
+[
+  {
+    "title": "pdf",
+    "authors": [
+      "Chih Yao Hu",
+      "Yang-Sen Lin",
+      "Yuna Lee",
+      "Chih-Hai Su",
+      "Jie-Ying Lee",
+      "Shr-Ruei Tsai",
+      "Chin-Yang Lin",
+      "Kuan-Wen Chen",
+      "Tsung-Wei Ke",
+      "Yu-Lun Liu"
+    ],
+    "content": "We present See, Point, Fly (SPF), a training-free aerial vision-and-language\nnavigation (AVLN) framework built atop vision-language models (VLMs). SPF is\ncapable of navigating to any goal based on any type of free-form instructions\nin any kind of environment. In contrast to existing VLM-based approaches that\ntreat action prediction as a text generation task, our key insight is to\nconsider action prediction for AVLN as a 2D spatial grounding task. SPF\nharnesses VLMs to decompose vague language instructions into iterative\nannotation of 2D waypoints on the input image. Along with the predicted\ntraveling distance, SPF transforms predicted 2D waypoints into 3D displacement\nvectors as action commands for UAVs. Moreover, SPF also adaptively adjusts the\ntraveling distance to facilitate more efficient navigation. Notably, SPF\nperforms navigation in a closed-loop control manner, enabling UAVs to follow\ndynamic targets in dynamic environments. SPF sets a new state of the art in DRL\nsimulation benchmark, outperforming the previous best method by an absolute\nmargin of 63%. In extensive real-world evaluations, SPF outperforms strong\nbaselines by a large margin. We also conduct comprehensive ablation studies to\nhighlight the effectiveness of our design choice. Lastly, SPF shows remarkable\ngeneralization to different VLMs. Project page: https://spf-web.pages.dev",
+    "url": "http://arxiv.org/abs/2509.22653v1",
+    "published_date": "2025-09-26T17:59:59+00:00"
+  },
+  {
+    "title": "pdf",
+    "authors": [
+      "Arsham Ghavasieh",
+      "Meritxell Vila-Minana",
+      "Akanksha Khurd",
+      "John Beggs",
+      "Gerardo Ortiz",
+      "Santo Fortunato"
+    ],
+    "content": "Deep neural networks and brains both learn and share superficial\nsimilarities: processing nodes are likened to neurons and adjustable weights\nare likened to modifiable synapses. But can a unified theoretical framework be\nfound to underlie them both? Here we show that the equations used to describe\nneuronal avalanches in living brains can also be applied to cascades of\nactivity in deep neural networks. These equations are derived from\nnon-equilibrium statistical physics and show that deep neural networks learn\nbest when poised between absorbing and active phases. Because these networks\nare strongly driven by inputs, however, they do not operate at a true critical\npoint but within a quasi-critical regime -- one that still approximately\nsatisfies crackling noise scaling relations. By training networks with\ndifferent initializations, we show that maximal susceptibility is a more\nreliable predictor of learning than proximity to the critical point itself.\nThis provides a blueprint for engineering improved network performance.\nFinally, using finite-size scaling we identify distinct universality classes,\nincluding Barkhausen noise and directed percolation. This theoretical framework\ndemonstrates that universal features are shared by both biological and\nartificial neural networks.",
+    "url": "http://arxiv.org/abs/2509.22649v1",
+    "published_date": "2025-09-26T17:59:57+00:00"
+  },
+  {
+    "title": "pdf",
+    "authors": [
+      "Anna Kukleva",
+      "Enis Simsar",
+      "Alessio Tonioni",
+      "Muhammad Ferjad Naeem",
+      "Federico Tombari",
+      "Jan Eric Lenssen",
+      "Bernt Schiele"
+    ],
+    "content": "Most existing approaches to referring segmentation achieve strong performance\nonly through fine-tuning or by composing multiple pre-trained models, often at\nthe cost of additional training and architectural modifications. Meanwhile,\nlarge-scale generative diffusion models encode rich semantic information,\nmaking them attractive as general-purpose feature extractors. In this work, we\nintroduce a new method that directly exploits features, attention scores, from\ndiffusion transformers for downstream tasks, requiring neither architectural\nmodifications nor additional training. To systematically evaluate these\nfeatures, we extend benchmarks with vision-language grounding tasks spanning\nboth images and videos. Our key insight is that stop words act as attention\nmagnets: they accumulate surplus attention and can be filtered to reduce noise.\nMoreover, we identify global attention sinks (GAS) emerging in deeper layers\nand show that they can be safely suppressed or redirected onto auxiliary\ntokens, leading to sharper and more accurate grounding maps. We further propose\nan attention redistribution strategy, where appended stop words partition\nbackground activations into smaller clusters, yielding sharper and more\nlocalized heatmaps. Building on these findings, we develop RefAM, a simple\ntraining-free grounding framework that combines cross-attention maps, GAS\nhandling, and redistribution. Across zero-shot referring image and video\nsegmentation benchmarks, our approach consistently outperforms prior methods,\nestablishing a new state of the art without fine-tuning or additional\ncomponents.",
+    "url": "http://arxiv.org/abs/2509.22650v1",
+    "published_date": "2025-09-26T17:59:57+00:00"
+  }
+]

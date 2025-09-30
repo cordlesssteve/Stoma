@@ -1,4 +1,4 @@
-# KnowHunt Development Session - September 23, 2025
+# Stoma Development Session - September 23, 2025
 
 **Status**: COMPLETED  
 **Session Duration**: Extended development session  
@@ -7,7 +7,7 @@
 ## Session Summary
 
 ### Primary Accomplishment
-Successfully enhanced the KnowHunt pipeline from basic metadata collection to comprehensive content enrichment with full-text extraction and intelligent analysis.
+Successfully enhanced the Stoma pipeline from basic metadata collection to comprehensive content enrichment with full-text extraction and intelligent analysis.
 
 ### Critical User Feedback
 > "The report is essentially useless, from a conceptual point of view. It gives me no knowledge of the latest news as it relates to the prompt or query that I input."
@@ -17,29 +17,29 @@ This feedback led to the core realization that collecting only metadata/headline
 ### Major Systems Implemented
 
 #### 1. Content Enrichment Infrastructure
-- **Web Scraper** (`knowhunt/enrichment/web_scraper.py`)
+- **Web Scraper** (`stoma/enrichment/web_scraper.py`)
   - Respectful web scraping with robots.txt compliance
   - Rate limiting and domain-specific handling
   - Clean text extraction using multiple parsing methods
 
-- **PDF Extractor** (`knowhunt/enrichment/pdf_extractor.py`)
+- **PDF Extractor** (`stoma/enrichment/pdf_extractor.py`)
   - Multi-method PDF extraction (PyMuPDF, Apache Tika, pdfplumber)
   - ArXiv paper processing optimization
   - Robust error handling with fallback mechanisms
 
-- **Content Enricher** (`knowhunt/enrichment/content_enricher.py`)
+- **Content Enricher** (`stoma/enrichment/content_enricher.py`)
   - Orchestrates web scraping and PDF extraction
   - Intelligent enrichment strategy selection
   - Async batch processing with concurrency control
 
 #### 2. Enhanced Data Pipeline
-- Modified `knowhunt/pipeline/data_pipeline.py` to include enrichment cycles
+- Modified `stoma/pipeline/data_pipeline.py` to include enrichment cycles
 - Integrated enriched content with analysis pipeline
 - Maintains backward compatibility with existing collections
 
 #### 3. Data-Driven Report Generation
 - Replaced static templates with real data-driven content
-- `knowhunt/reports/data_driven_generator.py` processes actual collected content
+- `stoma/reports/data_driven_generator.py` processes actual collected content
 - Reports now contain substantial intelligence rather than placeholders
 
 ### Performance Metrics Achieved
@@ -79,12 +79,12 @@ Content Enhancement Statistics:
 - Robust error handling throughout pipeline
 
 ### Files Modified/Created
-- `knowhunt/enrichment/web_scraper.py` (NEW)
-- `knowhunt/enrichment/pdf_extractor.py` (NEW) 
-- `knowhunt/enrichment/content_enricher.py` (NEW)
-- `knowhunt/enrichment/__init__.py` (NEW)
-- `knowhunt/pipeline/data_pipeline.py` (ENHANCED)
-- `knowhunt/reports/data_driven_generator.py` (ENHANCED)
+- `stoma/enrichment/web_scraper.py` (NEW)
+- `stoma/enrichment/pdf_extractor.py` (NEW) 
+- `stoma/enrichment/content_enricher.py` (NEW)
+- `stoma/enrichment/__init__.py` (NEW)
+- `stoma/pipeline/data_pipeline.py` (ENHANCED)
+- `stoma/reports/data_driven_generator.py` (ENHANCED)
 - `requirements.txt` (UPDATED with new dependencies)
 
 ### Dependencies Added

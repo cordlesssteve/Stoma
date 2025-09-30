@@ -1,0 +1,123 @@
+{
+  "timestamp": "2025-09-25T22:55:32.048308",
+  "query": "semantic reasoning AI",
+  "model": "codellama:13b-instruct",
+  "papers_count": 10,
+  "analysis": {
+    "error": "LLM analysis failed"
+  },
+  "papers": [
+    {
+      "title": "SciReasoner: Laying the Scientific Reasoning Ground Across Disciplines",
+      "abstract": "We present a scientific reasoning foundation model that aligns natural\nlanguage with heterogeneous scientific representations. The model is pretrained\non a 206B-token corpus spanning scientific text, pure sequences, and\nsequence-text pairs, then aligned via SFT on 40M instructions, annealed\ncold-start bootstrapping to elicit long-form chain-of-thought, and\nreinforcement learning with task-specific reward shaping, which instills\ndeliberate scientific reasoning. It supports four capability families, covering\nup to 103 tasks across workflows: (i) faithful translation between text and\nscientific formats, (ii) text/knowledge extraction, (iii) property prediction,\n(iv) property classification, (v) unconditional and conditional sequence\ngeneration and design. Compared with specialist systems, our approach broadens\ninstruction coverage, improves cross-domain generalization, and enhances\nfidelity. We detail data curation and training and show that cross-discipline\nlearning strengthens transfer and downstream reliability. The model, instruct\ntuning datasets and the evaluation code are open-sourced at\nhttps://huggingface.co/SciReason and\nhttps://github.com/open-sciencelab/SciReason.",
+      "authors": [
+        "Yizhou Wang",
+        "Chen Tang",
+        "Han Deng",
+        "Jiabei Xiao",
+        "Jiaqi Liu",
+        "Jianyu Wu",
+        "Jun Yao",
+        "Pengze Li",
+        "Encheng Su",
+        "Lintao Wang",
+        "Guohang Zhuang",
+        "Yuchen Ren",
+        "Ben Fei",
+        "Ming Hu",
+        "Xin Chen",
+        "Dongzhan Zhou",
+        "Junjun He",
+        "Xiangyu Yue",
+        "Zhenfei Yin",
+        "Jiamin Wu",
+        "Qihao Zheng",
+        "Yuhao Zhou",
+        "Huihui Xu",
+        "Chenglong Ma",
+        "Yan Lu",
+        "Wenlong Zhang",
+        "Chunfeng Song",
+        "Philip Torr",
+        "Shixiang Tang",
+        "Xinzhu Ma",
+        "Wanli Ouyang",
+        "Lei Bai"
+      ],
+      "published": "2025-09-25T17:52:06Z",
+      "url": "http://arxiv.org/abs/2509.21320v1",
+      "arxiv_id": "2509.21320v1"
+    },
+    {
+      "title": "SD3.5-Flash: Distribution-Guided Distillation of Generative Flows",
+      "abstract": "We present SD3.5-Flash, an efficient few-step distillation framework that\nbrings high-quality image generation to accessible consumer devices. Our\napproach distills computationally prohibitive rectified flow models through a\nreformulated distribution matching objective tailored specifically for few-step\ngeneration. We introduce two key innovations: \"timestep sharing\" to reduce\ngradient noise and \"split-timestep fine-tuning\" to improve prompt alignment.\nCombined with comprehensive pipeline optimizations like text encoder\nrestructuring and specialized quantization, our system enables both rapid\ngeneration and memory-efficient deployment across different hardware\nconfigurations. This democratizes access across the full spectrum of devices,\nfrom mobile phones to desktop computers. Through extensive evaluation including\nlarge-scale user studies, we demonstrate that SD3.5-Flash consistently\noutperforms existing few-step methods, making advanced generative AI truly\naccessible for practical deployment.",
+      "authors": [
+        "Hmrishav Bandyopadhyay",
+        "Rahim Entezari",
+        "Jim Scott",
+        "Reshinth Adithyan",
+        "Yi-Zhe Song",
+        "Varun Jampani"
+      ],
+      "published": "2025-09-25T16:07:38Z",
+      "url": "http://arxiv.org/abs/2509.21318v1",
+      "arxiv_id": "2509.21318v1"
+    },
+    {
+      "title": "Interactive Recommendation Agent with Active User Commands",
+      "abstract": "Traditional recommender systems rely on passive feedback mechanisms that\nlimit users to simple choices such as like and dislike. However, these\ncoarse-grained signals fail to capture users' nuanced behavior motivations and\nintentions. In turn, current systems cannot also distinguish which specific\nitem attributes drive user satisfaction or dissatisfaction, resulting in\ninaccurate preference modeling. These fundamental limitations create a\npersistent gap between user intentions and system interpretations, ultimately\nundermining user satisfaction and harming system effectiveness.\n  To address these limitations, we introduce the Interactive Recommendation\nFeed (IRF), a pioneering paradigm that enables natural language commands within\nmainstream recommendation feeds. Unlike traditional systems that confine users\nto passive implicit behavioral influence, IRF empowers active explicit control\nover recommendation policies through real-time linguistic commands. To support\nthis paradigm, we develop RecBot, a dual-agent architecture where a Parser\nAgent transforms linguistic expressions into structured preferences and a\nPlanner Agent dynamically orchestrates adaptive tool chains for on-the-fly\npolicy adjustment. To enable practical deployment, we employ\nsimulation-augmented knowledge distillation to achieve efficient performance\nwhile maintaining strong reasoning capabilities. Through extensive offline and\nlong-term online experiments, RecBot shows significant improvements in both\nuser satisfaction and business outcomes.",
+      "authors": [
+        "Jiakai Tang",
+        "Yujie Luo",
+        "Xunke Xi",
+        "Fei Sun",
+        "Xueyang Feng",
+        "Sunhao Dai",
+        "Chao Yi",
+        "Dian Chen",
+        "Zhujin Gao",
+        "Yang Li",
+        "Xu Chen",
+        "Wen Chen",
+        "Jian Wu",
+        "Yuning Jiang",
+        "Bo Zheng"
+      ],
+      "published": "2025-09-25T15:38:27Z",
+      "url": "http://arxiv.org/abs/2509.21317v1",
+      "arxiv_id": "2509.21317v1"
+    },
+    {
+      "title": "SAGE: A Realistic Benchmark for Semantic Understanding",
+      "abstract": "As large language models (LLMs) achieve strong performance on traditional\nbenchmarks, there is an urgent need for more challenging evaluation frameworks\nthat probe deeper aspects of semantic understanding. We introduce SAGE\n(Semantic Alignment & Generalization Evaluation), a rigorous benchmark designed\nto assess both embedding models and similarity metrics across five categories:\nHuman Preference Alignment, Transformation Robustness, Information Sensitivity,\nClustering Performance, and Retrieval Robustness. Unlike existing benchmarks\nthat focus on isolated capabilities, SAGE evaluates semantic understanding\nthrough adversarial conditions, noisy transformations, and nuanced human\njudgment tasks across 30+ datasets. Our comprehensive evaluation of 9 embedding\nmodels and classical metrics reveals significant performance gaps, with no\nsingle approach excelling across all dimensions. For instance, while\nstate-of-the-art embedding models like OpenAI's text-embedding-3-large dominate\nin aligning with human preferences (0.682 vs. 0.591 for the best classical\nmetric), they are significantly outperformed by classical metrics on\ninformation sensitivity tasks, where Jaccard Similarity achieves a score of\n0.905 compared to the top embedding score of 0.794. SAGE further uncovers\ncritical trade-offs: OpenAI's text-embedding-3-small achieves the highest\nclustering performance (0.483) but demonstrates extreme brittleness with the\nlowest robustness score (0.011). SAGE exposes critical limitations in current\nsemantic understanding capabilities and provides a more realistic assessment of\nmodel robustness for real-world deployment.",
+      "authors": [
+        "Samarth Goel",
+        "Reagan J. Lee",
+        "Kannan Ramchandran"
+      ],
+      "published": "2025-09-25T15:27:15Z",
+      "url": "http://arxiv.org/abs/2509.21310v1",
+      "arxiv_id": "2509.21310v1"
+    },
+    {
+      "title": "Emission line tracers of galactic outflows driven by stellar feedback in\n  simulations of isolated disk galaxies",
+      "abstract": "Hydrodynamic simulations can connect outflow observables to the physical\nconditions of outflowing gas. Here, we use simulations of isolated disk\ngalaxies ranging from dwarf mass ($M_{200} = 10^{10}\\mathrm{M}_{\\odot}$) to\nMilky Way mass ($M_{200} = 10^{12}\\mathrm{M}_{\\odot}$), based on the FIRE-2\nsubgrid models to investigate multiphase galactic outflows. We use the CHIMES\nnon-equilibrium chemistry module to create synthetic spectra of common outflow\ntracers ([CII]$_{158\\rm{\\mu m}}$, $\\mathrm{CO}_{J(1-0)}$, H$\\alpha$ and\n$[\\mathrm{OIII}]_{5007\\text{A}}$). Using our synthetic spectra we measure the\nmass outflow rate, kinetic power and momentum flux using observational\ntechniques. In [CII]$_{158\\rm{\\mu m}}$ we measure outflow rates of $10^{-4}$ to\n$1$ $\\mathrm{M_{\\odot}yr^{-1}}$ across an SFR range of $10^{-3}$ to $1$\n$\\text{M}_{\\odot}\\text{yr}^{-1}$, which is in reasonable agreement with\nobservations. The significant discrepancy is in $\\mathrm{CO}_{J(1-0)}$, with\nthe simulations lying $\\approx1$ dex below the observational sample. We test\nobservational assumptions used to derive outflow properties from synthetic\nspectra. We find the greatest uncertainty lies in measurements of electron\ndensity, as estimates using the SII doublet can overestimate the actual\nelectron density by up to 2 dex, which changes mass outflow rates by up to 4\ndex. We also find that molecular outflows are especially sensitive to the\nconversion factor between CO luminosity and H2 mass, with outflow rates\nchanging by up to 4 dex in our least massive galaxy. Comparing the outflow\nproperties derived from the synthetic spectra to those derived directly from\nthe simulation, we find that [CII]$_{158\\rm{\\mu m}}$ probes outflows at greater\ndistances from the disk, whilst we find that molecular gas does not survive at\nlarge distances within outflows within our modestly star-forming disk galaxies\nsimulated in this work.",
+      "authors": [
+        "Elliot L. Howatson",
+        "Alexander J. Richings",
+        "Elke Roediger",
+        "Claude-Andre Faucher-Giguere",
+        "Tom Theuns",
+        "Yuankang Liu",
+        "Tsang Keung Chan",
+        "Oliver Thompson",
+        "Cody Carr",
+        "Daniel Angles-Alcazar"
+      ],
+      "published": "2025-09-25T15:13:21Z",
+      "url": "http://arxiv.org/abs/2509.21295v1",
+      "arxiv_id": "2509.21295v1"
+    }
+  ],
+  "tokens_used": 0
+}

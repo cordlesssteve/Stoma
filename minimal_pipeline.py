@@ -15,6 +15,7 @@ import sqlite3
 import os
 import subprocess
 import time
+import re
 
 
 class MinimalArXivCollector:
@@ -430,57 +431,54 @@ Now analyze the provided research and return actual insights, not paper titles:"
     def _parse_analysis(self, analysis_text, title):
         """Parse LLM response into structured format."""
 
-        # Try to extract JSON from response
+        # Handle markdown code blocks if present
+        if '```json' in analysis_text:
+            start_marker = analysis_text.find('```json') + 7
+            end_marker = analysis_text.find('```', start_marker)
+            if end_marker != -1:
+                analysis_text = analysis_text[start_marker:end_marker].strip()
+
+        # Extract JSON boundaries
+        start = analysis_text.find('{')
+        end = analysis_text.rfind('}') + 1
+
+        if start == -1 or end <= start:
+            return {
+                "document_id": f"analysis_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+                "title": title,
+                "error": "No JSON found in LLM response",
+                "raw_analysis": analysis_text,
+                "tokens_used": self.tokens_used
+            }
+
+        json_str = analysis_text[start:end].strip()
+
+        # Fix the common issue: comments in JSON values like "8 (Paper 1)"
+        json_str = re.sub(r'(\d+(?:\.\d+)?)\s*\([^)]+\)', r'\1', json_str)
+
         try:
-            # Look for JSON in the response
-            start = analysis_text.find('{')
-            end = analysis_text.rfind('}') + 1
+            parsed = json.loads(json_str)
 
-            if start != -1 and end > start:
-                json_str = analysis_text[start:end]
-                parsed = json.loads(json_str)
+            return {
+                "document_id": f"analysis_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+                "title": title,
+                "research_quality_score": parsed.get("research_quality_score", 5),
+                "novel_contributions": parsed.get("novel_contributions", []),
+                "technical_innovations": parsed.get("technical_innovations", []),
+                "business_implications": parsed.get("business_implications", []),
+                "raw_analysis": analysis_text,
+                "tokens_used": self.tokens_used
+            }
 
-                return {
-                    "document_id": f"analysis_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
-                    "title": title,
-                    "research_quality_score": parsed.get("research_quality_score", 5),
-                    "novel_contributions": parsed.get("novel_contributions", []),
-                    "technical_innovations": parsed.get("technical_innovations", []),
-                    "business_implications": parsed.get("business_implications", []),
-                    "raw_analysis": analysis_text,
-                    "tokens_used": self.tokens_used
-                }
-        except:
-            pass
+        except json.JSONDecodeError as e:
+            return {
+                "document_id": f"analysis_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+                "title": title,
+                "error": f"JSON parsing failed: {e.msg} at position {e.pos}",
+                "raw_analysis": analysis_text,
+                "tokens_used": self.tokens_used
+            }
 
-        # Fallback: parse text manually
-        return {
-            "document_id": f"analysis_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
-            "title": title,
-            "research_quality_score": 6,  # Default score
-            "novel_contributions": self._extract_section(analysis_text, "contributions"),
-            "technical_innovations": self._extract_section(analysis_text, "innovations"),
-            "business_implications": self._extract_section(analysis_text, "business"),
-            "raw_analysis": analysis_text,
-            "tokens_used": self.tokens_used
-        }
-
-    def _extract_section(self, text, keyword):
-        """Extract bullet points from a section."""
-        lines = text.lower().split('\n')
-        in_section = False
-        items = []
-
-        for line in lines:
-            if keyword in line:
-                in_section = True
-                continue
-            elif in_section and (line.strip().startswith('-') or line.strip().startswith('•')):
-                items.append(line.strip()[1:].strip())
-            elif in_section and line.strip() and not line.strip().startswith(('1.', '2.', '3.')):
-                in_section = False
-
-        return items[:3]  # Return top 3 items
 
 
 class MinimalReportStorage:
@@ -602,19 +600,23 @@ async def run_minimal_pipeline(query, max_results=10, model="gemma2:2b"):
 
     # Step 4: Display results
     print(f"\n📊 Analysis Results:")
-    print(f"   Quality Score: {analysis['research_quality_score']}/10")
-    print(f"   Novel Contributions: {len(analysis['novel_contributions'])}")
-    print(f"   Technical Innovations: {len(analysis['technical_innovations'])}")
-    print(f"   Business Implications: {len(analysis['business_implications'])}")
-    print(f"   Tokens Used: {analysis['tokens_used']}")
+    if 'error' in analysis:
+        print(f"   ❌ Error: {analysis['error']}")
+        print(f"   Raw response preserved for inspection")
+    else:
+        print(f"   Quality Score: {analysis.get('research_quality_score', 'N/A')}/10")
+        print(f"   Novel Contributions: {len(analysis.get('novel_contributions', []))}")
+        print(f"   Technical Innovations: {len(analysis.get('technical_innovations', []))}")
+        print(f"   Business Implications: {len(analysis.get('business_implications', []))}")
+    print(f"   Tokens Used: {analysis.get('tokens_used', 0)}")
 
     # Show some results
-    if analysis['novel_contributions']:
+    if 'error' not in analysis and analysis.get('novel_contributions'):
         print(f"\n🔬 Top Novel Contributions:")
         for i, contrib in enumerate(analysis['novel_contributions'][:2], 1):
             print(f"  {i}. {contrib}")
 
-    if analysis['business_implications']:
+    if 'error' not in analysis and analysis.get('business_implications'):
         print(f"\n💼 Business Implications:")
         for i, impl in enumerate(analysis['business_implications'][:2], 1):
             print(f"  {i}. {impl}")
@@ -626,7 +628,10 @@ async def run_minimal_pipeline(query, max_results=10, model="gemma2:2b"):
 
     print(f"\n✅ Pipeline Complete!")
     print(f"📁 Report saved to: {report_path}")
-    print(f"📊 Summary: {len(papers)} papers → Quality {analysis['research_quality_score']}/10")
+    if 'error' not in analysis:
+        print(f"📊 Summary: {len(papers)} papers → Quality {analysis.get('research_quality_score', 'N/A')}/10")
+    else:
+        print(f"📊 Summary: {len(papers)} papers → Analysis failed (see raw_analysis in report)")
 
 
 async def run_health_check_only():

@@ -1,0 +1,127 @@
+# Git attributes for KnowHunt Research Intelligence System
+
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Python files
+*.py text eol=lf diff=python
+*.pyx text eol=lf diff=python
+*.pyi text eol=lf diff=python
+*.pyw text eol=lf diff=python
+
+# Jupyter notebooks
+*.ipynb text eol=lf linguist-language=Python
+
+# Shell scripts
+*.sh text eol=lf
+*.bash text eol=lf
+
+# Configuration files
+*.yaml text eol=lf
+*.yml text eol=lf
+*.toml text eol=lf
+*.ini text eol=lf
+*.cfg text eol=lf
+*.conf text eol=lf
+*.json text eol=lf
+
+# Documentation
+*.md text eol=lf diff=markdown
+*.rst text eol=lf
+*.txt text eol=lf
+LICENSE text eol=lf
+README text eol=lf
+
+# Environment files
+.env* text eol=lf
+*.env text eol=lf
+
+# Git files
+.gitignore text eol=lf
+.gitattributes text eol=lf
+.gitmodules text eol=lf
+
+# SQL files
+*.sql text eol=lf
+
+# Web files
+*.html text eol=lf diff=html
+*.css text eol=lf diff=css
+*.js text eol=lf
+*.jsx text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+
+# Docker files
+Dockerfile* text eol=lf
+*.dockerfile text eol=lf
+docker-compose*.yml text eol=lf
+
+# Binary files
+*.db binary
+*.sqlite binary
+*.sqlite3 binary
+*.pkl binary
+*.pickle binary
+*.npy binary
+*.npz binary
+
+# Images
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.svg text
+
+# PDFs and Office documents
+*.pdf binary
+*.doc binary
+*.docx binary
+*.xls binary
+*.xlsx binary
+*.ppt binary
+*.pptx binary
+
+# Archives
+*.zip binary
+*.tar binary
+*.gz binary
+*.bz2 binary
+*.xz binary
+*.7z binary
+*.rar binary
+
+# Python compiled files
+*.pyc binary
+*.pyo binary
+*.pyd binary
+
+# Exclude from exports
+.github export-ignore
+.vscode export-ignore
+tests export-ignore
+docs/progress export-ignore
+temp export-ignore
+cache export-ignore
+logs export-ignore
+reports export-ignore
+
+# Git LFS (Large File Storage) - uncomment if using git-lfs
+# *.db filter=lfs diff=lfs merge=lfs -text
+# *.pdf filter=lfs diff=lfs merge=lfs -text
+# *.pkl filter=lfs diff=lfs merge=lfs -text
+
+# Git-crypt for sensitive files - uncomment if using git-crypt
+# Encrypt sensitive configuration files
+# .env filter=git-crypt diff=git-crypt
+# config/secrets.yaml filter=git-crypt diff=git-crypt
+# *.key filter=git-crypt diff=git-crypt
+# **/secrets/** filter=git-crypt diff=git-crypt
+
+# Linguist overrides for repository language statistics
+*.md linguist-documentation
+*.ipynb linguist-documentation
+docs/** linguist-documentation
+tests/** linguist-vendored
+external/** linguist-vendored

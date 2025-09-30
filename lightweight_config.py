@@ -8,7 +8,7 @@ significantly better analysis than keyword extraction.
 
 import logging
 from typing import Dict, Any, Optional
-from knowhunt.analysis.llm_analyzer import LLMAnalyzer
+from stoma.analysis.llm_analyzer import LLMAnalyzer
 
 logger = logging.getLogger(__name__)
 

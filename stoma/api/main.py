@@ -1,4 +1,4 @@
-"""FastAPI web application for KnowHunt dashboard."""
+"""FastAPI web application for Stoma dashboard."""
 
 import json
 from datetime import datetime, timedelta
@@ -18,7 +18,7 @@ from ..scheduler.manager import SchedulerManager
 
 
 app = FastAPI(
-    title="KnowHunt Research Intelligence System",
+    title="Stoma Research Intelligence System",
     description="Web dashboard for exploring collected research data",
     version="0.1.0"
 )

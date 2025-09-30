@@ -350,7 +350,7 @@ async def show_model_recommendations():
 
 async def main():
     """Run lightweight Ollama tests."""
-    print("🚀 KnowHunt Lightweight LLM Testing")
+    print("🚀 Stoma Lightweight LLM Testing")
     print("=" * 50)
     print("Testing memory-efficient models for better-than-keyword analysis\n")
     

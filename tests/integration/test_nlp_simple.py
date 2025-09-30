@@ -60,7 +60,7 @@ def main():
         print("You can now:")
         print("1. Install models: python3 -m spacy download en_core_web_sm")
         print("2. Set up database for full functionality")
-        print("3. Use CLI: python3 -m knowhunt.cli.main nlp analyze-text 'Your text'")
+        print("3. Use CLI: python3 -m stoma.cli.main nlp analyze-text 'Your text'")
     else:
         print("\n❌ Test failed. Check the error messages above.")
         return 1

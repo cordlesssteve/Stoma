@@ -1,4 +1,4 @@
-"""Storage management for KnowHunt."""
+"""Storage management for Stoma."""
 
 from .report_manager import ReportStorageManager
 

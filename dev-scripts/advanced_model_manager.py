@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Advanced Model Manager for KnowHunt
+Advanced Model Manager for Stoma
 
 This module manages various LLM models including large models like llama3.1:70b
 and specialized models like deepseek-coder:33b, with automatic model selection
@@ -477,7 +477,7 @@ async def main():
     import sys
 
     if len(sys.argv) < 2:
-        print("Advanced Model Manager for KnowHunt")
+        print("Advanced Model Manager for Stoma")
         print("Usage: python3 advanced_model_manager.py <command> [options]")
         print("\nCommands:")
         print("  analyze           - Analyze system and show recommendations")

@@ -33,7 +33,7 @@ class RedditCollector(APICollector):
         
         # Set User-Agent for Reddit API
         self.headers.update({
-            "User-Agent": "KnowHunt/1.0 (Research Intelligence System)"
+            "User-Agent": "Stoma/1.0 (Research Intelligence System)"
         })
     
     def _get_source_type(self) -> SourceType:

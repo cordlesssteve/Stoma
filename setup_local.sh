@@ -1,7 +1,7 @@
 #!/bin/bash
-# Local Development Setup Script for KnowHunt
+# Local Development Setup Script for Stoma
 
-echo "🔍 Setting up KnowHunt for Local Development"
+echo "🔍 Setting up Stoma for Local Development"
 echo "================================================"
 
 # Create data directories
@@ -14,13 +14,13 @@ echo "🗄️ Checking PostgreSQL..."
 if command -v psql &> /dev/null; then
     echo "✓ PostgreSQL found"
     
-    # Check if knowhunt database exists
-    if psql -lqt | cut -d \| -f 1 | grep -qw knowhunt; then
-        echo "✓ knowhunt database already exists"
+    # Check if stoma database exists
+    if psql -lqt | cut -d \| -f 1 | grep -qw stoma; then
+        echo "✓ stoma database already exists"
     else
-        echo "Creating knowhunt database..."
-        createdb knowhunt
-        echo "✓ knowhunt database created"
+        echo "Creating stoma database..."
+        createdb stoma
+        echo "✓ stoma database created"
     fi
 else
     echo "❌ PostgreSQL not found. Please install it first:"
@@ -41,8 +41,8 @@ python3 -c "
 import asyncio
 import sys
 sys.path.insert(0, '.')
-from knowhunt.storage.base import PostgreSQLStorage
-from knowhunt.config.settings import load_config
+from stoma.storage.base import PostgreSQLStorage
+from stoma.config.settings import load_config
 
 async def test_db():
     try:
@@ -75,8 +75,8 @@ python3 -c "
 import asyncio
 import sys
 sys.path.insert(0, '.')
-from knowhunt.storage.base import PostgreSQLStorage
-from knowhunt.config.settings import load_config
+from stoma.storage.base import PostgreSQLStorage
+from stoma.config.settings import load_config
 
 async def init_schema():
     try:
@@ -98,7 +98,7 @@ python3 -c "
 import asyncio
 import sys
 sys.path.insert(0, '.')
-from knowhunt.collectors.arxiv import ArXivCollector
+from stoma.collectors.arxiv import ArXivCollector
 
 async def test_collection():
     try:
@@ -122,13 +122,13 @@ echo "🎉 Local setup complete!"
 echo ""
 echo "Quick start commands:"
 echo "  Test collectors:     python3 test_pipeline.py"
-echo "  Start web dashboard: python3 -m knowhunt.api.main"
-echo "  Run CLI commands:    python3 -m knowhunt.cli.main --help"
+echo "  Start web dashboard: python3 -m stoma.api.main"
+echo "  Run CLI commands:    python3 -m stoma.cli.main --help"
 echo ""
 echo "Configuration file: config_local.yaml"
 echo "Data directory:     ./data/"
 echo ""
 echo "Next steps:"
-echo "1. python3 -m knowhunt.cli.main collect-arxiv -q 'machine learning' -n 5"
-echo "2. python3 -m knowhunt.api.main (then visit http://localhost:8000)"
-echo "3. python3 -m knowhunt.scheduler.manager (for automated collection)"
+echo "1. python3 -m stoma.cli.main collect-arxiv -q 'machine learning' -n 5"
+echo "2. python3 -m stoma.api.main (then visit http://localhost:8000)"
+echo "3. python3 -m stoma.scheduler.manager (for automated collection)"

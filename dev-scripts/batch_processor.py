@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-KnowHunt Batch Processing System - Overnight Analysis Workflows
+Stoma Batch Processing System - Overnight Analysis Workflows
 
 This module provides comprehensive batch processing capabilities for large-scale
 analysis workflows. It builds on the minimal pipeline but adds scheduling,

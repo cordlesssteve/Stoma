@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Test the enhanced KnowHunt pipeline with content enrichment.
+Test the enhanced Stoma pipeline with content enrichment.
 
 This tests: Collection → Enrichment → Analysis → Reporting
 where enrichment downloads full content instead of just metadata.
@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 async def test_enhanced_pipeline():
     """Test the enhanced pipeline with content enrichment."""
     
-    print("🚀 Testing Enhanced KnowHunt Pipeline with Content Enrichment")
+    print("🚀 Testing Enhanced Stoma Pipeline with Content Enrichment")
     print("=" * 70)
     
     # Create temporary directory for this test
@@ -230,7 +230,7 @@ async def main():
     success = await test_enhanced_pipeline()
     
     if success:
-        print("\n🚀 KnowHunt enhanced pipeline is fully operational!")
+        print("\n🚀 Stoma enhanced pipeline is fully operational!")
         print("The collection → enrichment → analysis → reporting flow is working.")
         print("Reports now contain substantial, meaningful content.")
     else:

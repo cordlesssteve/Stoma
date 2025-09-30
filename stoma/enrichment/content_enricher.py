@@ -1,5 +1,5 @@
 """
-Content enrichment orchestrator for KnowHunt pipeline.
+Content enrichment orchestrator for Stoma pipeline.
 
 This module coordinates web scraping and PDF extraction to enrich
 collected metadata with full content.

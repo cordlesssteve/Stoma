@@ -45,7 +45,7 @@ class PDFExtractor:
     def __init__(self, 
                  max_file_size: int = 50 * 1024 * 1024,  # 50MB
                  timeout: int = 60,
-                 user_agent: str = "KnowHunt/1.0 Research Intelligence Bot"):
+                 user_agent: str = "Stoma/1.0 Research Intelligence Bot"):
         """
         Initialize PDF extractor.
         

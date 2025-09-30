@@ -1,4 +1,4 @@
-# KnowHunt Configuration Example
+# Stoma Configuration Example
 # Copy this to config.yaml and modify as needed
 
 collectors:
@@ -15,10 +15,10 @@ collectors:
   
 storage:
   type: postgresql
-  connection_string: "postgresql://user:password@localhost:5432/knowhunt"
+  connection_string: "postgresql://user:password@localhost:5432/stoma"
   # Alternative: SQLite for development
   # type: sqlite
-  # database_path: "data/knowhunt.db"
+  # database_path: "data/stoma.db"
 
 analysis:
   enable_nlp: true
@@ -37,7 +37,7 @@ api:
 logging:
   level: INFO
   format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-  file: "logs/knowhunt.log"
+  file: "logs/stoma.log"
 
 scheduler:
   enable: false

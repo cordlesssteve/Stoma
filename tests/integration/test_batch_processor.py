@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 
 async def test_batch_system():
     """Test the batch processing system."""
-    print("🧪 Testing KnowHunt Batch Processing System")
+    print("🧪 Testing Stoma Batch Processing System")
     print("=" * 50)
 
     # Create test configuration
@@ -180,7 +180,7 @@ def test_job_database():
 
 async def main():
     """Run all batch processor tests."""
-    print("🚀 KnowHunt Batch Processing System Tests")
+    print("🚀 Stoma Batch Processing System Tests")
     print("=" * 50)
 
     try:

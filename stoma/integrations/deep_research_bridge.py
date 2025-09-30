@@ -1,7 +1,7 @@
 """
-Bridge integration between KnowHunt and OpenDeepResearch systems.
+Bridge integration between Stoma and OpenDeepResearch systems.
 
-This module provides seamless integration between KnowHunt's content enrichment
+This module provides seamless integration between Stoma's content enrichment
 pipeline and OpenDeepResearch's sophisticated LangGraph-based research workflows.
 """
 
@@ -28,7 +28,7 @@ except ImportError as e:
     logging.warning(f"OpenDeepResearch not available: {e}")
     OPEN_DEEP_RESEARCH_AVAILABLE = False
 
-# KnowHunt imports
+# Stoma imports
 from ..analysis.llm_analyzer import LLMAnalysisResult
 from ..pipeline.data_types import NormalizedDocument
 from ..storage.report_manager import ReportStorageManager
@@ -75,7 +75,7 @@ class DeepResearchResult:
 
 
 class DeepResearchBridge:
-    """Bridge between KnowHunt and OpenDeepResearch systems."""
+    """Bridge between Stoma and OpenDeepResearch systems."""
 
     def __init__(self,
                  config: Optional[DeepResearchConfig] = None,
@@ -85,7 +85,7 @@ class DeepResearchBridge:
 
         Args:
             config: Deep research configuration
-            storage_manager: KnowHunt report storage manager
+            storage_manager: Stoma report storage manager
         """
         if not OPEN_DEEP_RESEARCH_AVAILABLE:
             raise ImportError(
@@ -134,7 +134,7 @@ class DeepResearchBridge:
         Perform deep research analysis on a document.
 
         Args:
-            document: KnowHunt normalized document
+            document: Stoma normalized document
             research_question: Optional custom research question
 
         Returns:
@@ -231,7 +231,7 @@ Please provide a comprehensive analysis including:
         Perform batch deep research analysis on multiple documents.
 
         Args:
-            documents: List of KnowHunt normalized documents
+            documents: List of Stoma normalized documents
             research_questions: Optional list of custom research questions
 
         Returns:
@@ -283,7 +283,7 @@ Please provide a comprehensive analysis including:
             return f"What are the key contributions, methodology, and implications of the research presented in '{document.title}'?"
 
     async def _store_result(self, result: DeepResearchResult) -> None:
-        """Store deep research result using KnowHunt's storage system."""
+        """Store deep research result using Stoma's storage system."""
         if not self.storage_manager:
             return
 
@@ -301,7 +301,7 @@ Please provide a comprehensive analysis including:
                 "quality_score": self._calculate_quality_score(result)
             }
 
-            # Store in KnowHunt's report system
+            # Store in Stoma's report system
             report_id = f"deep_research_{result.document_id}_{int(result.timestamp.timestamp())}"
             await self.storage_manager.store_analysis_report(
                 report_id=report_id,
@@ -350,7 +350,7 @@ async def analyze_papers_with_deep_research(papers: List[NormalizedDocument],
     Convenience function to analyze papers using deep research.
 
     Args:
-        papers: List of normalized documents from KnowHunt
+        papers: List of normalized documents from Stoma
         config: Optional configuration
         storage_manager: Optional storage manager
 

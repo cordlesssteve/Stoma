@@ -1,4 +1,4 @@
-"""Configuration management for KnowHunt."""
+"""Configuration management for Stoma."""
 
 import os
 from pathlib import Path
@@ -23,7 +23,7 @@ def load_config(config_path: str = None) -> Dict[str, Any]:
         },
         "storage": {
             "type": os.getenv("STORAGE_TYPE", "postgresql"),
-            "connection_string": os.getenv("DATABASE_URL", "postgresql://localhost/knowhunt")
+            "connection_string": os.getenv("DATABASE_URL", "postgresql://localhost/stoma")
         },
         "analysis": {
             "enable_nlp": os.getenv("ENABLE_NLP", "false").lower() == "true",
@@ -85,20 +85,20 @@ def merge_configs(base: Dict[str, Any], override: Dict[str, Any]) -> Dict[str, A
 
 def get_data_dir() -> Path:
     """Get data directory path."""
-    data_dir = Path(os.getenv("KNOWHUNT_DATA_DIR", "data"))
+    data_dir = Path(os.getenv("STOMA_DATA_DIR", "data"))
     data_dir.mkdir(exist_ok=True)
     return data_dir
 
 
 def get_log_dir() -> Path:
     """Get log directory path."""
-    log_dir = Path(os.getenv("KNOWHUNT_LOG_DIR", "logs"))
+    log_dir = Path(os.getenv("STOMA_LOG_DIR", "logs"))
     log_dir.mkdir(exist_ok=True)
     return log_dir
 
 
 def get_cache_dir() -> Path:
     """Get cache directory path."""
-    cache_dir = Path(os.getenv("KNOWHUNT_CACHE_DIR", "cache"))
+    cache_dir = Path(os.getenv("STOMA_CACHE_DIR", "cache"))
     cache_dir.mkdir(exist_ok=True)
     return cache_dir

@@ -1,4 +1,4 @@
-"""Content enrichment components for KnowHunt."""
+"""Content enrichment components for Stoma."""
 
 from .content_enricher import ContentEnricher, EnrichmentResult
 from .web_scraper import RespectfulWebScraper

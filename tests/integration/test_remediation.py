@@ -153,7 +153,7 @@ def check_incomplete_implementations():
     
     pattern = re.compile(r'(TODO|FIXME|XXX|HACK|STUB)', re.IGNORECASE)
     
-    for root, dirs, files in os.walk('knowhunt'):
+    for root, dirs, files in os.walk('stoma'):
         for file in files:
             if file.endswith('.py'):
                 filepath = os.path.join(root, file)
@@ -179,7 +179,7 @@ def check_incomplete_implementations():
 def main():
     """Run all remediation verification tests."""
     print("=" * 60)
-    print("🔍 KNOWHUNT REMEDIATION VERIFICATION")
+    print("🔍 STOMA REMEDIATION VERIFICATION")
     print("=" * 60)
     
     all_failures = []

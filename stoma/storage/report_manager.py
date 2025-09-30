@@ -1,5 +1,5 @@
 """
-Report Storage Manager for KnowHunt LLM Analysis Reports
+Report Storage Manager for Stoma LLM Analysis Reports
 
 Handles organized storage, indexing, and retrieval of LLM analysis reports.
 """

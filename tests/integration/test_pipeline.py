@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Comprehensive test of the KnowHunt data pipeline.
+Comprehensive test of the Stoma data pipeline.
 This script tests the complete flow from collection to storage.
 """
 
@@ -207,7 +207,7 @@ async def test_storage_pipeline(arxiv_results, github_results):
 
 async def main():
     """Run comprehensive pipeline test."""
-    console.print("[bold green]KnowHunt Comprehensive Pipeline Test[/bold green]")
+    console.print("[bold green]Stoma Comprehensive Pipeline Test[/bold green]")
     console.print(f"Started at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     
     # Test ArXiv pipeline

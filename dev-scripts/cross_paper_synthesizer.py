@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Cross-Paper Synthesis Engine for KnowHunt
+Cross-Paper Synthesis Engine for Stoma
 
 This module implements sophisticated analysis across multiple research papers
 to identify trends, correlations, and emerging themes across different domains.

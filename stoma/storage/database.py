@@ -35,7 +35,7 @@ class DatabaseStorage:
             config = {
                 "host": "localhost",
                 "port": 5433,
-                "database": "knowhunt",
+                "database": "stoma",
                 "user": "postgres"
             }
 
@@ -45,7 +45,7 @@ class DatabaseStorage:
     def _build_connection_params(self) -> Dict[str, Any]:
         """Build psycopg2 connection parameters."""
         params = {
-            "database": self.config.get("database", "knowhunt"),
+            "database": self.config.get("database", "stoma"),
             "user": self.config.get("user", "postgres"),
             "port": self.config.get("port", 5433)
         }

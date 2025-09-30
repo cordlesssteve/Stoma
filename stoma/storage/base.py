@@ -64,7 +64,7 @@ class PostgreSQLStorage(BaseStorage):
             self.connection_string = config["connection_string"]
         else:
             # Build connection string from individual fields
-            database = config.get("database", "knowhunt")
+            database = config.get("database", "stoma")
             user = config.get("user", "postgres")
             host = config.get("host")
             port = config.get("port", 5432)
@@ -90,7 +90,7 @@ class PostgreSQLStorage(BaseStorage):
         if "host" not in self.config:
             # Use Unix socket connection with explicit parameters
             self.pool = await asyncpg.create_pool(
-                database=self.config.get("database", "knowhunt"),
+                database=self.config.get("database", "stoma"),
                 user=self.config.get("user", "postgres"),
                 port=self.config.get("port", 5432)
                 # No host parameter = Unix socket

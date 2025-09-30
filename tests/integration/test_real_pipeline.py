@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Test the complete real KnowHunt pipeline: Collection → Analysis → Reporting
+Test the complete real Stoma pipeline: Collection → Analysis → Reporting
 
 This tests the actual end-to-end data flow that was missing before.
 """
@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 async def test_complete_real_pipeline():
     """Test the complete collection → analysis → reporting pipeline."""
     
-    print("🚀 Testing Complete Real KnowHunt Pipeline")
+    print("🚀 Testing Complete Real Stoma Pipeline")
     print("=" * 60)
     
     # Create temporary directory for this test
@@ -204,7 +204,7 @@ async def main():
     success = await test_complete_real_pipeline()
     
     if success:
-        print("\n🚀 KnowHunt pipeline is fully operational!")
+        print("\n🚀 Stoma pipeline is fully operational!")
         print("The collection → analysis → reporting infrastructure is working correctly.")
     else:
         print("\n❌ Pipeline test failed - check logs for issues")

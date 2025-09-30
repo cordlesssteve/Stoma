@@ -1,4 +1,4 @@
-"""Main CLI interface for KnowHunt."""
+"""Main CLI interface for Stoma."""
 
 import asyncio
 import json
@@ -46,7 +46,7 @@ console = Console()
 @click.group()
 @click.version_option(version="0.1.0")
 def main():
-    """KnowHunt - Research Intelligence System"""
+    """Stoma - Research Intelligence System"""
     pass
 
 
@@ -149,7 +149,7 @@ def health_check(config_file: Optional[str]):
     """Check health of all configured services."""
     
     async def _check_health():
-        console.print("[bold]KnowHunt Health Check[/bold]\n")
+        console.print("[bold]Stoma Health Check[/bold]\n")
         
         # Check ArXiv
         with console.status("[bold green]Checking ArXiv API..."):
@@ -676,7 +676,7 @@ def start(preset: str):
     """Start the scheduler daemon."""
     
     async def _start():
-        console.print(f"[green]Starting KnowHunt scheduler with preset: {preset}[/green]")
+        console.print(f"[green]Starting Stoma scheduler with preset: {preset}[/green]")
         
         manager = SchedulerManager()
         

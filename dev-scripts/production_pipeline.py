@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Production Pipeline Integration for KnowHunt
+Production Pipeline Integration for Stoma
 
 This module integrates LLM analysis into the main collection pipeline,
 providing a complete end-to-end system that automatically collects,
@@ -557,7 +557,7 @@ async def main():
     import sys
 
     if len(sys.argv) < 2:
-        print("KnowHunt Production Pipeline")
+        print("Stoma Production Pipeline")
         print("Usage: python3 production_pipeline.py <command> [options]")
         print("\nCommands:")
         print("  start           - Start continuous production pipeline")

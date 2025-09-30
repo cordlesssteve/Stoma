@@ -1,4 +1,4 @@
-"""Deep Research configuration utilities for KnowHunt."""
+"""Deep Research configuration utilities for Stoma."""
 
 from typing import Dict, Any, Optional
 from ..integrations.deep_research_bridge import DeepResearchConfig
@@ -6,10 +6,10 @@ from ..integrations.deep_research_bridge import DeepResearchConfig
 
 def build_deep_research_config_from_settings(settings: Dict[str, Any]) -> DeepResearchConfig:
     """
-    Build DeepResearchConfig from KnowHunt settings.
+    Build DeepResearchConfig from Stoma settings.
 
     Args:
-        settings: KnowHunt configuration dictionary
+        settings: Stoma configuration dictionary
 
     Returns:
         Configured DeepResearchConfig instance
@@ -36,7 +36,7 @@ def is_deep_research_enabled(settings: Dict[str, Any]) -> bool:
     Check if deep research is enabled in settings.
 
     Args:
-        settings: KnowHunt configuration dictionary
+        settings: Stoma configuration dictionary
 
     Returns:
         True if deep research is enabled

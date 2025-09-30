@@ -351,7 +351,7 @@ async def test_source_diversity():
 
 async def main():
     """Run all Phase 3 integration tests."""
-    print("🚀 KnowHunt Phase 3: Enhanced Collection Integration Tests")
+    print("🚀 Stoma Phase 3: Enhanced Collection Integration Tests")
     print("=" * 60)
     
     tests = [

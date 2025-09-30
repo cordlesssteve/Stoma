@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Test reinforcement learning analysis with ArXiv paper citations.
-Combines KnowHunt's ArXiv collection with Ollama analysis.
+Combines Stoma's ArXiv collection with Ollama analysis.
 """
 
 import asyncio

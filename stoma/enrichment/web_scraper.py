@@ -71,7 +71,7 @@ class RespectfulWebScraper:
     """
     
     def __init__(self, 
-                 user_agent: str = "KnowHunt/1.0 (+https://github.com/knowhunt/bot) Research Intelligence Bot",
+                 user_agent: str = "Stoma/1.0 (+https://github.com/stoma/bot) Research Intelligence Bot",
                  rate_limit_delay: float = 1.0,
                  max_content_size: int = 10 * 1024 * 1024,  # 10MB
                  timeout: int = 30):

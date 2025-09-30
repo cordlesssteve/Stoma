@@ -1,1 +1,1 @@
-"""Document parsers for KnowHunt."""
+"""Document parsers for Stoma."""

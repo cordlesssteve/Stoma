@@ -1,10 +1,10 @@
 #!/bin/bash
-# KnowHunt Lightweight LLM Setup Script
+# Stoma Lightweight LLM Setup Script
 # Sets up Ollama with lightweight models for memory-efficient research analysis
 
 set -e
 
-echo "🚀 KnowHunt Lightweight LLM Setup"
+echo "🚀 Stoma Lightweight LLM Setup"
 echo "=================================="
 echo "Setting up memory-efficient local models for better-than-keyword analysis"
 echo

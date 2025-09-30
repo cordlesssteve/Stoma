@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-High Quality Analysis Script for KnowHunt
+High Quality Analysis Script for Stoma
 
 This script runs comprehensive analysis using the highest quality models available,
 with enhanced prompting and detailed output for research-grade insights.
@@ -265,7 +265,7 @@ async def main():
     import sys
 
     if len(sys.argv) < 2:
-        print("High Quality Analysis for KnowHunt")
+        print("High Quality Analysis for Stoma")
         print("Usage: python3 high_quality_analysis.py <query> [max_papers]")
         print("Examples:")
         print("  python3 high_quality_analysis.py 'semantic reasoning AI' 10")

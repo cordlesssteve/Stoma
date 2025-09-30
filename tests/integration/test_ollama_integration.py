@@ -276,7 +276,7 @@ def show_integration_summary():
 
 async def main():
     """Run all Ollama integration tests."""
-    print("🚀 KnowHunt Ollama Local LLM Integration Test")
+    print("🚀 Stoma Ollama Local LLM Integration Test")
     print("=" * 60)
     print("Testing local model integration for cost-free, private research analysis\n")
     

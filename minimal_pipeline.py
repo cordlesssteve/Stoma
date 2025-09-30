@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Minimal KnowHunt pipeline runner - no dependencies on problematic imports.
+Minimal Stoma pipeline runner - no dependencies on problematic imports.
 """
 
 import sys
@@ -115,7 +115,7 @@ class MinimalHealthChecker:
 
     async def check_all_systems(self):
         """Check all system dependencies with automatic repair."""
-        print("🔍 KnowHunt System Health Check")
+        print("🔍 Stoma System Health Check")
         if self.auto_repair:
             print("🔧 Auto-repair mode: ENABLED")
         print("=" * 50)
@@ -485,7 +485,7 @@ class MinimalReportStorage:
     """Simplified report storage."""
 
     def __init__(self):
-        self.reports_dir = Path("/home/cordlesssteve/projects/Utility/KnowHunt/reports/minimal_pipeline")
+        self.reports_dir = Path("/home/cordlesssteve/projects/Utility/Stoma/reports/minimal_pipeline")
         self.reports_dir.mkdir(parents=True, exist_ok=True)
 
     def save_report(self, analysis, papers, query, model):
@@ -516,7 +516,7 @@ class MinimalReportStorage:
 async def run_minimal_pipeline(query, max_results=10, model="gemma2:2b"):
     """Run the minimal pipeline."""
 
-    print(f"🚀 Minimal KnowHunt Pipeline")
+    print(f"🚀 Minimal Stoma Pipeline")
     print(f"🔍 Query: {query}")
     print(f"📊 Papers: {max_results} | Model: {model}")
     print("=" * 60)

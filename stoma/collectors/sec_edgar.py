@@ -27,7 +27,7 @@ class SECEdgarCollector(APICollector):
         # SEC requires specific User-Agent
         self.headers["User-Agent"] = config.get(
             "user_agent", 
-            "KnowHunt Research Intelligence System admin@knowhunt.com"
+            "Stoma Research Intelligence System admin@stoma.com"
         )
         
         # Supported filing types

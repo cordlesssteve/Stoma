@@ -108,7 +108,7 @@ class WebScraperCollector(BaseCollector):
         self.base_url = config["base_url"]
         self.user_agent = config.get(
             "user_agent", 
-            "KnowHunt/1.0 (Research Intelligence System)"
+            "Stoma/1.0 (Research Intelligence System)"
         )
         
     async def health_check(self) -> bool:

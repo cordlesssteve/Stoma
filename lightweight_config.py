@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Lightweight LLM configuration for KnowHunt production.
+Lightweight LLM configuration for Stoma production.
 
 Optimized for memory efficiency and cost-effectiveness while providing
 significantly better analysis than keyword extraction.

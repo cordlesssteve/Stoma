@@ -1,5 +1,5 @@
 [Unit]
-Description=KnowHunt Research Intelligence Scheduler
+Description=Stoma Research Intelligence Scheduler
 After=network.target postgresql.service
 Wants=postgresql.service
 
@@ -7,14 +7,14 @@ Wants=postgresql.service
 Type=simple
 User=cordlesssteve
 Group=cordlesssteve
-WorkingDirectory=/home/cordlesssteve/projects/KnowHunt
-Environment=PYTHONPATH=/home/cordlesssteve/projects/KnowHunt
-ExecStart=/usr/bin/python3 -m knowhunt.scheduler.manager
+WorkingDirectory=/home/cordlesssteve/projects/Utility/RESEARCH/Stoma
+Environment=PYTHONPATH=/home/cordlesssteve/projects/Utility/RESEARCH/Stoma
+ExecStart=/usr/bin/python3 -m stoma.scheduler.manager
 Restart=always
 RestartSec=10
 StandardOutput=journal
 StandardError=journal
-SyslogIdentifier=knowhunt-scheduler
+SyslogIdentifier=stoma-scheduler
 
 # Resource limits
 LimitNOFILE=65536
@@ -25,7 +25,7 @@ NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict
 ProtectHome=read-only
-ReadWritePaths=/home/cordlesssteve/projects/KnowHunt
+ReadWritePaths=/home/cordlesssteve/projects/Utility/RESEARCH/Stoma
 
 [Install]
 WantedBy=multi-user.target

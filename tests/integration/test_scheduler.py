@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Test the KnowHunt scheduler system."""
+"""Test the Stoma scheduler system."""
 
 import asyncio
 import sys
@@ -15,7 +15,7 @@ from stoma.scheduler.base import TaskPriority
 
 async def test_scheduler_basic():
     """Test basic scheduler functionality."""
-    print("🧪 Testing KnowHunt Scheduler System")
+    print("🧪 Testing Stoma Scheduler System")
     print("=" * 50)
     
     # Initialize scheduler manager
@@ -120,7 +120,7 @@ async def test_preset_configs():
 
 async def main():
     """Run all scheduler tests."""
-    print("🔍 KnowHunt Scheduler Test Suite")
+    print("🔍 Stoma Scheduler Test Suite")
     print("=" * 60)
     
     await test_scheduler_basic()

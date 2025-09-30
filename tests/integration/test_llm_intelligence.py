@@ -289,7 +289,7 @@ def compare_traditional_vs_llm():
 
 async def main():
     """Run all LLM intelligence tests."""
-    print("🚀 KnowHunt LLM Intelligence Integration Test")
+    print("🚀 Stoma LLM Intelligence Integration Test")
     print("=" * 60)
     print("Testing the transformation from basic NLP to sophisticated research intelligence\n")
     

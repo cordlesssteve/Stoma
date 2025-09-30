@@ -137,7 +137,7 @@ def test_traditional_nlp_methods():
 
 def main():
     """Run all tests."""
-    print("🧪 Testing KnowHunt Traditional NLP Pipeline\n")
+    print("🧪 Testing Stoma Traditional NLP Pipeline\n")
     print("=" * 50)
     
     tests = [
@@ -165,7 +165,7 @@ def main():
         print("\nNext steps:")
         print("1. Install SpaCy model: python3 -m spacy download en_core_web_sm")
         print("2. Download NLTK data: python3 -c \"import nltk; nltk.download('all')\"")
-        print("3. Test with real data: python3 -m knowhunt.cli.main nlp analyze-text 'Your text here'")
+        print("3. Test with real data: python3 -m stoma.cli.main nlp analyze-text 'Your text here'")
     else:
         print(f"❌ {total - passed} tests failed. Please fix issues before proceeding.")
         return 1

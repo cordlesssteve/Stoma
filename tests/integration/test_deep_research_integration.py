@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Test script for OpenDeepResearch integration with KnowHunt.
+Test script for OpenDeepResearch integration with Stoma.
 
 This script tests the basic functionality of the deep research bridge
 without requiring external API calls.
@@ -197,8 +197,8 @@ def main():
         print("🎉 All tests passed! Integration is ready.")
         print("\nNext steps:")
         print("1. Set up API keys (OPENAI_API_KEY, ANTHROPIC_API_KEY, TAVILY_API_KEY)")
-        print("2. Test with real analysis: knowhunt deep-research test-integration")
-        print("3. Try analyzing papers: knowhunt deep-research analyze-papers -q 'your query'")
+        print("2. Test with real analysis: stoma deep-research test-integration")
+        print("3. Try analyzing papers: stoma deep-research analyze-papers -q 'your query'")
     else:
         print("❌ Some tests failed. Check the errors above.")
 

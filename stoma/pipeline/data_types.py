@@ -1,5 +1,5 @@
 """
-Data types for the KnowHunt pipeline.
+Data types for the Stoma pipeline.
 
 This module contains shared data classes to avoid circular imports.
 """

@@ -259,7 +259,7 @@ async def test_performance_preferences():
 
 async def main():
     """Run all advanced model tests."""
-    print("🚀 KnowHunt Advanced Model Management Tests")
+    print("🚀 Stoma Advanced Model Management Tests")
     print("=" * 50)
 
     try:

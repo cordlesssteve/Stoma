@@ -2,7 +2,7 @@
 """
 Working OpenDeepResearch Bridge using legacy multi-agent implementation with Ollama.
 
-This bridge provides the integration between KnowHunt and OpenDeepResearch using
+This bridge provides the integration between Stoma and OpenDeepResearch using
 the proven working approach with proper Ollama tool calling support.
 """
 
@@ -31,7 +31,7 @@ try:
 except ImportError as e:
     raise ImportError(f"Missing required dependencies for OpenDeepResearch integration: {e}")
 
-# Import KnowHunt components
+# Import Stoma components
 from stoma.storage.report_manager import ReportStorageManager
 
 
@@ -95,7 +95,7 @@ class SectionOutputState(TypedDict):
 
 class OllamaDeepResearchBridge:
     """
-    Bridge between KnowHunt and OpenDeepResearch using the working legacy multi-agent approach.
+    Bridge between Stoma and OpenDeepResearch using the working legacy multi-agent approach.
     """
 
     def __init__(self, model_name: str = "llama3.1:latest", storage_manager: Optional[ReportStorageManager] = None):
@@ -415,7 +415,7 @@ Use your knowledge to provide detailed, technical content with specific examples
 
             print(f"✅ Analysis completed in {duration.total_seconds():.1f} seconds")
 
-            # Save the report using KnowHunt's storage system
+            # Save the report using Stoma's storage system
             report_data = {
                 "success": True,
                 "topic": topic,
@@ -428,7 +428,7 @@ Use your knowledge to provide detailed, technical content with specific examples
                 "content_length": len(final_report)
             }
 
-            # Store using KnowHunt's report manager
+            # Store using Stoma's report manager
             report_id = f"deep_research_{topic.replace(' ', '_').lower()}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
 
             # Prepare report data in the expected format

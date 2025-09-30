@@ -1,7 +1,7 @@
 """
 Core data pipeline: Collection → Storage → Analysis → Reporting
 
-This is the heart of KnowHunt - a proper data flow that connects all components.
+This is the heart of Stoma - a proper data flow that connects all components.
 """
 
 import asyncio

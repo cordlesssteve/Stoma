@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Simplified KnowHunt pipeline runner that bypasses CLI dependency issues.
+Simplified Stoma pipeline runner that bypasses CLI dependency issues.
 """
 
 import sys
@@ -25,7 +25,7 @@ except ImportError as e:
 async def run_pipeline(query: str, max_results: int = 10, model: str = "gemma2:2b"):
     """Run the complete pipeline: collect, analyze, store."""
 
-    print(f"🚀 KnowHunt Pipeline: {query}")
+    print(f"🚀 Stoma Pipeline: {query}")
     print(f"📊 Papers: {max_results} | Model: {model}")
     print("=" * 50)
 

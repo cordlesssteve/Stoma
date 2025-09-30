@@ -1,1 +1,1 @@
-"""Document processors for KnowHunt."""
+"""Document processors for Stoma."""

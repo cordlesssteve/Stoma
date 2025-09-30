@@ -27,7 +27,7 @@ class GitHubCollector(APICollector):
         if self.token:
             self.headers["Authorization"] = f"token {self.token}"
         self.headers["Accept"] = "application/vnd.github.v3+json"
-        self.headers["User-Agent"] = "KnowHunt/1.0 (Research Intelligence System)"
+        self.headers["User-Agent"] = "Stoma/1.0 (Research Intelligence System)"
     
     def _get_source_type(self) -> SourceType:
         return SourceType.CODE_PROJECTS

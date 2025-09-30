@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Model Comparison Script for KnowHunt
+Model Comparison Script for Stoma
 
 Compare analysis quality across different models on the same papers.
 """
@@ -218,7 +218,7 @@ async def main():
         # "codellama:13b-instruct" # Skip for now due to issues
     ]
 
-    print("🚀 KnowHunt Model Quality Comparison")
+    print("🚀 Stoma Model Quality Comparison")
     print(f"🧪 Testing {len(models_to_test)} models on semantic reasoning analysis")
 
     comparator = ModelComparator()
